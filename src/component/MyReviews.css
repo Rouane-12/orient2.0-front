@@ -1,0 +1,256 @@
+.my-reviews-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.my-reviews-container {
+  background: #1a1a1a;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  border: 1px solid rgba(230, 112, 44, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.my-reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(230, 112, 44, 0.1);
+}
+
+.my-reviews-header h2 {
+  margin: 0;
+  color: #fafafa;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fafafa;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  color: #a0a0a0;
+}
+
+.no-reviews {
+  padding: 40px;
+  text-align: center;
+  color: #a0a0a0;
+}
+
+.reviews-list {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(80vh - 80px);
+}
+
+.review-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.review-item:hover {
+  border-color: rgba(230, 112, 44, 0.3);
+  transform: translateY(-2px);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.review-info h3 {
+  margin: 0 0 4px 0;
+  color: #fafafa;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.review-level {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #e67028;
+  background: rgba(230, 112, 44, 0.1);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.review-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fafafa;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.action-btn.delete:hover {
+  background: rgba(255, 82, 82, 0.2);
+  border-color: rgba(255, 82, 82, 0.3);
+}
+
+.review-stars {
+  display: flex;
+  gap: 4px;
+  color: #ffb37a;
+  margin-bottom: 12px;
+}
+
+.review-message {
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: #6b5a47;
+}
+
+.edit-review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-review-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-review-form label {
+  color: #fafafa;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.edit-review-form input,
+.edit-review-form textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  color: #fafafa;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.edit-review-form input:focus,
+.edit-review-form textarea:focus {
+  outline: none;
+  border-color: rgba(230, 112, 44, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.edit-review-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #ffb37a;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.star-button:hover {
+  transform: scale(1.1);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cancel-btn,
+.save-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fafafa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #e67028, #c9591f);
+  color: #fafafa;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(230, 112, 44, 0.3);
+}

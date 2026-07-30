@@ -1,0 +1,88 @@
+{
+  "filières": [
+    {
+      "id": "AC-1",
+      "nom": "Santé publique polyvalente",
+      "débouchés": [
+        "Agent de santé communautaire",
+        "Responsable de surveillance épidémiologique",
+        "Attaché de recherche en santé",
+        "Assistant en planification, suivi et évaluation en santé",
+        "Agent d’hygiène et d’assainissement du milieu"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "nom": "Géographie et Aménagement du Territoire",
+      "débouchés": [
+        "Enseignement",
+        "Laboratoires et institutions de recherche",
+        "Assainissement"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "nom": "Socio-Anthropologie",
+      "débouchés": [
+        "Agent dans les centres sociaux",
+        "Ministères",
+        "Recherche"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "nom": "Anglais",
+      "débouchés": [
+        "Interprétariat",
+        "Tourisme",
+        "Enseignements"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "nom": "Classes préparatoires Mathématiques, Physiques et Science de l’Ingénieur (MPSI) et Physique-Chimie et Science de l’Ingénieur (PCSI)",
+      "débouchés": [
+        "Entrée dans les grandes écoles d’ingénieurs",
+        "Entrée dans les Masters de Mathématiques, de Physique et Informatique"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "nom": "Espagnol",
+      "débouchés": [
+        "Interprétariat",
+        "Tourisme",
+        "Enseignants dans les collèges et lycées",
+        "Lecteur correcteur des maisons d’édition"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "nom": "Lettres Modernes",
+      "débouchés": [
+        "Interprétariat",
+        "Tourisme",
+        "Enseignants dans les collèges et lycées",
+        "Lecteur correcteur des maisons d’édition"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "nom": "Sciences du Langage et de la Communication",
+      "débouchés": [
+        "Didacticien de langues française et langues africaines",
+        "Consultant en éducation bi plurilingues et interculturelle"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "nom": "Administration Culturelle",
+      "débouchés": [
+        "Production ou assistance de production",
+        "Diffusion et communication",
+        "Assistant programmateur",
+        "Manager d’artistes, au sein de toutes structures culturelles de diffusion, de création"
+      ]
+    }
+  ]
+}

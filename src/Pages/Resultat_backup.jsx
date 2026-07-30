@@ -1,0 +1,159 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PhCheckCircleFill, SvgSpinners6DotsRotate, PhDownloadSimple } from "../uikits/Icons";
+import ProgressBar from "@ramonak/react-progress-bar";
+import useModalStore from "../stores/modal";
+import OneSectorUniversities from "../component/result/universities";
+import Roadmap from "../component/result/roadmap";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
+const Resultat = () => {
+  const { orientId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+  const { openModal } = useModalStore();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/step');
+  }
+
+  const downloadPDF = async () => {
+    const element = document.getElementById('result-content');
+    if (!element) return;
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 10;
+
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save('orientation-resultats.pdf');
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error);
+      alert('Erreur lors de la génération du PDF');
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5200/api/orientation/get-result/" + orientId)
+      .then((res) => setData(res.data))
+      .catch((err) => {
+        alert("Erreur survenue");
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
+  }, [orientId]);
+
+  const showAllSectorUniversities = (sectorId) => {
+    openModal(<OneSectorUniversities sectorId={sectorId} />);
+  };
+
+  const showRoadmap = (sectorId) => {
+    openModal(<Roadmap sectorId={sectorId} />);
+  };
+
+  if (loading) {
+    return (
+      <>
+        <div className="loader">
+          <div className=".loader-section">
+            <SvgSpinners6DotsRotate />
+            <p>Chargement des résultats…</p>
+          </div>
+        </div>
+
+      </>
+    );
+  }
+
+  if (!data) {
+    return <p>Pas de données disponibles</p>;
+  }
+
+  return (
+    <div className="result">
+      <div className="result-left">
+        <PhCheckCircleFill />
+
+      </div>
+
+      <div className="result-right" id="result-content">
+        <h1>Vos résultats d’orientation</h1>
+        <p>Nos recommandations basées sur vos relevés de notes :</p>
+
+        <div className="rr-sectors">
+          {data.sectors.map((item, i) => (
+            <section key={item._id}>
+              <b>{item.name}</b>
+
+              <div className="s-percent">
+                <span>{item.percent}%</span>
+                <ProgressBar
+                  completed={item.percent}
+                  bgColor={"#E67028"}
+                  baseBgColor="#efefef"
+                  customLabel=" "
+                  animateOnRender={true}
+                />
+              </div>
+
+              {item.outlet && item.outlet.length > 0 && (
+                <div className="s-outlets">
+                  <strong>Débouchés</strong>
+                  <section>
+                    {item.outlet.map((ot, j) => (
+                      <span key={j}>{ot}</span>
+                    ))}
+                  </section>
+                </div>
+              )}
+
+
+
+              <div className="s-buttons">
+                <button
+                  onClick={() => showAllSectorUniversities(item._id)}
+                  className="btn btn-outline"
+                >
+                  Voir les universités qui matchent
+                </button>
+
+                {/* <button
+                  onClick={() => showRoadmap(item._id)}
+                  className="btn btn-outline"
+                >
+                  Voir la roadmap
+                </button> */}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <button className="btn btn-normal" onClick={handleClick}>
+          Revenir a la page d accueil
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Resultat;
+
+
+

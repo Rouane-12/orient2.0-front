@@ -1,0 +1,244 @@
+* {
+  box-sizing: border-box;
+}
+
+// --first-color: #E67028;
+//   --second-color: #b8371a;
+
+:root {
+  --first-color: #e67028;
+  --second-color: #ca5923;
+  --body-color: #0a0a0a;
+  --text-color: #fafafa;
+  --text-muted: #a0a0a0;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.03);
+}
+
+.titre {
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  padding: 50px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.titres {
+  text-align: center;
+  font-size: 40px;
+  color: var(--first-color);
+  padding: 50px;
+}
+
+body {
+  background-color: black;
+}
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--body-color);
+  color: var(--text-color);
+  scroll-behavior: smooth;
+}
+
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+
+.btn {
+  border: 0;
+  padding: 16px 30px;
+  background-color: transparent;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn-normal-variation {
+  background-color: var(--second-color) !important;
+  color: white;
+  white-space: nowrap;
+}
+
+
+.btn-normal {
+  background-color: var(--first-color) !important;
+  color: white;
+  white-space: nowrap;
+}
+
+.btn-outline {
+  border: solid 1px var(--first-color) !important;
+  color: var(--first-color) !important;
+  white-space: nowrap;
+}
+
+
+
+
+.flex {
+  display: flex;
+
+
+
+  &.f-wrap {
+    flex-wrap: wrap;
+  }
+
+  &.f-col {
+    flex-direction: column;
+  }
+
+  &.jc-c {
+    justify-content: center;
+  }
+
+  &.jc-sa {
+    justify-content: space-around;
+  }
+
+  &.ai-c {
+    align-items: center;
+  }
+}
+
+@font-face {
+  font-family: PopEB;
+  src: url("../../public/fonts/Poppins-ExtraBold.ttf");
+}
+
+@font-face {
+  font-family: PopB;
+  src: url("../../public/fonts/Poppins-Bold.ttf");
+}
+
+@font-face {
+  font-family: PopR;
+  src: url("../../public/fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: PopL;
+  src: url("../../public/fonts/Poppins-Light.ttf");
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: PopEb;
+}
+
+b,
+strong,
+small {
+  font-family: PopB;
+}
+
+
+p,
+label,
+button,
+li,
+a {
+  font-family: PopR;
+}
+
+span,
+input,
+textarea {
+  font-family: PopL;
+}
+
+.modal {
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 999999999;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  .modalBody {
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 75%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+
+    .mb-closer {
+      width: 60px;
+      height: 60px;
+      border: 60px;
+      right: -60px;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      border-radius: 50px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .mb-content {
+      width: 100%;
+      margin-top: 25px;
+      color: var(--text-color);
+    }
+  }
+}
+
+// Global loader styles
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--first-color);
+
+  p {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+
+  svg {
+    font-size: 40px;
+    animation: spin 0.75s linear infinite;
+  }
+}

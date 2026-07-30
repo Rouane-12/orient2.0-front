@@ -1,0 +1,84 @@
+@keyframes gradient-move {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.Contact {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 50px;
+  background-color: #0a0a0a;
+
+  .c-elements {
+    background: linear-gradient(to right bottom,
+        #e67028,
+        #ca5923,
+        #ae441e,
+        #922f18,
+        #761b11,
+        #922f18,
+        #ae441e,
+        #ca5923,
+        #e67028);
+    background-size: 200% 200%;
+    animation: gradient-move 14s ease infinite;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 4px 0px, rgba(0, 0, 0, 0.5) 0px 2px 16px 0px;
+    padding: 40px;
+    border-radius: 20px !important;
+
+    p,
+    b,
+    h1 {
+      color: white;
+    }
+
+    h2 {
+      font-family: oregano;
+      font-size: 40px;
+    }
+
+    section {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin: auto;
+
+      span {
+        width: 25%;
+        height: 25vh;
+        display: flex;
+        flex-direction: column;
+        gap: 7px 0;
+        padding: 2px;
+
+        p {
+          font-size: 15px;
+        }
+
+        svg {
+          color: white;
+          padding: 7px;
+          font-size: 40px;
+          border-radius: 100%;
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        a {
+          color: #ffe3bc;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1370 @@
+[
+  {
+    "nom": "Institut Régional de Santé Publique (IRSP)",
+    "secteur": "public",
+    "id": "UAC-01",
+    "localisation": "Ouidah",
+    "description": "L'Institut Régional de Santé Publique Comlan Alfred Quenum (IRSP-CAQ) est un établissement international de formation en santé publique, de recherche pour la santé, d’expertise et de prestation de services. Il est affilié à l'Université d'Abomey-Calavi.",
+    "contact": {
+      "site_web": "https://irsp-ouidah.org/core/",
+      "email": null,
+      "telephone": "+229 21 34 16 74"
+    }
+  },
+  {
+    "nom": "Faculté des Lettres, Arts et Sciences Humaines-Adjarra (FLASH-Adjarra)",
+    "secteur": "public",
+    "id": "UAC-02",
+    "localisation": "Adjarra",
+    "description": "La FLASH d'Adjarra est une faculté de l'Université de Porto-Novo, créée en 2013. Elle offre des formations en Lettres, Arts et Sciences Humaines, incluant des licences et masters, ainsi que des programmes de formation continue.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut de Mathématiques et de Sciences Physiques (IMSP)",
+    "secteur": "public",
+    "id": "UAC-03",
+    "localisation": "Dangbo",
+    "description": "Créé en 1988, l'IMSP est un centre d'excellence en formation et recherche en mathématiques, sciences physiques et ingénierie. Il est affilié à l'Université d'Abomey-Calavi.",
+    "contact": {
+      "site_web": "https://www.imsp-benin.com/",
+      "email": "secretariat@imsp-uac.org",
+      "telephone": "+229 20 22 24 55"
+    }
+  },
+  {
+    "nom": "Faculté des Lettres, Langues, Arts et Communications (FLLAC)",
+    "secteur": "public",
+    "id": "UAC-04",
+    "localisation": "Abomey-Calavi",
+    "description": "La FLLAC est une entité de l'Université d'Abomey-Calavi, issue de la scission de la Faculté des Lettres, Arts et Sciences Humaines. Elle propose des formations en lettres, langues, arts et communication.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut National des Métiers d'Arts, d'Archéologie et de la Culture (INMAAC)",
+    "secteur": "public",
+    "id": "UAC-05",
+    "localisation": "Abomey-Calavi",
+    "description": "Créé en mai 2015, l'INMAAC est chargé de la formation dans les domaines des arts, de l'archéologie, du patrimoine, de la culture et du tourisme. Il propose également des formations continues.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Centre Interfacultaire de Formation et de Recherche en Environnement pour le Développement Durable (CIFRED)",
+    "secteur": "public",
+    "id": "UAC-06",
+    "localisation": "Abomey-Calavi",
+    "description": "Le CIFRED est un centre de l'Université d'Abomey-Calavi dédié à la formation et à la recherche en environnement et développement durable. Il propose des programmes de licence, master et doctorat.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut de Cadre de Vie (ICV)",
+    "secteur": "public",
+    "id": "UAC-07",
+    "localisation": "Abomey-Calavi",
+    "description": "L'Institut de Cadre de Vie, anciennement IGATE, est une entité de l'Université d'Abomey-Calavi spécialisée dans la gestion du cadre de vie, les changements climatiques, la géomatique et la planification urbaine.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut National Médico-Sanitaire (INMeS)",
+    "secteur": "public",
+    "id": "UAC-08",
+    "localisation": "Cotonou",
+    "description": "L'INMeS, rattaché à l'Université d'Abomey-Calavi, est un établissement de référence dans la formation des professionnels de santé au Bénin. Il propose des formations en sciences infirmières et obstétricales.",
+    "contact": {
+      "site_web": "https://inmes.uac.bj",
+      "email": null,
+      "telephone": "+229 21 30 05 93"
+    }
+  },
+  {
+    "nom": "Institut National de l'Eau (INE)",
+    "secteur": "public",
+    "id": "UAC-09",
+    "localisation": "Abomey-Calavi",
+    "description": "L'Institut National de l'Eau est une entité de l'Université d'Abomey-Calavi spécialisée dans la formation et la recherche dans le domaine de l'eau.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Nationale d’Economie Appliquée et de Management (ENEAM)",
+    "secteur": "public",
+    "id": "UAC-10",
+    "localisation": "Cotonou",
+    "description": "L'ENEAM est une école de l'Université d'Abomey-Calavi offrant des formations en économie appliquée, gestion et management.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École du Patrimoine Africain (EPA)",
+    "secteur": "public",
+    "id": "UAC-11",
+    "localisation": "Porto-Novo",
+    "description": "L'EPA est une institution régionale spécialisée dans la formation, la recherche et la conservation du patrimoine culturel africain.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Faculté des Sciences Humaines et Sociales (FASHS Calavi)",
+    "secteur": "public",
+    "id": "UAC-12",
+    "localisation": "Abomey-Calavi",
+    "description": "La FASHS est une faculté de l'Université d'Abomey-Calavi offrant des formations en sciences humaines et sociales.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Nationale des Sciences et Techniques de l'Information et de la Communication (ENSTIC)",
+    "secteur": "public",
+    "id": "UAC-13",
+    "localisation": "Abomey-Calavi",
+    "description": "L'ENSTIC est l'unique école publique béninoise spécialisée dans la formation en journalisme, audiovisuel et communication. Créée en 2011 à Savalou, elle est rattachée à l'Université d'Abomey-Calavi et a été transférée à Abomey-Calavi en 2016. Elle propose des formations en journalisme, scénarisation multimédia et communication, avec des programmes de licence et de master.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Nationale d'Administration (ENA)",
+    "secteur": "public",
+    "id": "UAC-14",
+    "localisation": "Abomey-Calavi",
+    "description": "L'École Nationale d'Administration (ENA), anciennement École Nationale d'Administration et de Magistrature (ENAM), est une institution de formation professionnelle de l'Université d'Abomey-Calavi. Fondée en 1984, elle forme les cadres de l'administration publique et propose des programmes de licence et de master dans divers domaines tels que l'administration générale, la diplomatie, les finances publiques et la gestion des ressources humaines.",
+    "contact": {
+      "site_web": "https://ena.uac.bj",
+      "email": "enam.uac@uac.bj",
+      "telephone": "+229 60 86 13 13"
+    }
+  },
+  {
+    "nom": "Institut de Formation et de Recherche en Informatique (IFRI)",
+    "secteur": "public",
+    "id": "UAC-15",
+    "localisation": "Abomey-Calavi",
+    "description": "L'IFRI est un institut de l'Université d'Abomey-Calavi dédié à la formation et à la recherche en informatique. Il propose des programmes de licence, master et doctorat dans des spécialités telles que le génie logiciel, la sécurité informatique, l'intelligence artificielle et les systèmes embarqués. L'IFRI met l'accent sur l'innovation et l'entrepreneuriat, avec des certifications professionnelles intégrées aux cursus.",
+    "contact": {
+      "site_web": "https://www.ifri-uac.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Faculté d'Agronomie (FA)",
+    "secteur": "public",
+    "id": "UP-01",
+    "localisation": "Parakou",
+    "description": "La Faculté d'Agronomie de l'Université de Parakou offre des formations en sciences et techniques de production végétale, aménagement et gestion des ressources naturelles, production animale, économie et sociologie rurales.",
+    "contact": {
+      "site_web": "https://fa-up.bj/",
+      "email": null,
+      "telephone": "+229 01 23 61 20 10"
+    }
+  },
+  {
+    "nom": "Faculté de Médecine (FM)",
+    "secteur": "public",
+    "id": "UP-02",
+    "localisation": "Parakou",
+    "description": "La Faculté de Médecine de l'Université de Parakou propose des formations en médecine générale et en santé publique, avec des programmes de licence, master et doctorat.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Nationale de formation des Techniciens Supérieurs en Santé Publique et Surveillance Épidémiologique (ENATSE)",
+    "secteur": "public",
+    "id": "UP-03",
+    "localisation": "Parakou",
+    "description": "L'ENATSE est une école de l'Université de Parakou spécialisée dans la formation des techniciens supérieurs en santé publique et en surveillance épidémiologique.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut de Formation en Soins Infirmiers et Obstétricaux (IFSIO)",
+    "secteur": "public",
+    "id": "UP-04",
+    "localisation": "Parakou",
+    "description": "L'IFSIO est un institut de l'Université de Parakou dédié à la formation en soins infirmiers et obstétricaux, offrant des programmes de licence et de master.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Universitaire de Technologie (IUT)",
+    "secteur": "public",
+    "id": "UP-05",
+    "localisation": "Parakou",
+    "description": "L'IUT de l'Université de Parakou propose des formations en gestion des banques, gestion des entreprises, gestion commerciale, informatique de gestion, et gestion des transports et logistique.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": "+229 23 61 42 88"
+    }
+  },
+  {
+    "nom": "École Nationale de Statistique, de Planification et de Démographie (ENSPD)",
+    "secteur": "public",
+    "id": "UP-06",
+    "localisation": "Parakou",
+    "description": "Créée en 2012, l'ENSPD est une école de l'Université de Parakou spécialisée dans la formation en statistique, planification et démographie. Elle propose des programmes de licence, master et doctorat, avec des filières telles que les statistiques appliquées et la planification et suivi-évaluation.",
+    "contact": {
+      "site_web": null,
+      "email": "contact.enspd-up@gouv.bj",
+      "telephone": "+229 23 61 07 12"
+    }
+  },
+  {
+    "nom": "Faculté des Sciences Économiques et de Gestion (FASEG)",
+    "secteur": "public",
+    "id": "UP-07",
+    "localisation": "Abomey-Calavi",
+    "description": "La FASEG de l'Université d'Abomey-Calavi offre des formations en sciences économiques et de gestion, avec des spécialités en analyse des projets, économie et gestion des structures sanitaires, et statistiques et économétrie. Les programmes incluent des licences et des masters.",
+    "contact": {
+      "site_web": "https://faseg-uac.bj/",
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Faculté de Droit et de Science Politique (FDSP)",
+    "secteur": "public",
+    "id": "UP-08",
+    "localisation": "Parakou",
+    "description": "La FDSP de l'Université de Parakou propose des formations en droit privé, droit public et science politique. Elle offre des programmes de licence, master et doctorat, visant à former des professionnels du droit et de la politique.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": "+229 01 95 90 24 99"
+    }
+  },
+  {
+    "nom": "Faculté des Lettres, Arts et Sciences Humaines (FLASH)",
+    "secteur": "public",
+    "id": "UP-09",
+    "localisation": "Abomey-Calavi",
+    "description": "La FLASH de l'Université d'Abomey-Calavi offre des formations en lettres, arts et sciences humaines, incluant des départements tels que la géographie, l'histoire, la philosophie et les langues. Elle propose des programmes de licence, master et doctorat.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut National Supérieur de Technologie Industrielle (INSTI)",
+    "secteur": "public",
+    "id": "UNSTIM-01",
+    "localisation": "Lokossa",
+    "description": "L'INSTI est un établissement public rattaché à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM). Il propose des formations professionnelles en génie mécanique, génie industriel, énergies renouvelables et énergétiques, visant à former des techniciens supérieurs et cadres moyens pour les industries du Bénin.",
+    "contact": {
+      "site_web": "https://insti.edu.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Normale Supérieure de l’Enseignement Technique (ENSET)",
+    "secteur": "public",
+    "id": "UNSTIM-02",
+    "localisation": "Lokossa",
+    "description": "L'ENSET, rattachée à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM), forme des enseignants techniques dans les domaines des sciences techniques industrielles, agricoles, biologiques appliquées et sociales. Elle propose des formations initiales pour les bacheliers et des formations modulaires pour les professeurs en situation de classe.",
+    "contact": {
+      "site_web": "https://enset.unstim.bj/",
+      "email": "hfadohoun@gouv.bj",
+      "telephone": "+229 22 41 02 88"
+    }
+  },
+  {
+    "nom": "Institut National Supérieur des Classes Préparatoires aux Études d'Ingénieurs (INSPEI)",
+    "secteur": "public",
+    "id": "UNSTIM-03",
+    "localisation": "Abomey",
+    "description": "L'INSPEI, rattaché à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM), offre une formation de deux ans destinée aux bacheliers des séries scientifiques (C, D, E) avec mention 'assez bien' ou plus, les préparant aux études d'ingénieur dans les domaines du génie industriel, électrique et mécanique.",
+    "contact": {
+      "site_web": "https://inspei.unstim.bj/",
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Normale Supérieure de Natitingou (ENS/Nati)",
+    "secteur": "public",
+    "id": "UNSTIM-04",
+    "localisation": "Natitingou",
+    "description": "L'ENS de Natitingou, rattachée à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM), forme des enseignants dans les disciplines scientifiques telles que les mathématiques, l'informatique, la physique-chimie et les sciences de la vie et de la terre.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Nationale Supérieure des Biosciences et Biotechnologies Appliquées (ENSBBA)",
+    "secteur": "public",
+    "id": "UNSTIM-05",
+    "localisation": "Dassa-Zoumè",
+    "description": "L'ENSBBA, rattachée à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM), propose des formations en biosciences et biotechnologies appliquées, couvrant des domaines tels que la biotechnologie médicale, pharmaceutique, la génétique, la diététique et la nutrition.",
+    "contact": {
+      "site_web": "https://ensbba.unstim.bj/",
+      "email": null,
+      "telephone": "+229 97 65 60 00"
+    }
+  },
+  {
+    "nom": "Faculté des Sciences et Techniques de Natitingou (FAST/Natitingou)",
+    "secteur": "public",
+    "id": "UNSTIM-06",
+    "localisation": "Natitingou",
+    "description": "La Faculté des Sciences et Techniques de Natitingou (FAST/Natitingou), rattachée à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM), offre des formations en mathématiques, physique, chimie, biologie et géologie. Elle propose des programmes de licence, master et doctorat, avec des débouchés dans l'enseignement, la recherche et les secteurs technologiques.",
+    "contact": {
+      "site_web": "https://fast.unstim.bj/",
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Nationale Supérieure de Génie Énergétique et Procédés (ENSGEP)",
+    "secteur": "public",
+    "id": "UNSTIM-07",
+    "localisation": "Abomey",
+    "description": "L'École Nationale Supérieure de Génie Énergétique et Procédés (ENSGEP), rattachée à l'Université Nationale des Sciences, Technologies, Ingénierie et Mathématiques (UNSTIM), forme des ingénieurs dans les domaines du génie énergétique et des procédés. Elle propose des formations en froid et climatisation, équipements motorisés, avec des programmes de licence et master.",
+    "contact": {
+      "site_web": null,
+      "email": "hfadohoun@gouv.bj",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Université Nationale d’Agriculture (UNA)",
+    "secteur": "public",
+    "id": "IUEP-01",
+    "localisation": "Sakété",
+    "description": "Créée en 2016, l'Université Nationale d’Agriculture (UNA) est une institution publique dédiée à la formation, la recherche et l'appui au développement dans les domaines des sciences agronomiques, sociologiques, économiques, agropastorales, halieutiques, forestières et environnementales. Elle propose des programmes de Licence, Master et Doctorat à travers neuf écoles professionnelles et une école doctorale.",
+    "contact": {
+      "site_web": "https://www.una.bj/",
+      "email": null,
+      "telephone": "+229 20 21 32 88 / +229 20 21 31 25"
+    }
+  },
+  {
+    "nom": "Institut Universitaire d’Enseignement Professionnel des Métiers de l’Agriculture (IUEP-MA)",
+    "secteur": "public",
+    "id": "IUEP-02",
+    "localisation": "Djougou",
+    "description": "L'IUEP-MA de Djougou, mis en activité en octobre 2022, offre une formation de deux ans axée sur la pratique pour former des agripreneurs. Les filières proposées incluent l'Agriculture et l'Agroélevage, avec un accent sur la gestion des exploitations agricoles, la production végétale et animale, et la commercialisation des produits.",
+    "contact": {
+      "site_web": "https://iuep-ma.cuep.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Université d’Agriculture de Kétou (UAK)",
+    "secteur": "public",
+    "id": "IUEP-03",
+    "localisation": "Kétou",
+    "description": "L'Université d'Agriculture de Kétou (UAK) propose des formations en Licence, Master et Doctorat à travers plusieurs Unités de Formation et de Recherche (UFR), notamment en production végétale, génie rural, agroalimentaire, pêche et aquaculture, production animale, foresterie, économie agricole et gestion de l'eau.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Internationale des Métiers Agricoles (EIMA)",
+    "secteur": "privé",
+    "id": "IUEP-04",
+    "localisation": "Parakou et Abomey-Calavi",
+    "description": "L'EIMA est un centre de formation professionnelle qui propose des programmes de 9 mois en production végétale, production animale, transformation agroalimentaire, communication et marketing. Elle vise à former des entrepreneurs agricoles compétents et dynamiques.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": "+229 01 53 54 54 39 (Abomey-Calavi), +229 01 91 52 52 83 (Parakou)"
+    }
+  },
+  {
+    "nom": "Université Agricole K-D.K",
+    "secteur": "privé",
+    "id": "IUEP-05",
+    "localisation": null,
+    "description": "L'Université Agricole K-D.K est une institution privée béninoise spécialisée dans les formations agricoles. Les détails spécifiques sur les programmes offerts et la localisation exacte ne sont pas disponibles.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Inter-États des Sciences et Médecine Vétérinaires (EISMV)",
+    "secteur": "public",
+    "id": "EIE-01",
+    "localisation": "Dakar, Sénégal",
+    "description": "L’EISMV est une institution panafricaine offrant une expertise pluridisciplinaire de haut niveau dans les domaines des productions et de la santé animales, ainsi que de la santé publique vétérinaire. Elle propose des formations initiales, des masters, des formations doctorales et continues, contribuant au développement de l'Afrique et à la réalisation des aspirations de l’Agenda 2063 de l’Union Africaine.",
+    "contact": {
+      "site_web": "https://www.eismv.org/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Multinationale des Télécommunications (ESMT)",
+    "secteur": "public",
+    "id": "EIE-02",
+    "localisation": "Dakar, Sénégal",
+    "description": "Créée en 1981 à l’initiative de sept pays d’Afrique de l’Ouest, l’ESMT est un Centre d’Excellence de l’Union Internationale des Télécommunications depuis 2000 et membre du CAMES. Elle offre des formations dans le domaine des télécommunications et des technologies de l'information.",
+    "contact": {
+      "site_web": "http://www.esmt.sn/",
+      "email": null,
+      "telephone": "+221 33 869 03 00"
+    }
+  },
+  {
+    "nom": "École Africaine des Métiers de l'Architecture et de l'Urbanisme (EAMAU)",
+    "secteur": "public",
+    "id": "EIE-03",
+    "localisation": "Lomé, Togo",
+    "description": "Fondée en 1976, l’EAMAU est une institution inter-États d’enseignement supérieur et de recherche, offrant des formations en architecture, urbanisme et gestion urbaine. Elle propose des programmes de licence, master et doctorat, avec une plateforme de cours en ligne pour l'enseignement à distance.",
+    "contact": {
+      "site_web": "http://www.eamau.org/",
+      "email": "info.eamau@eamau.org",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut de Formation et de Recherche Démographiques (IFORD)",
+    "secteur": "public",
+    "id": "EIE-04",
+    "localisation": "Yaoundé, Cameroun",
+    "description": "Créé en 1971, l'IFORD est un institut intergouvernemental africain spécialisé dans la formation et la recherche en démographie. Il offre des programmes de master et de doctorat, visant à renforcer les capacités en matière de population et développement.",
+    "contact": {
+      "site_web": "http://www.iford-cm.org/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Centre d'Appui aux Écoles de Statistique Africaines (CAPESA)",
+    "secteur": "public",
+    "id": "EIE-05",
+    "localisation": "Rennes, France",
+    "description": "Le CAPESA organise les concours d’entrée aux écoles du Réseau des Écoles de Statistique Africaines (RESA), telles que l'ISSEA, l'ENSEA, l'ENSAE et l'ENEAM. Il propose plusieurs concours selon le niveau d'études des candidats.",
+    "contact": {
+      "site_web": "https://capesa.ensai.fr/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Centrale de Casablanca (ECC)",
+    "secteur": "public",
+    "id": "EIE-06",
+    "localisation": "Casablanca, Maroc",
+    "description": "Fondée en 2013, l'ECC est une grande école d'ingénieurs faisant partie du groupe des Écoles Centrales. Elle propose une formation d'ingénieur généraliste de haut niveau scientifique, intégrant une expérience internationale et une proximité avec les entreprises.",
+    "contact": {
+      "site_web": "http://www.centrale-casablanca.ma/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "UFR Économie et Gestion Coopératives (UFR/EGC)",
+    "secteur": "public",
+    "id": "UADC-01",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'UFR Économie et Gestion Coopératives est une unité de formation spécialisée dans les domaines de l'économie coopérative et de la gestion des organisations. Elle offre des programmes de master professionnel axés sur le développement des compétences en gestion coopérative.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "UFR Financement et Microfinancement (UFR/FMF)",
+    "secteur": "public",
+    "id": "UADC-02",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'UFR Financement et Microfinancement propose des formations en microfinance, visant à renforcer les capacités des professionnels du secteur financier. Elle offre des programmes de master professionnel en microfinance et en gestion financière.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "UFR Gestion du Développement (UFR/GD)",
+    "secteur": "public",
+    "id": "UADC-03",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'UFR Gestion du Développement se concentre sur la formation en gestion des projets de développement. Elle propose des programmes de master professionnel axés sur la planification, la mise en œuvre et l'évaluation des projets de développement.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Africa Design School (ADS)",
+    "secteur": "privé",
+    "id": "ESC-01",
+    "localisation": "Cotonou, Bénin",
+    "description": "Africa Design School est la première école de design d’Afrique de l’Ouest, initiée par l'École de design Nantes Atlantique et soutenue par l'Agence de Développement de Sèmè City. Agréée par le Ministère de l'Enseignement Supérieur et de la Recherche Scientifique béninois, l'école offre des formations en design numérique, design graphique, design d'espace et design d'objet, avec des programmes de licence et de master.",
+    "contact": {
+      "site_web": "https://www.africadesign.school/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École de l’Innovation et de l’Expertise Informatique (EPITECH)",
+    "secteur": "privé",
+    "id": "ESC-02",
+    "localisation": "Cotonou, Bénin",
+    "description": "EPITECH Bénin est le seul campus africain du réseau EPITECH, une école supérieure d'informatique reconnue pour sa pédagogie active et innovante. Située au sein de Sèmè City, EPITECH Bénin offre des formations en bachelor, master et des programmes intensifs comme la Coding Academy, visant à former des experts en informatique capables de répondre aux défis technologiques actuels.",
+    "contact": {
+      "site_web": "https://epitech.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "African School of Economics (ASE)",
+    "secteur": "privé",
+    "id": "EPESFRO-01",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'ASE est une université panafricaine fondée en 2014 par le professeur Léonard Wantchékon. Elle propose des programmes de licence, master et doctorat en économie, finance, administration publique et sciences sociales. L'ASE est reconnue pour son excellence académique et ses partenariats internationaux.",
+    "contact": {
+      "site_web": "https://africanschoolofeconomics.com/",
+      "email": "information@africanschoolofeconomics.com",
+      "telephone": "+229 945 50 706 / +229 970 00 552"
+    }
+  },
+  {
+    "nom": "ASSANA-FORMATION (AF)",
+    "secteur": "privé",
+    "id": "EPESFRO-02",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "ASSANA-FORMATION est un établissement para-universitaire offrant des formations professionnelles dans divers domaines. Il vise à renforcer les compétences des apprenants pour une insertion professionnelle réussie.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Centre d'Études Touristiques de l'Agence Africaine de Tourisme (CET AAT-IPAAM)",
+    "secteur": "privé",
+    "id": "EPESFRO-03",
+    "localisation": "Cotonou, Bénin",
+    "description": "Le CET AAT-IPAAM propose des formations dans les domaines du tourisme, de l'hôtellerie et de la restauration. Il vise à former des professionnels compétents pour le secteur touristique africain.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Centre de Formation Professionnelle aux Métiers des Médias (CFPMM)",
+    "secteur": "privé",
+    "id": "EPESFRO-04",
+    "localisation": "Cotonou, Bénin",
+    "description": "Le CFPMM offre des formations en journalisme, communication, graphisme et montage vidéo. Il vise à doter les apprenants des compétences nécessaires pour évoluer dans le secteur des médias.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Centre de Formation Professionnelle et de Perfectionnement (CFPP)",
+    "secteur": "public",
+    "id": "EPESFRO-05",
+    "localisation": "Cotonou, Bénin",
+    "description": "Le CFPP est un établissement public offrant des formations professionnelles dans divers domaines techniques et industriels. Il vise à perfectionner les compétences des travailleurs pour répondre aux besoins du marché.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Centre de Formation Touristique et Hôtelière (CFTH)",
+    "secteur": "privé",
+    "id": "EPESFRO-06",
+    "localisation": "Cotonou, Bénin",
+    "description": "Le CFTH propose des formations en hôtellerie, restauration et tourisme. Il offre des programmes menant à des diplômes tels que le BTS et la licence professionnelle.",
+    "contact": {
+      "site_web": null,
+      "email": "c_f_t_h@yahoo.fr",
+      "telephone": "+229 21 32 31 34 / +229 96 53 51 43"
+    }
+  },
+  {
+    "nom": "Centre International Universitaire des Meilleures (CIUM)",
+    "secteur": "privé",
+    "id": "EPESFRO-07",
+    "localisation": "Cotonou, Bénin",
+    "description": "Le CIUM est un établissement d'enseignement supérieur offrant des formations universitaires dans divers domaines. Il vise à former des cadres compétents pour le développement du Bénin.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Classe Préparatoire Audacia (CPA)",
+    "secteur": "privé",
+    "id": "EPESFRO-08",
+    "localisation": "Cotonou, Bénin",
+    "description": "Les Classes Préparatoires Audacia offrent des formations de deux ans aux bacheliers souhaitant intégrer des grandes écoles d'ingénieurs ou de commerce en Europe. Elles sont en partenariat avec des institutions telles que l'École Supérieure de l'Électronique de l'Ouest (ESEO) en France et Excelia Business School.",
+    "contact": {
+      "site_web": "https://ecole-audacia.com",
+      "email": "cpa@ecole-audacia.com",
+      "telephone": "+229 97 66 82 89"
+    }
+  },
+  {
+    "nom": "Cycle Préparatoire Marie Stella (CPMS)",
+    "secteur": "privé",
+    "id": "EPESFRO-09",
+    "localisation": "Cotonou, Bénin",
+    "description": "Le Cycle Préparatoire Marie Stella prépare les bacheliers scientifiques aux concours des grandes écoles d'ingénieurs en France, notamment en partenariat avec l'université Junia. Le programme comprend deux années de formation au Bénin suivies de trois années en France.",
+    "contact": {
+      "site_web": "https://www.cpms.education",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École de Commerce de Lyon – Campus Bénin (ECLCB)",
+    "secteur": "privé",
+    "id": "EPESFRO-10",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'École de Commerce de Lyon – Campus Bénin propose des formations en sciences de gestion avec une double diplomation : un diplôme d'État béninois et un diplôme international de l'École de Commerce de Lyon. Les programmes incluent des licences (BBA) et des masters (MBA) dans des domaines tels que le marketing, la finance, les ressources humaines et le développement durable.",
+    "contact": {
+      "site_web": "https://ecole-de-commerce-de-lyon.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École de Formation des Enseignants du Secondaire - SAPIENTA",
+    "secteur": "privé",
+    "id": "EPESFRO-11",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École de Formation des Enseignants du Secondaire - SAPIENTA (EFES) est un établissement privé agréé par l'État béninois, spécialisé dans la formation des enseignants du secondaire. Elle propose des programmes de formation initiale et continue pour les futurs enseignants.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École de Techniciens Supérieurs du Bénin (ECOTES)",
+    "secteur": "privé",
+    "id": "EPESFRO-12",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École de Techniciens Supérieurs du Bénin (ECOTES) est un établissement privé d'enseignement supérieur offrant des formations dans divers domaines techniques et professionnels. Elle propose des programmes de licence et de master dans des filières telles que les sciences de l'ingénieur, l'informatique, la gestion et les sciences sociales.",
+    "contact": {
+      "site_web": "https://ecotesbenin.org/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Internationale de Théâtre du Bénin (EITB)",
+    "secteur": "privé",
+    "id": "EPESFRO-13",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondée en 2004 par Alougbine Dine, l'École Internationale de Théâtre du Bénin (EITB) est un établissement dédié à la formation artistique dans le domaine du théâtre. Elle offre une formation rigoureuse avec une capacité d'accueil limitée pour garantir un suivi personnalisé. L'EITB célèbre ses 20 ans d'existence en 2025 avec une programmation spéciale.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Polytechnique Universitaire des Métiers d'Avenir (EPUMA)",
+    "secteur": "privé",
+    "id": "EPESFRO-14",
+    "localisation": "Porto-Novo, Bénin",
+    "description": "L'École Polytechnique Universitaire des Métiers d'Avenir (EPUMA) est un établissement privé d'enseignement supérieur reconnu par l'État béninois. Elle propose des formations en alternance dans des domaines techniques tels que le génie électrique, le génie civil, le génie frigorifique, l'hôtellerie et la restauration, avec des programmes de licence et de master.",
+    "contact": {
+      "site_web": "https://university.epumalephenix.bj/wp/",
+      "email": "lephenixepuma@gmail.com",
+      "telephone": "+229 90 16 27 60 / +229 44 77 73 34"
+    }
+  },
+  {
+    "nom": "École Professionnelle Salésienne St Jean BOSCO",
+    "secteur": "privé",
+    "id": "EPESFRO-15",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Professionnelle Salésienne St Jean BOSCO est un établissement privé d'enseignement technique et professionnel, offrant des formations dans divers métiers pour les jeunes. Elle est dirigée par la communauté des Salésiens de Don Bosco.",
+    "contact": {
+      "site_web": "https://www.sdbaon.org/eps-don-bosco/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure de Technologie et de Gestion (ESTG)",
+    "secteur": "privé",
+    "id": "EPESFRO-16",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure de Technologie et de Gestion (ESTG) est un établissement privé d'enseignement supérieur offrant des formations en technologie et en gestion. Elle propose des programmes de licence et de master dans des domaines tels que la gestion, la finance, le droit, la communication, l'informatique, le marketing et l'électronique.",
+    "contact": {
+      "site_web": "https://estg-benin.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Polytechnique (ESP)",
+    "secteur": "privé",
+    "id": "EPESFRO-17",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'École Supérieure Polytechnique (ESP) est une école post-bac offrant des classes préparatoires aux grandes écoles d'ingénieurs et de commerce en France et à l'international. Elle propose des programmes CPGE (Mathématiques, Physique, Chimie, Biologie, Informatique) et CPEC (Économie, Gestion, Comptabilité, Marketing, Sciences Sociales), en partenariat avec des institutions telles que HEC Maroc, EPF France et Excelia Business School.",
+    "contact": {
+      "site_web": "https://esp.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure d'Enseignement Professionnel (ESEP Le Berger)",
+    "secteur": "privé",
+    "id": "EPESFRO-18",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure d'Enseignement Professionnel (ESEP Le Berger) est un établissement privé d'enseignement supérieur offrant des formations en licence et master dans divers domaines tels que l'administration, la gestion, les sciences sociales, l'informatique, la communication, le droit privé, le génie électrique et le marketing numérique. L'institution est reconnue pour son engagement envers l'excellence académique et professionnelle.",
+    "contact": {
+      "site_web": "https://esepleberger.edu.bj/",
+      "email": "info@esepleberger.edu.bj",
+      "telephone": "+229 99081512 / +229 53633770"
+    }
+  },
+  {
+    "nom": "École Supérieure d'Entrepreneuriat et de la Prospérité (ESPERANZA)",
+    "secteur": "privé",
+    "id": "EPESFRO-19",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure d'Entrepreneuriat et de la Prospérité (ESPERANZA) est un établissement privé d'enseignement supérieur reconnu par l'État béninois. Elle se consacre à la formation en entrepreneuriat et en leadership, avec des programmes de licence et de master dans des domaines tels que l'entrepreneuriat, l'hôtellerie-restauration, le tourisme, le commerce et les marchés publics.",
+    "contact": {
+      "site_web": "https://esperanzabenin.com/",
+      "email": "contact@esperanzabenin.com",
+      "telephone": "+229 94949393 / +229 96968484"
+    }
+  },
+  {
+    "nom": "École Supérieure de Commerce et d'Administration des Entreprises (ESCAE)",
+    "secteur": "privé",
+    "id": "EPESFRO-20",
+    "localisation": "Cotonou et Porto-Novo, Bénin",
+    "description": "L'École Supérieure de Commerce et d'Administration des Entreprises (ESCAE) est une université privée fondée en 2008, accréditée par le Ministère de l'Enseignement Supérieur du Bénin. Elle propose des programmes en commerce, administration des entreprises, gestion et technologies, avec des campus à Cotonou et Porto-Novo.",
+    "contact": {
+      "site_web": "https://www.escaebenin.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure de Gestion d'Informatique et des Sciences (ESGIS)",
+    "secteur": "privé",
+    "id": "EPESFRO-21",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure de Gestion d'Informatique et des Sciences (ESGIS) est une institution privée agréée par le Ministère de l'Enseignement Supérieur du Bénin. Elle offre des formations en gestion, informatique, télécommunications et sciences juridiques, avec des programmes accrédités par le CAMES et des partenariats avec des universités en France et en Suisse.",
+    "contact": {
+      "site_web": "https://www.esgis.org/",
+      "email": "esgis.benin@esgis.org",
+      "telephone": "+229 21 32 47 73 / +229 21 32 78 71"
+    }
+  },
+  {
+    "nom": "École Supérieure de Gestion et de Technologie (ESGT)",
+    "secteur": "privé",
+    "id": "EPESFRO-22",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure de Gestion et de Technologie (ESGT) est un établissement privé d'enseignement supérieur offrant des programmes de licence et de master dans des domaines tels que l'informatique, la gestion des entreprises, la comptabilité, la finance, le génie biomédical et le marketing. L'ESGT met l'accent sur la préparation des étudiants à des carrières entrepreneuriales et technologiques.",
+    "contact": {
+      "site_web": "https://esgtbenin.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure de Journalisme et de Communication (ESJC/UAFPJ)",
+    "secteur": "privé",
+    "id": "EPESFRO-23",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure de Journalisme et de Communication (ESJC/UAFPJ) est un établissement privé d'enseignement supérieur spécialisé dans les domaines du journalisme et de la communication. Elle offre des formations en licence et master, axées sur la pratique professionnelle et l'insertion dans le monde des médias.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure de Management (ESM)",
+    "secteur": "privé",
+    "id": "EPESFRO-24",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondée en 2007, l'École Supérieure de Management (ESM) est un établissement privé d'enseignement supérieur agréé par l'État béninois et accrédité par le CAMES. Elle propose des formations en licence et master dans divers domaines tels que le management, la finance, le marketing, l'informatique, la logistique, le droit et les sciences politiques. ESM dispose de plusieurs campus à travers le Bénin, notamment à Cotonou, Abomey-Calavi, Porto-Novo, Bohicon, Lokossa, Djougou et Parakou.",
+    "contact": {
+      "site_web": "https://esm-benin.com/",
+      "email": "contact@esm-benin.com",
+      "telephone": "+229 97 30 84 84"
+    }
+  },
+  {
+    "nom": "École Supérieure de Techniques Industrielles et de Management (ESTIM)",
+    "secteur": "privé",
+    "id": "EPESFRO-25",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'École Supérieure de Techniques Industrielles et de Management (ESTIM) est un établissement privé d'enseignement supérieur offrant des formations en techniques industrielles et en management. Elle propose des programmes en licence et master, axés sur la pratique professionnelle et l'insertion dans le monde industriel.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure des Cadres du Funéraire (ESCF)",
+    "secteur": "privé",
+    "id": "EPESFRO-26",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure des Cadres du Funéraire (ESCF) est un établissement privé d'enseignement supérieur spécialisé dans la formation des professionnels du secteur funéraire. Elle propose des formations en thanatopraxie, gestion des pompes funèbres et administration des cimetières.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure des Cadres et Techniciens (ESCT)",
+    "secteur": "privé",
+    "id": "EPESFRO-27",
+    "localisation": "Djeregbe et Cotonou, Bénin",
+    "description": "Fondée en 1992, l'École Supérieure des Cadres et Techniciens (ESCT) est un établissement privé d'enseignement supérieur agréé par le Ministère de l'Enseignement Supérieur et de la Recherche Scientifique du Bénin. Elle offre des programmes de certificat, diplôme, licence et master dans divers domaines, notamment la gestion de projet et la formation des techniciens.",
+    "contact": {
+      "site_web": "https://www.esctuniversity.com/",
+      "email": "info@esctuniversity.com",
+      "telephone": "+229 56 73 13 00 / +229 56 73 12 91"
+    }
+  },
+  {
+    "nom": "École Supérieure des Ingénieurs Géomètres Topographes (ESIGT)",
+    "secteur": "privé",
+    "id": "EPESFRO-28",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure des Ingénieurs Géomètres Topographes (ESIGT) est un établissement privé d'enseignement supérieur spécialisé dans la formation des ingénieurs en géométrie et topographie. Elle propose des programmes de licence et d'ingénieur, axés sur les techniques de mesure, la cartographie et la gestion foncière.",
+    "contact": {
+      "site_web": "https://www.esigtbenin.com/",
+      "email": "esigt@esigtbenin.com",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure des Sciences et Technologies de Lokossa (ESST-L)",
+    "secteur": "public",
+    "id": "EPESFRO-29",
+    "localisation": "Lokossa, Bénin",
+    "description": "L'École Supérieure des Sciences et Technologies de Lokossa (ESST-L) est un établissement public d'enseignement supérieur offrant des formations en sciences et technologies. Elle propose des programmes en licence et master dans divers domaines scientifiques et technologiques.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure des Techniques d'Administration et de Gestion (ESTAG)",
+    "secteur": "privé",
+    "id": "EPESFRO-30",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure des Techniques d'Administration et de Gestion (ESTAG) est un établissement privé d'enseignement supérieur offrant des formations en administration et gestion. Elle propose des programmes en licence et master, axés sur la pratique professionnelle et l'insertion dans le monde des affaires.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure des Technologies Avancées et de Management (ESTAM)",
+    "secteur": "privé",
+    "id": "EPESFRO-31",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure des Technologies Avancées et de Management (ESTAM) est une université panafricaine privée accréditée en 2012 par le ministère de l'Enseignement supérieur du Bénin. Elle propose des formations en technologies avancées et en management, avec des programmes reconnus internationalement.",
+    "contact": {
+      "site_web": "https://www.estam-university.edu.bj/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Jean Michel le Faucon (ESJMF)",
+    "secteur": "privé",
+    "id": "EPESFRO-32",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'École Supérieure Jean Michel le Faucon (ESJMF) est un établissement privé d'enseignement supérieur offrant des formations dans divers domaines, notamment les sciences et la technologie.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Panafricaine de Management Appliqué (ESPAM)",
+    "secteur": "privé",
+    "id": "EPESFRO-33",
+    "localisation": "Cotonou, Bénin",
+    "description": "Créée en 2007, l'École Supérieure Panafricaine de Management Appliqué (ESPAM) est une université privée bilingue (français et anglais) offrant des formations en management et en sciences appliquées. Elle est accréditée par le ministère de l'Enseignement supérieur du Bénin.",
+    "contact": {
+      "site_web": "https://espamformationuni.org/fr",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Polytechnique le Pharaon (ESPP)",
+    "secteur": "privé",
+    "id": "EPESFRO-34",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'École Supérieure Polytechnique le Pharaon (ESPP) est un établissement privé d'enseignement supérieur offrant des formations en ingénierie et en technologies.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure pour la Formation et le Recyclage d'Enseignants (ESFRE)",
+    "secteur": "privé",
+    "id": "EPESFRO-35",
+    "localisation": "Bénin",
+    "description": "L'École Supérieure pour la Formation et le Recyclage d'Enseignants (ESFRE) est un établissement privé spécialisé dans la formation initiale et continue des enseignants.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Sainte Félicité (ESSF)",
+    "secteur": "privé",
+    "id": "EPESFRO-36",
+    "localisation": "Bénin",
+    "description": "L'École Supérieure Sainte Félicité (ESSF) est un établissement privé d'enseignement supérieur offrant des formations dans divers domaines.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Saint-Louis d'Afrique (ESSLA)",
+    "secteur": "privé",
+    "id": "EPESFRO-37",
+    "localisation": "Bénin",
+    "description": "L'École Supérieure Saint-Louis d'Afrique (ESSLA) est un établissement privé d'enseignement supérieur proposant des formations dans plusieurs disciplines.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École Supérieure Universitaire St Clements and Commonwealth",
+    "secteur": "privé",
+    "id": "EPESFRO-38",
+    "localisation": "Bénin",
+    "description": "L'École Supérieure Universitaire St Clements and Commonwealth est un établissement privé offrant des programmes universitaires dans divers domaines.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "École PIGIER Bénin",
+    "secteur": "privé",
+    "id": "EPESFRO-39",
+    "localisation": "Cotonou et Abomey-Calavi, Bénin",
+    "description": "Présente au Bénin depuis 1993, l'École PIGIER Bénin est une institution privée d'enseignement supérieur proposant des formations en licence et master dans les domaines du management, de la finance, du marketing, de l'informatique, du droit et des ressources humaines. Elle est accréditée par l'État béninois et le CAMES.",
+    "contact": {
+      "site_web": "https://pigier-benin.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "EPS LA CITE",
+    "secteur": "privé",
+    "id": "EPESFRO-40",
+    "localisation": "Bénin",
+    "description": "EPS LA CITE est un établissement privé d'enseignement supérieur offrant des formations dans divers domaines.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "ESFAM-BENIN",
+    "secteur": "privé",
+    "id": "EPESFRO-41",
+    "localisation": "Porto-Novo, Bénin",
+    "description": "ESFAM-BENIN est une université privée à but non lucratif fondée en 2008, accréditée par le Ministère de l’Enseignement Supérieur et de la Recherche Scientifique du Bénin. Elle propose des programmes de licence dans divers domaines tels que la communication, le journalisme audiovisuel et le marketing.",
+    "contact": {
+      "site_web": "https://esfambeninuni.com/",
+      "email": "info@esfambeninuni.com",
+      "telephone": "+22967082703"
+    }
+  },
+  {
+    "nom": "ESMATH Bénin",
+    "secteur": "privé",
+    "id": "EPESFRO-42",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'École Supérieure de Management en Tourisme et Hôtellerie-Restauration (ESMATH Bénin) est une institution privée spécialisée dans la formation aux métiers du tourisme, de l'hôtellerie et de la restauration. Elle offre des programmes pratiques et théoriques menant à des diplômes d'État tels que le CAP, le DT et la Licence Professionnelle.",
+    "contact": {
+      "site_web": "https://www.esmathbenin.org/",
+      "email": "contact@esmathbenin.org",
+      "telephone": "+22996532197"
+    }
+  },
+  {
+    "nom": "Haute École d'Industrie et de Management HEIM WELDIOS",
+    "secteur": "privé",
+    "id": "EPESFRO-43",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondée en 2012, HEIM WELDIOS est une institution orientée vers les sciences et la technologie, dédiée à l'excellence dans l'enseignement, la recherche et le développement. Elle est accréditée par le Ministère de l’Enseignement Supérieur et de la Recherche Scientifique du Bénin.",
+    "contact": {
+      "site_web": "https://www.heimweldiosuni.com/",
+      "email": "info@heimweldiosuni.com",
+      "telephone": "+22943437805"
+    }
+  },
+  {
+    "nom": "Haute École de Gestion et de Journalisme de Bohicon (HEGJ)",
+    "secteur": "privé",
+    "id": "EPESFRO-44",
+    "localisation": "Bohicon, Bénin",
+    "description": "HEGJ est une université privée reconnue pour son excellence dans l'enseignement et la recherche, avec une réputation internationale dans les domaines des sciences humaines, des arts, des affaires et de l'ingénierie. Elle est accréditée par le Ministère de l’Enseignement Supérieur et de la Recherche Scientifique du Bénin.",
+    "contact": {
+      "site_web": "https://universitelahegjbn.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Haute École de Gestion et de Technologie (HEGT)",
+    "secteur": "privé",
+    "id": "EPESFRO-45",
+    "localisation": "Cotonou, Bénin",
+    "description": "HEGT est une université privée offrant des formations en gestion, technologie, informatique et autres domaines. Elle est reconnue par le gouvernement béninois et propose des programmes accrédités.",
+    "contact": {
+      "site_web": "https://campusbenin.org/universities/haute-ecole-de-gestion-et-de-technologie-hegt-university/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Haute École des Métiers Techniques (HECOMET)",
+    "secteur": "privé",
+    "id": "EPESFRO-46",
+    "localisation": "Bénin",
+    "description": "HECOMET est une institution privée spécialisée dans la formation aux métiers techniques. Elle offre des programmes adaptés aux besoins du marché du travail.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Haute École du Numérique et des Sciences des Affaires (HENSA)",
+    "secteur": "privé",
+    "id": "EPESFRO-47",
+    "localisation": "Bénin",
+    "description": "HENSA est une école supérieure privée axée sur le numérique et les sciences des affaires, offrant des formations innovantes pour répondre aux défis du monde numérique.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Houdégbé North American University (HUNAUB)",
+    "secteur": "privé",
+    "id": "EPESFRO-48",
+    "localisation": "Cotonou, Bénin",
+    "description": "HUNAUB est une université privée offrant des programmes d'études supérieures dans divers domaines. Elle est reconnue par le gouvernement béninois.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Africain Ibn Batouta (IAIB)",
+    "secteur": "privé",
+    "id": "EPESFRO-49",
+    "localisation": "Bénin",
+    "description": "IAIB est un institut privé offrant des formations dans divers domaines académiques et professionnels.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut CERCO",
+    "secteur": "privé",
+    "id": "EPESFRO-50",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondé en 1998, l'Institut CERCO était un établissement pionnier dans l'enseignement supérieur au Bénin, spécialisé dans les technologies de l'information. Il a été fermé en 2019 et transformé en un centre d'incubation et d'innovation axé sur l'intelligence artificielle, la robotique et les objets connectés.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut de Formations Avancées (IFA TOSSI)",
+    "secteur": "privé",
+    "id": "EPESFRO-51",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'Institut de Formations Avancées (IFA TOSSI) est une institution privée offrant des programmes de formation supérieure dans divers domaines, notamment les sciences sociales, la gestion et l'informatique.",
+    "contact": {
+      "site_web": "https://ifatossuniversity.edu.bj/",
+      "email": "ifatossi@gmail.com",
+      "telephone": "+229 95 54 36 00"
+    }
+  },
+  {
+    "nom": "Institut Interafricain de Formation en Gestion Informatique et Tourisme (IIFGIT)",
+    "secteur": "privé",
+    "id": "EPESFRO-52",
+    "localisation": "Ouidah, Bénin",
+    "description": "L'IIFGIT est un institut privé offrant des formations en gestion, informatique et tourisme, avec des programmes adaptés aux besoins du marché africain.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut International de Finance Management et d'Expertise Comptable (IIFMEC)",
+    "secteur": "privé",
+    "id": "EPESFRO-53",
+    "localisation": "Cotonou et Glazoué, Bénin",
+    "description": "Fondé en 2015, l'IIFMEC est une institution d'enseignement supérieur spécialisée dans la finance, le management et l'expertise comptable. Elle propose des formations diplômantes et certifiantes, en présentiel et en ligne, en partenariat avec des établissements européens et américains.",
+    "contact": {
+      "site_web": "https://www.iifmec.net/",
+      "email": "contact@iifmec.net",
+      "telephone": "+229 67 24 27 57"
+    }
+  },
+  {
+    "nom": "Institut Polytechnique LE CITOYEN",
+    "secteur": "privé",
+    "id": "EPESFRO-54",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'Institut Polytechnique LE CITOYEN est une institution privée offrant des formations techniques et professionnelles dans divers domaines, visant à former des citoyens compétents et responsables.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Polytechnique Paul Hazoume (IPPH)",
+    "secteur": "privé",
+    "id": "EPESFRO-55",
+    "localisation": "Porto-Novo, Bénin",
+    "description": "L'IPPH est un établissement d'enseignement supérieur privé offrant des formations dans divers domaines, avec un accent sur l'innovation et l'entrepreneuriat.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Régional de Formation Professionnelle (IRFP)",
+    "secteur": "privé",
+    "id": "EPESFRO-56",
+    "localisation": "Abomey-Calavi, Bénin",
+    "description": "L'IRFP est un institut privé spécialisé dans la formation professionnelle en Qualité, Hygiène, Sécurité et Environnement (QHSE) et en biotechnologies, visant à répondre aux défis environnementaux et de santé.",
+    "contact": {
+      "site_web": "https://irfp-benin.com/",
+      "email": "irfp.benin1@gmail.com",
+      "telephone": "+229 50 44 44 22"
+    }
+  },
+  {
+    "nom": "Institut Régional Supérieur des Beaux Arts de la Culture et de la Communication (IRSBAC COM)",
+    "secteur": "privé",
+    "id": "EPESFRO-57",
+    "localisation": "Parakou, Bénin",
+    "description": "L'IRSBAC COM est une école supérieure privée offrant des formations en journalisme, enseignement, marketing, communication et beaux-arts, avec des infrastructures telles qu'une radio, un plateau télé et un musée de musique.",
+    "contact": {
+      "site_web": "https://www.universite-irsbac.com/",
+      "email": "mail@universite-irsbac.com",
+      "telephone": "+229 97 76 36 43"
+    }
+  },
+  {
+    "nom": "Institut Supérieur Agro Pastoral de Biotechnologie et de l'Environnement (ISAPAB)",
+    "secteur": "privé",
+    "id": "EPESFRO-58",
+    "localisation": "Bohicon, Bénin",
+    "description": "Fondé en 2017, l'ISAPAB est un institut privé spécialisé dans les sciences agronomiques et les biotechnologies, avec des installations pratiques sur un domaine de 156 hectares.",
+    "contact": {
+      "site_web": "https://www.isapab.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Communication d'Organisation et de Management (ISCOM)",
+    "secteur": "privé",
+    "id": "EPESFRO-59",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondé en 2008, ISCOM est une université privée offrant des formations en communication, organisation et management, avec une plateforme d'apprentissage en ligne fonctionnelle.",
+    "contact": {
+      "site_web": "https://www.iscomuniversitybn.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Communication et de Gestion (ISCG)",
+    "secteur": "privé",
+    "id": "EPESFRO-60",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondé en 2013, l'ISCG University est une institution d'enseignement supérieur privée offrant des programmes en sciences de gestion, droit, journalisme et génie de l'environnement. L'université met l'accent sur l'excellence académique, le développement holistique et une perspective globale.",
+    "contact": {
+      "site_web": "https://www.iscg.edu.bj/",
+      "email": "iscgbenin@yahoo.fr",
+      "telephone": "+229 95 73 94 00 / +229 65 53 83 83"
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Formation Professionnelle et d'Appui à la Sécurité Économique (IS FOPASE)",
+    "secteur": "privé",
+    "id": "EPESFRO-61",
+    "localisation": "Bénin",
+    "description": "L'IS FOPASE est un établissement d'enseignement supérieur privé offrant des formations professionnelles dans divers domaines, notamment l'environnement, la santé et la sécurité économique.",
+    "contact": {
+      "site_web": null,
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Génie-Civil et de Gestion (ISGG)",
+    "secteur": "privé",
+    "id": "EPESFRO-62",
+    "localisation": "Bénin",
+    "description": "L'ISGG est un institut privé spécialisé dans la formation en génie civil et en gestion, offrant des programmes de licence et de master adaptés aux besoins du marché africain.",
+    "contact": {
+      "site_web": "https://www.isgguniversitybenin.com/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Supérieur de l'Afrique de l'Ouest (ISAO)",
+    "secteur": "privé",
+    "id": "EPESFRO-63",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'ISAO est une université privée proposant des formations dans les domaines de l'ingénierie, du numérique et du management. Elle vise à former des professionnels compétents pour répondre aux défis du développement en Afrique de l'Ouest.",
+    "contact": {
+      "site_web": "https://isao-benin.org/",
+      "email": "info@isao-benin.org",
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Management Adonai (ISM Adonai)",
+    "secteur": "privé",
+    "id": "EPESFRO-64",
+    "localisation": "Cotonou, Bénin",
+    "description": "Fondé en 2005, l'ISM Adonai est un établissement d'enseignement supérieur privé offrant des formations en management, audit, comptabilité et finance. Il délivre des diplômes de niveau Licence et Master reconnus par l'État béninois.",
+    "contact": {
+      "site_web": "http://www.ismadonai.net/fr/",
+      "email": "ismadonai@yahoo.fr",
+      "telephone": "+229 21 32 85 97 / +229 97 64 46 05 / +229 95 95 26 24"
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Management et de Technologies Saint SALOMON",
+    "secteur": "privé",
+    "id": "EPESFRO-65",
+    "localisation": "Cotonou, Bénin",
+    "description": "L'ISMT Saint Salomon est une université bilingue accréditée par le Ministère de l'Enseignement Supérieur du Bénin. Elle offre des programmes de licence, master et doctorat dans divers domaines, notamment les sciences pures et appliquées, la gestion, la santé publique et les technologies.",
+    "contact": {
+      "site_web": "https://ismtstsalomon.com/",
+      "email": null,
+      "telephone": "+229 61 21 64 56"
+    }
+  },
+  {
+    "nom": "Institut Supérieur de Mathématiques de la Décision (ISMADE)",
+    "secteur": "privé",
+    "id": "EPESFRO-66",
+    "localisation": "Bénin",
+    "description": "L'ISMADE propose des formations axées sur l'application des mathématiques dans les domaines de la finance, de la santé et de l'industrie. L'institut vise à innover avec des contenus de formation adaptés aux besoins actuels et futurs des entreprises.",
+    "contact": {
+      "site_web": "https://www.ismade.fr/",
+      "email": null,
+      "telephone": null
+    }
+  },
+  {
+    "nom": "Institut Supérieur des Sciences de l'Information et de la Communication (ISEG)",
+    "secteur": "privé",
+    "id": "EPESFRO-67",
+    "localisation": "Cotonou, Bénin",
+    "description": "Créé en 2010, l'ISEG est un établissement privé d'enseignement supérieur offrant des formations en sciences de gestion, notamment en banque, finance, assurance, comptabilité, audit, marketing et communication. L'institut est agréé par le Ministère de l'Enseignement Supérieur du Bénin.",
+    "contact": {
+      "site_web": "https://isegbenin.org/",
+      "email": null,
+      "telephone": null
+    }
+  }
+]
