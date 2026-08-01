@@ -15,14 +15,34 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     const token = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
     const storedUser = localStorage.getItem('user');
 
     if (token && storedUser) {
       try {
+        // Vérifier si le token est valide en faisant une requête
+        const response = await axios.get('http://localhost:5200/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
         setUser(JSON.parse(storedUser));
         setIsAuthenticated(true);
       } catch (error) {
-        logout();
+        // Si le token est expiré, essayer de le rafraîchir
+        if (refreshToken) {
+          try {
+            const newToken = await refreshAccessToken();
+            if (newToken && storedUser) {
+              setUser(JSON.parse(storedUser));
+              setIsAuthenticated(true);
+            }
+          } catch (refreshError) {
+            console.error('Refresh failed:', refreshError);
+            logout();
+          }
+        } else {
+          logout();
+        }
       }
     }
     setLoading(false);

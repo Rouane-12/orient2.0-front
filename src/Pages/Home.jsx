@@ -112,6 +112,11 @@ export default function Home() {
             <a href="#temoignages">Témoignages</a>
             <a onClick={() => navigate('/mes-orientations')}>Mes Orientations</a>
             <a onClick={() => navigate('/step')}>Commencer</a>
+            {user && (
+              <div className={s.userAvatar}>
+                {user.firstname?.[0]?.toUpperCase()}{user.lastname?.[0]?.toUpperCase()}
+              </div>
+            )}
             <button 
               className={s.logoutBtn}
               onClick={() => {
@@ -349,20 +354,22 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div style={{ marginTop: '3rem' }}>
-            <button 
+          <div style={{ marginTop: '2rem' }}>
+            <button
               onClick={() => setShowMyReviews(true)}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 color: '#fafafa',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '10px',
+                padding: '0.5rem 1.5rem',
+                borderRadius: '8px',
                 cursor: 'pointer',
-                fontSize: '0.9rem',
+                fontSize: '0.875rem',
                 fontWeight: '500',
-                marginBottom: '1.5rem',
-                transition: 'all 0.3s ease'
+                marginBottom: '1rem',
+                transition: 'all 0.3s ease',
+                display: 'block',
+                margin: '0 auto 1rem auto'
               }}
               onMouseEnter={(e) => {
                 e.target.style.background = 'rgba(255, 255, 255, 0.1)';

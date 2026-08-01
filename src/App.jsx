@@ -9,7 +9,7 @@ import "./style/MultiStepForm.scss";
 import "./style/Resultat.scss";
 import "./style/loading.scss";
 
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Welcome from "./Pages/Welcome";
@@ -27,8 +27,9 @@ import PaymentCallback from "./Pages/PaymentCallback.jsx";
 
 function AppWrapper() {
   const location = useLocation();
+  const { isAuthenticated, loading } = useAuth();
 
-  const hideLayout = location.pathname === "/step" || 
+  const hideLayout = location.pathname === "/step" ||
                     location.pathname === "/welcome" ||
                     location.pathname === "/register" ||
                     location.pathname === "/login" ||
@@ -37,11 +38,25 @@ function AppWrapper() {
 
   const publicRoutes = ["/welcome", "/register", "/login", "/forgot-password", "/payment/callback"];
 
+  // Redirection intelligente : vers home si connecté, sinon vers welcome
+  const RootRedirect = () => {
+    if (loading) return null;
+    return <Navigate to={isAuthenticated ? "/home" : "/welcome"} replace />;
+  };
+
+  // Redirection pour welcome si déjà connecté
+  const WelcomeRedirect = () => {
+    if (loading) return null;
+    if (isAuthenticated) return <Navigate to="/home" replace />;
+    return <Welcome />;
+  };
+
   return (
     <>
       <Modal />
       <Routes>
-        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/" element={<RootRedirect />} />
+        <Route path="/welcome" element={<WelcomeRedirect />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

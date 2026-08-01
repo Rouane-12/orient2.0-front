@@ -78,3 +78,37 @@
         }
     }
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .customRadioOrCheckbox {
+        section {
+            label {
+                span {
+                    font-size: 13px;
+                    padding: 8px 12px;
+                }
+            }
+        }
+    }
+
+    .customFileInput {
+        section {
+            &>p {
+                width: 200px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            label {
+                width: 200px;
+
+                .fileSelector {
+                    padding: 24px 0;
+                    svg {
+                        font-size: 32px;
+                    }
+                }
+            }
+        }
+    }
+}

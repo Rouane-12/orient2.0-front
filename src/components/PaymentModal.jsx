@@ -117,7 +117,8 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
           sandbox: true,
           data: '',
           theme: '#0095ff',
-          position: 'center'
+          position: 'center',
+          container: '#kkiapay-container'
         });
         console.log('openKkiapayWidget called');
       } else {
@@ -135,20 +136,20 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          <motion.div
-            className="payment-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-          />
+        <motion.div
+          className="payment-modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
           <motion.div
             className="payment-modal"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="payment-modal-header">
               <h2>Paiement requis</h2>
@@ -202,7 +203,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
               </p>
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   );
