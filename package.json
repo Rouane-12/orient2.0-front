@@ -9,6 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "overrides": {
+    "kkiapay-react": {
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1"
+    }
+  },
   "dependencies": {
     "@ramonak/react-progress-bar": "^5.4.0",
     "@tailwindcss/vite": "^4.3.3",
