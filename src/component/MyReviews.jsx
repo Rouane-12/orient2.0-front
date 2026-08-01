@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PhStar, PhStarFill, PhPencil, PhTrash, PhX } from '../uikits/Icons';
 import './MyReviews.css';
+import API_BASE_URL from '../config/api';
 
 const MyReviews = ({ onClose }) => {
   const [reviews, setReviews] = useState([]);
@@ -23,7 +24,7 @@ const MyReviews = ({ onClose }) => {
 
   const fetchUserReviews = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5200/api/reviews/user/${userId}`);
+      const response = await axios.get(`${API_BASE_URL}api/reviews/user/${userId}`);
       setReviews(response.data);
     } catch (error) {
       console.error('Erreur récupération avis:', error);
@@ -57,7 +58,7 @@ const MyReviews = ({ onClose }) => {
     const userId = localStorage.getItem('orienta_user_id');
     
     try {
-      await axios.put(`http://localhost:5200/api/reviews/${editingReview._id}`, {
+      await axios.put(`${API_BASE_URL}api/reviews/${editingReview._id}`, {
         ...editFormData,
         userId
       });
@@ -79,7 +80,7 @@ const MyReviews = ({ onClose }) => {
     const userId = localStorage.getItem('orienta_user_id');
     
     try {
-      await axios.delete(`http://localhost:5200/api/reviews/${reviewId}`, { data: { userId } });
+      await axios.delete(`${API_BASE_URL}api/reviews/${reviewId}`, { data: { userId } });
       
       // Refresh reviews
       fetchUserReviews(userId);

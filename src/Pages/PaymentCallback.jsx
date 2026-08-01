@@ -28,7 +28,7 @@ const PaymentCallback = () => {
       const token = localStorage.getItem('accessToken');
       
       const response = await axios.get(
-        `http://localhost:5200/api/payment/status/${transactionId}`,
+        `${API_BASE_URL}api/payment/status/${transactionId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }

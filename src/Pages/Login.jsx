@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './Auth.scss';
+import API_BASE_URL from '../config/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5200/api/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}api/auth/login`, {
         email: formData.email,
         password: formData.password
       });

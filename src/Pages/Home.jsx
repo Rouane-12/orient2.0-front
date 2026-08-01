@@ -10,6 +10,7 @@ import ReviewForm from "../component/ReviewForm";
 import MyReviews from "../component/MyReviews";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
+import API_BASE_URL from '../config/api';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,7 +33,7 @@ export default function Home() {
     // Fetch statistics from backend
     const fetchStats = async () => {
       try {
-        const response = await fetch('http://localhost:5200/api/statistics');
+        const response = await fetch(`${API_BASE_URL}api/statistics`);
         const data = await response.json();
         setStats(data);
       } catch (error) {
@@ -47,7 +48,7 @@ export default function Home() {
     // Fetch reviews from backend
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://localhost:5200/api/reviews');
+        const response = await fetch(`${API_BASE_URL}api/reviews`);
         const data = await response.json();
         setReviews(data);
       } catch (error) {
@@ -61,7 +62,7 @@ export default function Home() {
     // Refetch reviews after a new one is submitted
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://localhost:5200/api/reviews');
+        const response = await fetch(`${API_BASE_URL}api/reviews`);
         const data = await response.json();
         setReviews(data);
       } catch (error) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PhStar, PhStarFill } from '../uikits/Icons';
 import './ReviewForm.css';
+import API_BASE_URL from '../config/api';
 
 const ReviewForm = ({ onReviewSubmitted }) => {
   const [formData, setFormData] = useState({
@@ -46,7 +47,7 @@ const ReviewForm = ({ onReviewSubmitted }) => {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:5200/api/reviews', { ...formData, userId, name: userName });
+      await axios.post(`${API_BASE_URL}api/reviews`, { ...formData, userId, name: userName });
       setSubmitted(true);
       setFormData({ school_level: '', stars: 5, message: '' });
       setTimeout(() => setSubmitted(false), 3000);

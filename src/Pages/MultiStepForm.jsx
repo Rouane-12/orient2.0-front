@@ -8,6 +8,7 @@ import { CustomInputCheckbox, CustomInputRadio } from '../uikits/form/choices';
 import { CustomInputFile } from '../uikits/form/file';
 import { SvgSpinners6DotsRotate } from '../uikits/Icons';
 import PaymentModal from '../components/PaymentModal';
+import API_BASE_URL from '../config/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 
@@ -74,7 +75,7 @@ function OrientationForm() {
   useEffect(() => {
     const fetchEnums = async () => {
       try {
-        const res = await axios.get('http://localhost:5200/api/enums');
+        const res = await axios.get(`${API_BASE_URL}api/enums`);
         setEnums(res.data);
       } catch (err) {
         console.error('Erreur lors de la récupération des enums', err);
@@ -92,7 +93,7 @@ function OrientationForm() {
           return;
         }
         
-        const response = await axios.get('http://localhost:5200/api/payment/check-user', {
+        const response = await axios.get(`${API_BASE_URL}api/payment/check-user`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setHasPaid(response.data.hasPaid);
@@ -201,7 +202,7 @@ function OrientationForm() {
 
     try {
       const token = localStorage.getItem('accessToken');
-      const orientReq = await axios.post('http://localhost:5200/api/orientation', payloadFormData, {
+      const orientReq = await axios.post(`${API_BASE_URL}api/orientation`, payloadFormData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useAuth } from '../context/AuthContext';
 import './PaymentModal.scss';
+import API_BASE_URL from '../config/api';
 
 const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -90,7 +91,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
 
       // Check if user already paid
       const response = await axios.post(
-        'http://localhost:5200/api/payment/init',
+        `${API_BASE_URL}api/payment/init`,
         { amount: 200 },
         {
           headers: { Authorization: `Bearer ${token}` }

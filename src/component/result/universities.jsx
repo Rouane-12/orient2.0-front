@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SvgSpinners6DotsRotate, PhArrowDown } from "../../uikits/Icons";
 import html2canvas from "html2canvas";
+import API_BASE_URL from '../../config/api';
 
 export default function OneSectorUniversities({ sectorId }) {
 
@@ -32,7 +33,7 @@ export default function OneSectorUniversities({ sectorId }) {
 
 
   useEffect(() => {
-    axios.get('http://localhost:5200/api/university/all-for/' + sectorId)
+    axios.get(`${API_BASE_URL}api/university/all-for/` + sectorId)
       .then((res) => setData(res.data))
       .catch((err) => {
         alert('Erreur survenue')

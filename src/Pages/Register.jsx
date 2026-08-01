@@ -36,7 +36,7 @@ const Register = () => {
         return;
       }
 
-      await axios.post('http://localhost:5200/api/auth/register', {
+      await axios.post(`${API_BASE_URL}api/auth/register`, {
         firstname: formData.firstname,
         lastname: formData.lastname,
         email: formData.email,
@@ -57,7 +57,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:5200/api/auth/verify-otp', {
+      await axios.post(`${API_BASE_URL}api/auth/verify-otp`, {
         email: formData.email,
         code: formData.otp,
         type: 'registration'
@@ -76,7 +76,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:5200/api/auth/send-otp', {
+      await axios.post(`${API_BASE_URL}api/auth/send-otp`, {
         email: formData.email,
         type: 'registration'
       });

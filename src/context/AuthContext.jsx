@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import API_BASE_URL from '../config/api';
 
 const AuthContext = createContext(null);
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     if (token && storedUser) {
       try {
         // Vérifier si le token est valide en faisant une requête
-        const response = await axios.get('http://localhost:5200/api/auth/me', {
+        const response = await axios.get(`${API_BASE_URL}api/auth/me`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
       if (refreshToken) {
-        await axios.post('http://localhost:5200/api/auth/logout', { refreshToken });
+        await axios.post(`${API_BASE_URL}api/auth/logout`, { refreshToken });
       }
     } catch (error) {
       console.error('Logout error:', error);
@@ -83,7 +84,7 @@ export const AuthProvider = ({ children }) => {
         return false;
       }
 
-      const response = await axios.post('http://localhost:5200/api/auth/refresh-token', {
+      const response = await axios.post(`${API_BASE_URL}api/auth/refresh-token`, {
         refreshToken
       });
 

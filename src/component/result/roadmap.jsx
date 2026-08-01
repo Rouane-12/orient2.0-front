@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { SvgSpinners6DotsRotate } from "../../uikits/Icons";
+import API_BASE_URL from '../../config/api';
 
 export default function Roadmap({ sectorId }) {
   const [loading, setLoading] = useState(true);
   const [roadmap, setRoadmap] = useState();
 
   useEffect(() => {
-    axios.get('http://localhost:5200/api/roadmap/get-roadmap/' + sectorId)
+    axios.get(`${API_BASE_URL}api/roadmap/get-roadmap/` + sectorId)
       .then((res) => {
         setRoadmap(res.data.roadmap); // ✅ CORRECTION ICI
       })

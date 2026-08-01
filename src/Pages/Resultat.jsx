@@ -7,6 +7,7 @@ import useModalStore from "../stores/modal";
 import OneSectorUniversities from "../component/result/universities";
 import Roadmap from "../component/result/roadmap";
 import html2canvas from "html2canvas";
+import API_BASE_URL from '../config/api';
 
 const Resultat = () => {
   const { orientId } = useParams();
@@ -62,7 +63,7 @@ const Resultat = () => {
     // Otherwise fetch from API
     const token = localStorage.getItem('accessToken');
     axios
-      .get("http://localhost:5200/api/orientation/get-result/" + orientId, {
+      .get(`${API_BASE_URL}api/orientation/get-result/` + orientId, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then((res) => {

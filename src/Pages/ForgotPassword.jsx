@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import './Auth.scss';
+import API_BASE_URL from '../config/api';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:5200/api/auth/forgot-password', {
+      await axios.post(`${API_BASE_URL}api/auth/forgot-password`, {
         email: formData.email
       });
 
@@ -54,7 +55,7 @@ const ForgotPassword = () => {
       }
 
       console.log('Sending reset password request...');
-      const response = await axios.post('http://localhost:5200/api/auth/reset-password', {
+      const response = await axios.post(`${API_BASE_URL}api/auth/reset-password`, {
         email: formData.email,
         code: formData.otp,
         newPassword: formData.newPassword
@@ -75,7 +76,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:5200/api/auth/send-otp', {
+      await axios.post(`${API_BASE_URL}api/auth/send-otp`, {
         email: formData.email,
         type: 'password_reset'
       });
