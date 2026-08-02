@@ -1,7 +1,7 @@
 {
   "build": {
     "env": {
-      "VITE_BACKEND_URL": "https://orient2-0-back.vercel.app/"
+      "VITE_BACKEND_URL": "https://orient2-0-back.onrender.com/"
     }
   }
 }
