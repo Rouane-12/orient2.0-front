@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { SvgSpinners6DotsRotate } from "../../uikits/Icons";
+import { toast } from 'sonner';
 import API_BASE_URL from '../../config/api';
 
 export default function Roadmap({ sectorId }) {
@@ -13,8 +14,24 @@ export default function Roadmap({ sectorId }) {
         setRoadmap(res.data.roadmap); // ✅ CORRECTION ICI
       })
       .catch((err) => {
-        alert('Erreur survenue');
-        console.error(err);
+        console.error('Erreur récupération roadmap:', err);
+        
+        let errorMessage = 'Erreur lors du chargement de la roadmap';
+        
+        if (err.code === 'ERR_NETWORK') {
+          errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+        } else if (err.response) {
+          const backendError = err.response.data?.error;
+          if (backendError) {
+            errorMessage = backendError;
+          } else {
+            errorMessage = `Erreur serveur : ${err.response.status}`;
+          }
+        } else if (err.request) {
+          errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+        }
+        
+        toast.error(errorMessage);
       })
       .finally(() => setLoading(false));
   }, [sectorId]);

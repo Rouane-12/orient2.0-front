@@ -38,7 +38,28 @@ const Login = () => {
       toast.success('Connexion réussie');
       navigate('/home');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Erreur lors de la connexion');
+      console.error('Login error:', error);
+      
+      let errorMessage = 'Erreur lors de la connexion';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'Invalid credentials') {
+          errorMessage = 'Email ou mot de passe incorrect';
+        } else if (backendError === 'Please verify your email first') {
+          errorMessage = 'Veuillez vérifier votre email avant de vous connecter';
+        } else if (backendError === 'Email and password are required') {
+          errorMessage = 'Veuillez remplir tous les champs';
+        } else {
+          errorMessage = backendError || 'Erreur serveur. Réessayez plus tard.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

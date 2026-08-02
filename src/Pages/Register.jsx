@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import './Auth.scss';
+import API_BASE_URL from '../config/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -46,7 +47,28 @@ const Register = () => {
       toast.success('Compte créé avec succès. Vérifiez votre email pour le code OTP.');
       setStep(2);
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Erreur lors de l\'inscription');
+      console.error('Register error:', error);
+      
+      let errorMessage = 'Erreur lors de l\'inscription';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'Email already registered') {
+          errorMessage = 'Cet email est déjà utilisé. Connectez-vous ou utilisez un autre email.';
+        } else if (backendError === 'Password must be at least 6 characters') {
+          errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
+        } else if (backendError === 'All fields are required') {
+          errorMessage = 'Veuillez remplir tous les champs.';
+        } else {
+          errorMessage = backendError || 'Erreur serveur. Réessayez plus tard.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -66,7 +88,28 @@ const Register = () => {
       toast.success('Email vérifié avec succès. Vous pouvez maintenant vous connecter.');
       navigate('/login');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Code OTP invalide');
+      console.error('Verify OTP error:', error);
+      
+      let errorMessage = 'Code OTP invalide';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'Invalid or expired code') {
+          errorMessage = 'Code invalide ou expiré. Demandez un nouveau code.';
+        } else if (backendError === 'Maximum attempts exceeded') {
+          errorMessage = 'Trop de tentatives. Demandez un nouveau code.';
+        } else if (backendError === 'Email, code and type are required') {
+          errorMessage = 'Veuillez entrer le code OTP.';
+        } else {
+          errorMessage = backendError || 'Erreur lors de la vérification.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -83,7 +126,28 @@ const Register = () => {
 
       toast.success('Nouveau code OTP envoyé');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Erreur lors de l\'envoi du code');
+      console.error('Resend OTP error:', error);
+      
+      let errorMessage = 'Erreur lors de l\'envoi du code';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'Please wait 1 minute before requesting a new code') {
+          errorMessage = 'Attendez 1 minute avant de demander un nouveau code.';
+        } else if (backendError === 'User not found') {
+          errorMessage = 'Utilisateur non trouvé. Veuillez vous inscrire.';
+        } else if (backendError === 'Email already verified') {
+          errorMessage = 'Email déjà vérifié. Connectez-vous.';
+        } else {
+          errorMessage = backendError || 'Erreur serveur. Réessayez plus tard.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

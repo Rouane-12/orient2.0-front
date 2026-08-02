@@ -36,7 +36,26 @@ const ForgotPassword = () => {
       toast.success('Code de réinitialisation envoyé par email');
       setStep(2);
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Erreur lors de l\'envoi du code');
+      console.error('Send OTP error:', error);
+      
+      let errorMessage = 'Erreur lors de l\'envoi du code';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'User not found') {
+          errorMessage = 'Aucun compte trouvé avec cet email.';
+        } else if (backendError === 'Email is required') {
+          errorMessage = 'Veuillez entrer votre email.';
+        } else {
+          errorMessage = backendError || 'Erreur serveur. Réessayez plus tard.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -66,7 +85,27 @@ const ForgotPassword = () => {
       navigate('/login');
     } catch (error) {
       console.error('Reset password error:', error);
-      toast.error(error.response?.data?.error || 'Erreur lors de la réinitialisation');
+      
+      let errorMessage = 'Erreur lors de la réinitialisation';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'Invalid or expired code') {
+          errorMessage = 'Code invalide ou expiré. Demandez un nouveau code.';
+        } else if (backendError === 'Password must be at least 6 characters') {
+          errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
+        } else if (backendError === 'All fields are required') {
+          errorMessage = 'Veuillez remplir tous les champs.';
+        } else {
+          errorMessage = backendError || 'Erreur serveur. Réessayez plus tard.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -83,7 +122,26 @@ const ForgotPassword = () => {
 
       toast.success('Nouveau code envoyé');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Erreur lors de l\'envoi du code');
+      console.error('Resend OTP error:', error);
+      
+      let errorMessage = 'Erreur lors de l\'envoi du code';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError === 'Please wait 1 minute before requesting a new code') {
+          errorMessage = 'Attendez 1 minute avant de demander un nouveau code.';
+        } else if (backendError === 'User not found') {
+          errorMessage = 'Utilisateur non trouvé. Veuillez vous inscrire.';
+        } else {
+          errorMessage = backendError || 'Erreur serveur. Réessayez plus tard.';
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

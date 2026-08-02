@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PhStar, PhStarFill } from '../uikits/Icons';
 import './ReviewForm.css';
+import { toast } from 'sonner';
 import API_BASE_URL from '../config/api';
 
 const ReviewForm = ({ onReviewSubmitted }) => {
@@ -54,9 +55,26 @@ const ReviewForm = ({ onReviewSubmitted }) => {
       if (onReviewSubmitted) {
         onReviewSubmitted();
       }
+      toast.success('Avis soumis avec succès !');
     } catch (error) {
       console.error('Erreur soumission avis:', error);
-      alert('Erreur lors de la soumission de l\'avis');
+      
+      let errorMessage = 'Erreur lors de la soumission de l\'avis';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError) {
+          errorMessage = backendError;
+        } else {
+          errorMessage = `Erreur serveur : ${error.response.status}`;
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

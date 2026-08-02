@@ -3,19 +3,31 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useAuth } from '../context/AuthContext';
+import { useKKiaPay } from 'kkiapay-react';
 import './PaymentModal.scss';
 import API_BASE_URL from '../config/api';
 
 const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [publicKey, setPublicKey] = useState(null);
+  const [sandbox, setSandbox] = useState(true);
   const { refreshAccessToken } = useAuth();
+  const { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } = useKKiaPay();
 
+  // Handle Kkiapay widget events
   useEffect(() => {
-    // Add Kkiapay success listener
-    console.log('Setting up Kkiapay listeners...');
-    if (window.addSuccessListener) {
-      const successHandler = async (response) => {
-        console.log('Kkiapay payment success:', response);
+    const successHandler = async (response) => {
+      console.log('Payment successful:', response);
+      toast.success('Paiement effectué avec succès !');
+      
+      // Use the transaction ID from Kkiapay response, not the frontend-generated one
+      const kkiapayTransactionId = response.transactionId || response.transaction_id;
+      console.log('Kkiapay transaction ID:', kkiapayTransactionId);
+      
+      // Verify payment with backend
+      if (kkiapayTransactionId) {
+        setVerifying(true);
         try {
           let token = localStorage.getItem('accessToken');
           
@@ -28,54 +40,49 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
             console.error('Token refresh failed:', refreshError);
           }
 
-          // Create transaction in backend
-          await axios.post(
-            'http://localhost:5200/api/payment/verify',
-            { transactionId: response.transactionId },
+          const verifyResponse = await axios.post(
+            `${API_BASE_URL}api/payment/verify`,
+            { transactionId: kkiapayTransactionId },
             {
               headers: { Authorization: `Bearer ${token}` }
             }
           );
 
-          toast.success('Paiement réussi !');
-          setLoading(false);
-          onSuccess();
-          onClose();
+          console.log('Verify response:', verifyResponse.data);
+
+          if (verifyResponse.data.verified) {
+            toast.success('Paiement vérifié avec succès !');
+            onSuccess();
+            onClose();
+          } else {
+            toast.error('Erreur lors de la vérification du paiement');
+          }
         } catch (error) {
           console.error('Payment verification failed:', error);
           toast.error('Erreur lors de la vérification du paiement');
-          setLoading(false);
+        } finally {
+          setVerifying(false);
         }
-      };
+      }
+    };
+    
+    const failureHandler = (error) => {
+      console.error('Payment failed:', error);
+      toast.error('Paiement échoué. Veuillez réessayer.');
+    };
 
-      const failureHandler = (error) => {
-        console.log('Kkiapay payment failed:', error);
-        toast.error('Paiement échoué. Veuillez réessayer.');
-        setLoading(false);
-      };
-
-      window.addSuccessListener(successHandler);
-      window.addFailedListener(failureHandler);
-      console.log('Kkiapay listeners added successfully');
-
-      return () => {
-        if (window.removeSuccessListener) {
-          window.removeSuccessListener(successHandler);
-        }
-        if (window.removeFailedListener) {
-          window.removeFailedListener(failureHandler);
-        }
-      };
-    } else {
-      console.log('window.addSuccessListener not available');
-    }
-  }, [refreshAccessToken, onSuccess, onClose]);
+    addKkiapayListener('success', successHandler);
+    addKkiapayListener('failed', failureHandler);
+    
+    return () => {
+      removeKkiapayListener('success', successHandler);
+      removeKkiapayListener('failed', failureHandler);
+    };
+  }, [addKkiapayListener, removeKkiapayListener]);
 
   const handlePayment = async () => {
     setLoading(true);
     console.log('=== PAYMENT CLICKED ===');
-    console.log('window.openKkiapayWidget:', typeof window.openKkiapayWidget);
-    console.log('window.kkiapay:', typeof window.kkiapay);
 
     try {
       let token = localStorage.getItem('accessToken');
@@ -99,40 +106,66 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
       );
 
       console.log('Backend response:', response.data);
+      console.log('hasPaid:', response.data.hasPaid);
+      console.log('publicKey:', response.data.publicKey);
+      console.log('sandbox:', response.data.sandbox);
 
       if (response.data.hasPaid) {
-        toast.success('Paiement déjà effectué');
+        toast.success('Paiement déjà effectué !');
         onSuccess();
         onClose();
+        return;
+      }
+
+      // Get public key from backend
+      if (!response.data.publicKey) {
+        console.error('Clé publique manquante dans la réponse backend');
+        toast.error('Erreur de configuration du paiement - clé publique manquante');
         setLoading(false);
         return;
       }
 
-      // Open Kkiapay widget using CDN global function
-      console.log('Attempting to open Kkiapay widget...');
-      if (window.openKkiapayWidget) {
-        console.log('openKkiapayWidget is available, calling it...');
-        window.openKkiapayWidget({
-          amount: 200,
-          api_key: '2e2c8f308b7611f19e0eb124a388c3f8',
-          sandbox: true,
-          data: '',
-          theme: '#0095ff',
-          position: 'center',
-          container: '#kkiapay-container'
-        });
-        console.log('openKkiapayWidget called');
-      } else {
-        console.error('Kkiapay script not loaded');
-        toast.error('Kkiapay script not loaded');
-        setLoading(false);
-      }
+      // Don't generate transaction ID - let Kkiapay handle it
+      setPublicKey(response.data.publicKey);
+      setSandbox(response.data.sandbox);
+      
+      console.log('Opening Kkiapay widget');
+      console.log('Public key:', response.data.publicKey);
+      console.log('Sandbox:', response.data.sandbox);
+      
+      // Open Kkiapay widget in-page - let Kkiapay generate the transaction ID
+      openKkiapayWidget({
+        amount: 200,
+        api_key: response.data.publicKey,
+        sandbox: response.data.sandbox,
+        currency: 'XOF',
+      });
+      
+      toast.info('Widget de paiement ouvert. Effectuez le paiement.');
+      setLoading(false);
     } catch (error) {
       console.error('Payment check failed:', error);
-      toast.error('Erreur lors de la vérification du paiement');
+      
+      let errorMessage = 'Erreur lors de l\'initialisation du paiement';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError) {
+          errorMessage = backendError;
+        } else {
+          errorMessage = `Erreur serveur : ${error.response.status}`;
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
       setLoading(false);
     }
   };
+
 
   return (
     <AnimatePresence>
@@ -192,15 +225,15 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
               <motion.button
                 className="payment-btn"
                 onClick={handlePayment}
-                disabled={loading}
+                disabled={loading || verifying}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {loading ? 'Chargement...' : 'Payer 200 FCFA'}
+                {loading || verifying ? 'Traitement en cours...' : 'Payer 200 FCFA'}
               </motion.button>
 
               <p className="payment-note">
-                Paiement sécurisé via Kkiapay Sandbox
+                Paiement sécurisé via Kkiapay
               </p>
             </div>
           </motion.div>

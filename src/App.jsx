@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Toaster } from 'sonner';
 
 import "./style/App.scss";
 import './style/component/Form.scss';
@@ -53,6 +54,7 @@ function AppWrapper() {
 
   return (
     <>
+      <Toaster position="top-right" richColors />
       <Modal />
       <Routes>
         <Route path="/" element={<RootRedirect />} />

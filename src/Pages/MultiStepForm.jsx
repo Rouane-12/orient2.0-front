@@ -85,24 +85,9 @@ function OrientationForm() {
   }, []);
 
   useEffect(() => {
-    const checkPaymentStatus = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-          console.log('No access token found');
-          return;
-        }
-        
-        const response = await axios.get(`${API_BASE_URL}api/payment/check-user`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setHasPaid(response.data.hasPaid);
-      } catch (error) {
-        console.error('Error checking payment status:', error);
-        // Don't automatically logout on payment check failure
-      }
-    };
-    checkPaymentStatus();
+    // Payment check is now completely manual - no automatic checks
+    // User will be prompted to pay when they try to submit the form
+    setHasPaid(false);
   }, []);
 
   useEffect(() => {
@@ -220,14 +205,27 @@ function OrientationForm() {
     } catch (err) {
       console.error("Erreur lors de l'envoi du formulaire :", err);
 
-      let errorMessage = "Une erreur est survenue. Vérifie la console.";
+      let errorMessage = "Une erreur est survenue lors de la soumission.";
 
       if (err.code === 'ERR_NETWORK') {
-        errorMessage = "Erreur de connexion : Assurez-vous que le serveur backend est démarré sur http://localhost:5200 !";
+        errorMessage = "Erreur de connexion au serveur. Vérifiez votre connexion internet.";
       } else if (err.message.includes('ERR_UPLOAD_FILE_CHANGED')) {
         errorMessage = "Erreur avec un fichier : Réessayez de sélectionner les fichiers avant de soumettre !";
       } else if (err.response) {
-        errorMessage = `Erreur serveur : ${err.response.statusText} (${err.response.status})`;
+        const backendError = err.response.data?.error;
+        if (backendError === 'Paiement requis') {
+          errorMessage = "Paiement requis. Veuillez effectuer le paiement de 200 FCFA pour générer votre orientation.";
+          setShowPaymentModal(true);
+          return;
+        } else if (backendError === 'Fichiers manquants') {
+          errorMessage = "Fichiers manquants. Les bulletins finaux et le relevé de BAC sont requis.";
+        } else if (backendError === 'Erreur lors du traitement des documents') {
+          errorMessage = "Erreur lors du traitement des documents. Vérifiez que vos fichiers sont lisibles.";
+        } else {
+          errorMessage = backendError || `Erreur serveur : ${err.response.statusText} (${err.response.status})`;
+        }
+      } else if (err.request) {
+        errorMessage = "Le serveur ne répond pas. Vérifiez votre connexion.";
       }
 
       toast.error(errorMessage);

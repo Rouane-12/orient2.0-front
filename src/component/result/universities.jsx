@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SvgSpinners6DotsRotate, PhArrowDown } from "../../uikits/Icons";
 import html2canvas from "html2canvas";
+import { toast } from 'sonner';
 import API_BASE_URL from '../../config/api';
 
 export default function OneSectorUniversities({ sectorId }) {
@@ -36,7 +37,24 @@ export default function OneSectorUniversities({ sectorId }) {
     axios.get(`${API_BASE_URL}api/university/all-for/` + sectorId)
       .then((res) => setData(res.data))
       .catch((err) => {
-        alert('Erreur survenue')
+        console.error('Erreur récupération universités:', err);
+        
+        let errorMessage = 'Erreur lors du chargement des universités';
+        
+        if (err.code === 'ERR_NETWORK') {
+          errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+        } else if (err.response) {
+          const backendError = err.response.data?.error;
+          if (backendError) {
+            errorMessage = backendError;
+          } else {
+            errorMessage = `Erreur serveur : ${err.response.status}`;
+          }
+        } else if (err.request) {
+          errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+        }
+        
+        toast.error(errorMessage);
       })
       .finally(() => setLoading(false))
   }, []);

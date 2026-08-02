@@ -7,6 +7,7 @@ import useModalStore from "../stores/modal";
 import OneSectorUniversities from "../component/result/universities";
 import Roadmap from "../component/result/roadmap";
 import html2canvas from "html2canvas";
+import { toast } from 'sonner';
 import API_BASE_URL from '../config/api';
 
 const Resultat = () => {
@@ -72,8 +73,24 @@ const Resultat = () => {
         saveOrientationToHistory(res.data, orientId);
       })
       .catch((err) => {
-        alert("Erreur survenue");
         console.error(err);
+        
+        let errorMessage = "Erreur lors du chargement des résultats";
+        
+        if (err.code === 'ERR_NETWORK') {
+          errorMessage = "Erreur de connexion au serveur. Vérifiez votre connexion internet.";
+        } else if (err.response) {
+          const backendError = err.response.data?.error;
+          if (backendError === 'Données d\'orientation introuvables') {
+            errorMessage = "Résultats introuvables. Veuillez refaire votre orientation.";
+          } else {
+            errorMessage = backendError || "Erreur serveur. Réessayez plus tard.";
+          }
+        } else if (err.request) {
+          errorMessage = "Le serveur ne répond pas. Vérifiez votre connexion.";
+        }
+        
+        toast.error(errorMessage);
       })
       .finally(() => setLoading(false));
   }, [orientId, location.state]);

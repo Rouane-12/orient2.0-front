@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PhStar, PhStarFill, PhPencil, PhTrash, PhX } from '../uikits/Icons';
 import './MyReviews.css';
+import { toast } from 'sonner';
 import API_BASE_URL from '../config/api';
 
 const MyReviews = ({ onClose }) => {
@@ -28,6 +29,23 @@ const MyReviews = ({ onClose }) => {
       setReviews(response.data);
     } catch (error) {
       console.error('Erreur récupération avis:', error);
+      
+      let errorMessage = 'Erreur lors de la récupération des avis';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError) {
+          errorMessage = backendError;
+        } else {
+          errorMessage = `Erreur serveur : ${error.response.status}`;
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -66,9 +84,26 @@ const MyReviews = ({ onClose }) => {
       // Refresh reviews
       fetchUserReviews(userId);
       handleCancelEdit();
+      toast.success('Avis mis à jour avec succès !');
     } catch (error) {
       console.error('Erreur mise à jour avis:', error);
-      alert('Erreur lors de la mise à jour de l\'avis');
+      
+      let errorMessage = 'Erreur lors de la mise à jour de l\'avis';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError) {
+          errorMessage = backendError;
+        } else {
+          errorMessage = `Erreur serveur : ${error.response.status}`;
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     }
   };
 
@@ -84,9 +119,26 @@ const MyReviews = ({ onClose }) => {
       
       // Refresh reviews
       fetchUserReviews(userId);
+      toast.success('Avis supprimé avec succès !');
     } catch (error) {
       console.error('Erreur suppression avis:', error);
-      alert('Erreur lors de la suppression de l\'avis');
+      
+      let errorMessage = 'Erreur lors de la suppression de l\'avis';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Erreur de connexion au serveur. Vérifiez votre connexion internet.';
+      } else if (error.response) {
+        const backendError = error.response.data?.error;
+        if (backendError) {
+          errorMessage = backendError;
+        } else {
+          errorMessage = `Erreur serveur : ${error.response.status}`;
+        }
+      } else if (error.request) {
+        errorMessage = 'Le serveur ne répond pas. Vérifiez votre connexion.';
+      }
+      
+      toast.error(errorMessage);
     }
   };
 
