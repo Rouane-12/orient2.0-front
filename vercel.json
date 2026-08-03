@@ -3,5 +3,11 @@
     "env": {
       "VITE_BACKEND_URL": "https://orient2-0-back.onrender.com/"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
