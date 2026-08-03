@@ -143,6 +143,37 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fafafa;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.navBtnPrimary {
+  background: linear-gradient(135deg, #e67028, #ca5923);
+  border: none;
+  color: white;
+}
+
+.navBtnPrimary:hover {
+  background: linear-gradient(135deg, #ff7a35, #e67028);
+  box-shadow: 0 4px 12px rgba(230, 112, 40, 0.4);
+}
+
 .mobileLogoutBtn {
   display: flex;
   align-items: center;
@@ -153,15 +184,49 @@
   border-radius: 8px;
   color: #fafafa;
   font-size: 0.9rem;
+}
+
+.navBtnPrimary {
+  background: linear-gradient(135deg, #e67028, #ca5923);
+  border: none;
+  color: white;
+}
+
+.navBtnPrimary:hover {
+  background: linear-gradient(135deg, #ff7a35, #e67028);
+  box-shadow: 0 4px 12px rgba(230, 112, 40, 0.4);
+}
+
+.mobileMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fafafa;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
-.mobileLogoutBtn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
+.mobileMenuBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.mobileMenuBtnPrimary {
+  background: linear-gradient(135deg, #e67028, #ca5923);
+  border: none;
+  color: white;
+}
+
+.mobileMenuBtnPrimary:hover {
+  background: linear-gradient(135deg, #ff7a35, #e67028);
+  box-shadow: 0 4px 12px rgba(230, 112, 40, 0.4);
 }
 
 .navLinks {

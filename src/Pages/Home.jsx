@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useTransform, useScroll, useInView, animate, AnimatePresence } from "framer-motion";
 import {
   Sparkles, Compass, GraduationCap, Brain, Rocket, ShieldCheck,
-  ArrowRight, Play, ChevronDown, Star, Bell, TrendingUp, MapPin, Menu, X, LogOut,
+  ArrowRight, Play, ChevronDown, Star, Bell, TrendingUp, MapPin, Menu, X, LogOut, Trophy,
+  CheckCircle, Gift, Clock, Zap,
 } from "lucide-react";
 import s from "../style/HomeNew.module.css";
 import ReviewForm from "../component/ReviewForm";
@@ -18,6 +19,10 @@ export default function Home() {
   const [stats, setStats] = useState({ students_accompanied: 0, satisfaction_rate: 0, universities_partners: 40, sectors_indexed: 250 });
   const [reviews, setReviews] = useState([]);
   const [showMyReviews, setShowMyReviews] = useState(false);
+  const [promoStatus, setPromoStatus] = useState(null);
+  const [canHaveFreeOrientation, setCanHaveFreeOrientation] = useState(null);
+  const [showPromoPopup, setShowPromoPopup] = useState(false);
+  const [userRank, setUserRank] = useState(null);
   const pageRef = useRef(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -58,6 +63,44 @@ export default function Home() {
     fetchReviews();
   }, []);
 
+  useEffect(() => {
+    // Fetch promo status
+    const fetchPromoStatus = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}api/free-orientation/status`);
+        const data = await response.json();
+        setPromoStatus(data);
+      } catch (error) {
+        console.error('Error fetching promo status:', error);
+      }
+    };
+    fetchPromoStatus();
+  }, []);
+
+  useEffect(() => {
+    // Check if user can have free orientation
+    const checkFreeOrientation = async () => {
+      if (!user) return;
+      try {
+        const token = localStorage.getItem('accessToken');
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        const response = await fetch(`${API_BASE_URL}api/free-orientation/check`, {
+          headers
+        });
+        const data = await response.json();
+        setCanHaveFreeOrientation(data);
+      } catch (error) {
+        console.error('Error checking free orientation:', error);
+      }
+    };
+    checkFreeOrientation();
+  }, [user]);
+
   const handleReviewSubmitted = () => {
     // Refetch reviews after a new one is submitted
     const fetchReviews = async () => {
@@ -70,6 +113,65 @@ export default function Home() {
       }
     };
     fetchReviews();
+  };
+
+  const handleStartOrientation = async () => {
+    // Check if user has already used free orientation
+    if (canHaveFreeOrientation && canHaveFreeOrientation.reason === 'already_used') {
+      navigate('/step');
+      return;
+    }
+
+    // Don't show popup if user has already used free orientation
+    if (canHaveFreeOrientation && canHaveFreeOrientation.canHaveFree === false) {
+      navigate('/step');
+      return;
+    }
+
+    if (promoStatus && promoStatus.isPromoActive) {
+      try {
+        const response = await fetch(`${API_BASE_URL}api/free-orientation/check-rank`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        if (data.rank && data.rank <= 20 && !data.alreadyUsed && canHaveFreeOrientation?.canHaveFree !== false) {
+          setUserRank(data.rank);
+          setShowPromoPopup(true);
+        } else {
+          navigate('/step');
+        }
+      } catch (error) {
+        console.error('Error checking rank:', error);
+        navigate('/step');
+      }
+    } else {
+      navigate('/step');
+    }
+  };
+
+  const handleContinueToSteps = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      await fetch(`${API_BASE_URL}api/free-orientation/claim`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { 'Authorization': `Bearer ${token}` })
+        }
+      });
+    } catch (error) {
+      console.error('Error claiming free orientation:', error);
+    }
+    setShowPromoPopup(false);
+    navigate('/step');
+  };
+
+  const getRankText = (rank) => {
+    if (rank === 1) return '1er';
+    return `${rank}ème`;
   };
 
   const mx = useMotionValue(0);
@@ -112,7 +214,13 @@ export default function Home() {
             <a href="#universites">Universités</a>
             <a href="#temoignages">Témoignages</a>
             <a onClick={() => navigate('/mes-orientations')}>Mes Orientations</a>
-            <a onClick={() => navigate('/step')}>Commencer</a>
+            <a onClick={() => {
+              if (canHaveFreeOrientation && canHaveFreeOrientation.canHaveFree) {
+                navigate('/early-adopter');
+              } else {
+                navigate('/step');
+              }
+            }}>Commencer</a>
             {user && (
               <div className={s.userAvatar}>
                 {user.firstname?.[0]?.toUpperCase()}{user.lastname?.[0]?.toUpperCase()}
@@ -161,7 +269,15 @@ export default function Home() {
                 <a href="#universites" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Universités</a>
                 <a href="#temoignages" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Témoignages</a>
                 <a onClick={(e) => { e.preventDefault(); setMenuOpen(false); navigate('/mes-orientations'); }}>Mes Orientations</a>
-                <a onClick={(e) => { e.preventDefault(); setMenuOpen(false); navigate('/step'); }}>Commencer</a>
+                <a onClick={(e) => { 
+                  e.preventDefault(); 
+                  setMenuOpen(false);
+                  if (canHaveFreeOrientation && canHaveFreeOrientation.canHaveFree) {
+                    navigate('/early-adopter');
+                  } else {
+                    navigate('/step');
+                  }
+                }}>Commencer</a>
                 <button 
                   className={s.mobileLogoutBtn}
                   onClick={(e) => {
@@ -179,6 +295,33 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {promoStatus && promoStatus.isPromoActive && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{
+            background: 'linear-gradient(135deg, #e67028 0%, #ca5923 100%)',
+            padding: '10px 18px',
+            textAlign: 'center',
+            color: 'white',
+            fontSize: '0.9rem',
+            fontWeight: '500',
+            width: '100%',
+            position: 'absolute',
+            top: '85px',
+            left: '0',
+            right: '0'
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <Sparkles size={16} />
+            <span>🎉 OFFRE SPÉCIALE : Les {promoStatus.remaining} premiers utilisateurs bénéficient d'une orientation GRATUITE !</span>
+            <Sparkles size={16} />
+          </span>
+        </motion.div>
+      )}
 
       <header className={s.hero}>
         <div className={s.container}>
@@ -199,8 +342,8 @@ export default function Home() {
                 "Grâce à notre plateforme d'orientation, découvre les filières, métiers et parcours qui te correspondent vraiment. Que tu sois étudiant, lycéen ou en reconversion, on t'accompagne pour faire les bons choix, en toute confiance."
               </p>
               <div className={s.heroCtas}>
-                <MagneticButton primary onClick={() => navigate('/step')}>
-                  Commencer gratuitement <ArrowRight size={16} />
+                <MagneticButton primary onClick={handleStartOrientation}>
+                  Commencer l'orientation <ArrowRight size={16} />
                 </MagneticButton>
               </div>
               <div className={s.heroTrust}>
@@ -223,6 +366,254 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      <AnimatePresence>
+        {showPromoPopup && !(canHaveFreeOrientation && canHaveFreeOrientation.reason === 'already_used') && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000
+            }}
+            onClick={() => setShowPromoPopup(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              transition={{ duration: 0.4, type: 'spring', damping: 25, stiffness: 200 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #e67028 100%)',
+                border: '2px solid rgba(255, 179, 122, 0.3)',
+                borderRadius: '24px',
+                padding: '40px',
+                maxWidth: '500px',
+                width: '90%',
+                textAlign: 'center',
+                boxShadow: '0 20px 60px rgba(230, 112, 40, 0.3)'
+              }}
+            >
+              {canHaveFreeOrientation && canHaveFreeOrientation.reason === 'already_used' ? (
+                <>
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
+                    style={{
+                      display: 'inline-block',
+                      marginBottom: '20px',
+                      background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                      borderRadius: '50%',
+                      padding: '20px'
+                    }}
+                  >
+                    <CheckCircle size={48} color="white" fill="white" />
+                  </motion.div>
+
+                  <h2 style={{
+                    fontSize: '1.8rem',
+                    fontWeight: '700',
+                    color: 'white',
+                    marginBottom: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}>
+                    <CheckCircle size={24} color="white" fill="white" />
+                    Orientation déjà utilisée
+                  </h2>
+
+                  <p style={{
+                    fontSize: '1.1rem',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    marginBottom: '20px',
+                    lineHeight: '1.6'
+                  }}>
+                    Vous avez déjà utilisé votre orientation gratuite.
+                  </p>
+
+                  <div style={{
+                    background: 'rgba(255, 179, 122, 0.1)',
+                    border: '1px solid rgba(255, 179, 122, 0.3)',
+                    borderRadius: '16px',
+                    padding: '20px',
+                    marginBottom: '24px'
+                  }}>
+                    <p style={{
+                      fontSize: '1rem',
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      marginBottom: '8px'
+                    }}>
+                      💡 Pour une nouvelle orientation, le tarif est de <strong style={{ color: '#ffb37a' }}>200 FCFA</strong>
+                    </p>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setShowPromoPopup(false);
+                      navigate('/step');
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                      border: 'none',
+                      padding: '16px 40px',
+                      borderRadius: '50px',
+                      color: 'white',
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      boxShadow: '0 10px 30px rgba(230, 112, 40, 0.3)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '10px'
+                    }}
+                  >
+                    <ArrowRight size={18} />
+                    <span>Continuer vers le formulaire</span>
+                  </motion.button>
+                </>
+              ) : (
+                <>
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
+                    style={{
+                      display: 'inline-block',
+                      marginBottom: '20px',
+                      background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                      borderRadius: '50%',
+                      padding: '20px'
+                    }}
+                  >
+                    <Trophy size={48} color="white" fill="white" />
+                  </motion.div>
+
+                  <h2 style={{
+                    fontSize: '1.8rem',
+                    fontWeight: '700',
+                    color: 'white',
+                    marginBottom: '12px'
+                  }}>
+                    🎉 Félicitations !
+                  </h2>
+
+                  <p style={{
+                    fontSize: '1.1rem',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    marginBottom: '20px',
+                    lineHeight: '1.6'
+                  }}>
+                    Vous êtes le <strong style={{ color: '#ffb37a', fontSize: '1.3rem' }}>{getRankText(userRank)}</strong> utilisateur !
+                  </p>
+
+                  <div style={{
+                    background: 'rgba(255, 179, 122, 0.1)',
+                    border: '1px solid rgba(255, 179, 122, 0.3)',
+                    borderRadius: '16px',
+                    padding: '20px',
+                    marginBottom: '24px',
+                    textAlign: 'left'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                      <div style={{
+                        background: 'rgba(255, 179, 122, 0.2)',
+                        borderRadius: '8px',
+                        padding: '8px'
+                      }}>
+                        <Gift size={20} color="#ffb37a" />
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: '600', color: 'white', fontSize: '0.95rem' }}>100% Gratuit</div>
+                        <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.6)' }}>Ta première orientation est offerte, sans aucun frais</div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                      <div style={{
+                        background: 'rgba(255, 179, 122, 0.2)',
+                        borderRadius: '8px',
+                        padding: '8px'
+                      }}>
+                        <Clock size={20} color="#ffb37a" />
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: '600', color: 'white', fontSize: '0.95rem' }}>Offre Limitée</div>
+                        <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.6)' }}>
+                          {canHaveFreeOrientation && canHaveFreeOrientation.remaining !== undefined
+                            ? `Il reste ${canHaveFreeOrientation.remaining} orientation${canHaveFreeOrientation.remaining > 1 ? 's' : ''} gratuite${canHaveFreeOrientation.remaining > 1 ? 's' : ''}`
+                            : 'Réservée aux 20 premiers inscrits'}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <div style={{
+                        background: 'rgba(255, 179, 122, 0.2)',
+                        borderRadius: '8px',
+                        padding: '8px'
+                      }}>
+                        <Zap size={20} color="#ffb37a" />
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: '600', color: 'white', fontSize: '0.95rem' }}>Immédiat</div>
+                        <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.6)' }}>Profite de ton orientation dès maintenant</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleContinueToSteps}
+                    style={{
+                      background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                      border: 'none',
+                      padding: '16px 40px',
+                      borderRadius: '50px',
+                      color: 'white',
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      boxShadow: '0 10px 30px rgba(230, 112, 40, 0.3)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '10px'
+                    }}
+                  >
+                    <Rocket size={18} />
+                    <span>Profiter de l'offre gratuite</span>
+                  </motion.button>
+
+                  <p style={{
+                    marginTop: '16px',
+                    fontSize: '0.85rem',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    lineHeight: '1.4'
+                  }}>
+                    💡 Information importante : Après cette promotion, chaque orientation coûte 200 FCFA. Profitez-en maintenant !
+                  </p>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <section id="pourquoi" className={s.section}>
         <div className={s.container}>
@@ -386,6 +777,207 @@ export default function Home() {
         </div>
       </section>
 
+      {promoStatus && promoStatus.isPromoActive && (
+        <section className={s.section} style={{ paddingTop: 40 }}>
+          <div className={s.container}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              style={{
+                background: 'linear-gradient(135deg, rgba(230, 112, 40, 0.1) 0%, rgba(202, 89, 35, 0.05) 100%)',
+                border: '2px solid rgba(255, 179, 122, 0.3)',
+                borderRadius: '20px',
+                padding: '40px',
+                textAlign: 'center'
+              }}
+            >
+              {canHaveFreeOrientation && canHaveFreeOrientation.reason === 'already_used' ? (
+                <>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                    style={{
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  >
+                    <CheckCircle size={48} color="#ffb37a" fill="#ffb37a" />
+                  </motion.div>
+
+                  <h2 style={{
+                    fontSize: '2rem',
+                    fontWeight: '700',
+                    color: 'white',
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}>
+                    <CheckCircle size={28} color="white" fill="white" />
+                    Orientation déjà utilisée
+                  </h2>
+
+                  <p style={{
+                    fontSize: '1.3rem',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    marginBottom: '24px',
+                    lineHeight: '1.6'
+                  }}>
+                    Vous avez déjà utilisé votre orientation gratuite.
+                  </p>
+
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    padding: '20px',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '30px',
+                    textAlign: 'left'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                      <Clock size={20} fill="#ffb37a" color="#ffb37a" />
+                      <strong style={{ color: '#ffb37a' }}>Offre Limitée</strong>
+                    </div>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9rem' }}>
+                      Il reste <strong style={{ color: '#ffb37a' }}>{promoStatus.remaining}</strong> orientation{promoStatus.remaining > 1 ? 's' : ''} gratuite{promoStatus.remaining > 1 ? 's' : ''} pour les autres utilisateurs
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                    style={{
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  >
+                    <Sparkles size={48} color="#ffb37a" />
+                  </motion.div>
+
+                  <h2 style={{
+                    fontSize: '2rem',
+                    fontWeight: '700',
+                    color: 'white',
+                    marginBottom: '16px'
+                  }}>
+                    🎉 OFFRE DE LANCEMENT
+                  </h2>
+
+                  <p style={{
+                    fontSize: '1.3rem',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    marginBottom: '24px',
+                    lineHeight: '1.6'
+                  }}>
+                    Les <strong style={{ color: '#ffb37a' }}>{promoStatus.remaining} premiers utilisateurs</strong> bénéficient de leur <strong style={{ color: '#ffb37a' }}>première orientation GRATUITE</strong> !
+                  </p>
+
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                    gap: '20px',
+                    marginBottom: '30px',
+                    textAlign: 'left'
+                  }}>
+                    <div style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      padding: '20px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                        <Star size={20} fill="#ffb37a" color="#ffb37a" />
+                        <strong style={{ color: '#ffb37a' }}>100% Gratuit</strong>
+                      </div>
+                      <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9rem' }}>
+                        Ta première orientation est offerte, sans aucun frais
+                      </p>
+                    </div>
+
+                    <div style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      padding: '20px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                        <Trophy size={20} fill="#ffb37a" color="#ffb37a" />
+                        <strong style={{ color: '#ffb37a' }}>Offre Limitée</strong>
+                      </div>
+                      <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9rem' }}>
+                        Réservée aux {promoStatus.maxFreeOrientations} premiers inscrits
+                      </p>
+                    </div>
+
+                    <div style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      padding: '20px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                        <Rocket size={20} fill="#ffb37a" color="#ffb37a" />
+                        <strong style={{ color: '#ffb37a' }}>Immédiat</strong>
+                      </div>
+                      <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9rem' }}>
+                        Profite de ton orientation dès maintenant
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  if (canHaveFreeOrientation && canHaveFreeOrientation.canHaveFree) {
+                    navigate('/early-adopter');
+                  } else {
+                    navigate('/step');
+                  }
+                }}
+                style={{
+                  background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                  border: 'none',
+                  padding: '16px 40px',
+                  borderRadius: '50px',
+                  color: 'white',
+                  fontSize: '1.1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: '0 10px 30px rgba(230, 112, 40, 0.3)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}
+              >
+                <Sparkles size={18} />
+                <span>Profiter de l'offre gratuite</span>
+                <ArrowRight size={18} />
+              </motion.button>
+              
+              <p style={{
+                marginTop: '20px',
+                color: 'rgba(255, 255, 255, 0.5)',
+                fontSize: '0.85rem'
+              }}>
+                💡 <strong>Information importante :</strong> Après cette promotion, chaque orientation coûte 200 FCFA. Profitez-en maintenant !
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
       <section className={s.section} style={{ paddingTop: 40 }}>
         <div className={s.container}>
           <SectionHead eyebrow="FAQ" title="Les questions qu'on nous pose." />
@@ -405,7 +997,13 @@ export default function Home() {
               Rejoins des milliers de bacheliers qui construisent leur avenir avec Orient+.
             </p>
             <div className={s.heroCtas} style={{ justifyContent: "center", marginTop: 32 }}>
-              <MagneticButton primary onClick={() => navigate('/step')}>
+              <MagneticButton primary onClick={() => {
+                if (canHaveFreeOrientation && canHaveFreeOrientation.canHaveFree) {
+                  navigate('/early-adopter');
+                } else {
+                  navigate('/step');
+                }
+              }}>
                 Commencer maintenant <ArrowRight size={16} />
               </MagneticButton>
             </div>
@@ -694,7 +1292,7 @@ const universities = [
 ];
 
 const faq = [
-  { q: "Orient+ est-il gratuit ?", a: "Oui, la découverte et les recommandations essentielles sont 100% gratuites. Des options premium existent pour un accompagnement approfondi." },
+  { q: "Orient+ est-il gratuit ?", a: "Les 20 premiers utilisateurs bénéficient de leur première orientation GRATUITE ! Après cette promotion, chaque orientation coûte 200 FCFA." },
   { q: "Mes données sont-elles protégées ?", a: "Toujours. Nous chiffrons tes informations, ne les revendons jamais et tu peux supprimer ton profil à tout moment." },
   { q: "Est-ce adapté à toutes les séries du BAC ?", a: "Oui, séries scientifiques, littéraires, technologiques et professionnelles — l'IA adapte ses recommandations à chaque profil." },
   { q: "Puis-je l'utiliser sur mobile ?", a: "Absolument. L'expérience est optimisée pour smartphone, tablette et ordinateur, avec un design pensé mobile-first." },

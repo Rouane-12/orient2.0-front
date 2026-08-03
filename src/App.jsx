@@ -25,6 +25,7 @@ import Resultat from "./Pages/Resultat.jsx";
 import MyOrientations from "./Pages/MyOrientations.jsx";
 import Modal from "./uikits/Modal.jsx";
 import PaymentCallback from "./Pages/PaymentCallback.jsx";
+import EarlyAdopter from "./Pages/EarlyAdopter.jsx";
 
 function AppWrapper() {
   const location = useLocation();
@@ -35,7 +36,8 @@ function AppWrapper() {
                     location.pathname === "/register" ||
                     location.pathname === "/login" ||
                     location.pathname === "/forgot-password" ||
-                    location.pathname === "/payment/callback";
+                    location.pathname === "/payment/callback" ||
+                    location.pathname === "/early-adopter";
 
   const publicRoutes = ["/welcome", "/register", "/login", "/forgot-password", "/payment/callback"];
 
@@ -63,6 +65,11 @@ function AppWrapper() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/payment/callback" element={<PaymentCallback />} />
+        <Route path="/early-adopter" element={
+          <ProtectedRoute>
+            <EarlyAdopter />
+          </ProtectedRoute>
+        } />
         
         <Route path="/home" element={
           <ProtectedRoute>

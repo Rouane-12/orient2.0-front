@@ -46,6 +46,7 @@ function OrientationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [hasPaid, setHasPaid] = useState(false);
+  const [canHaveFreeOrientation, setCanHaveFreeOrientation] = useState(false);
   const filesRef = useRef({});
   const { user, refreshAccessToken } = useAuth();
 
@@ -88,6 +89,30 @@ function OrientationForm() {
     // Payment check is now completely manual - no automatic checks
     // User will be prompted to pay when they try to submit the form
     setHasPaid(false);
+
+    // Check if user can have free orientation
+    const checkFreeOrientation = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        const response = await fetch(`${API_BASE_URL}api/free-orientation/check`, {
+          headers
+        });
+        const data = await response.json();
+        if (data.canHaveFree) {
+          setCanHaveFreeOrientation(true);
+          setHasPaid(true); // Skip payment for free orientation users
+        }
+      } catch (error) {
+        console.error('Error checking free orientation:', error);
+      }
+    };
+    checkFreeOrientation();
   }, []);
 
   useEffect(() => {
