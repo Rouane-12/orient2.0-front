@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PhCheckCircleFill, SvgSpinners6DotsRotate, PhArrowDown } from "../uikits/Icons";
-import ProgressBar from "@ramonak/react-progress-bar";
 import useModalStore from "../stores/modal";
 import OneSectorUniversities from "../component/result/universities";
 import Roadmap from "../component/result/roadmap";
@@ -10,17 +9,13 @@ import html2canvas from "html2canvas";
 import { toast } from 'sonner';
 import API_BASE_URL from '../config/api';
 
-const Resultat = () => {
-  const { orientId } = useParams();
-  const location = useLocation();
+const GuestResultat = () => {
+  const { guestId } = useParams();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const [position, setPosition] = useState(null);
   const { openModal } = useModalStore();
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/step');
-  }
 
   const captureScreenshot = async (elementId, fileName) => {
     const element = document.getElementById(elementId);
@@ -54,33 +49,11 @@ const Resultat = () => {
   };
 
   useEffect(() => {
-    // Check if orientation data is passed from MyOrientations page
-    if (location.state?.orientationData) {
-      setData(location.state.orientationData.data);
-      setLoading(false);
-      return;
-    }
-
-    // Check if orientation exists in localStorage history
-    const history = JSON.parse(localStorage.getItem('orienta_history') || '[]');
-    const existingOrientation = history.find(o => o.id === orientId);
-    
-    if (existingOrientation && existingOrientation.data) {
-      setData(existingOrientation.data);
-      setLoading(false);
-      return;
-    }
-
-    // Otherwise fetch from API
-    const token = localStorage.getItem('accessToken');
     axios
-      .get(`${API_BASE_URL}api/orientation/get-result/` + orientId, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      .get(`${API_BASE_URL}api/guest-orientation/get-result/` + guestId)
       .then((res) => {
         setData(res.data);
-        // Save orientation to localStorage
-        saveOrientationToHistory(res.data, orientId);
+        setPosition(res.data.position);
       })
       .catch((err) => {
         console.error(err);
@@ -91,11 +64,8 @@ const Resultat = () => {
           errorMessage = "Erreur de connexion au serveur. Vérifiez votre connexion internet.";
         } else if (err.response) {
           const backendError = err.response.data?.error;
-          if (backendError === 'Données d\'orientation introuvables' || err.response.status === 404) {
-            errorMessage = "Résultats introuvables. Cette orientation n'existe plus ou a été supprimée. Veuillez faire une nouvelle orientation.";
-            // Remove invalid orientation from localStorage
-            const updatedHistory = history.filter(o => o.id !== orientId);
-            localStorage.setItem('orienta_history', JSON.stringify(updatedHistory));
+          if (backendError === 'Données d\'orientation introuvables') {
+            errorMessage = "Résultats introuvables. Veuillez refaire votre orientation.";
           } else {
             errorMessage = backendError || "Erreur serveur. Réessayez plus tard.";
           }
@@ -106,48 +76,7 @@ const Resultat = () => {
         toast.error(errorMessage);
       })
       .finally(() => setLoading(false));
-  }, [orientId, location.state]);
-
-  const saveOrientationToHistory = (orientationData, id) => {
-    try {
-      // Only save if we have valid data and a valid ID
-      if (!orientationData || !orientationData.sectors || !id) {
-        console.warn('Invalid orientation data or ID, not saving to history');
-        return;
-      }
-
-      const history = JSON.parse(localStorage.getItem('orienta_history') || '[]');
-      
-      // Check if this orientation already exists
-      const existingIndex = history.findIndex(o => o.id === id);
-      
-      const orientationEntry = {
-        id: id,
-        date: new Date().toISOString(),
-        data: orientationData
-      };
-      
-      if (existingIndex >= 0) {
-        // Update existing entry, preserve date if it exists and is valid
-        const existingEntry = history[existingIndex];
-        if (existingEntry.date && !isNaN(new Date(existingEntry.date))) {
-          orientationEntry.date = existingEntry.date;
-        }
-        history[existingIndex] = orientationEntry;
-      } else {
-        // Add new entry
-        history.push(orientationEntry);
-      }
-      
-      // Keep only last 20 orientations
-      const trimmedHistory = history.slice(-20);
-      
-      localStorage.setItem('orienta_history', JSON.stringify(trimmedHistory));
-      console.log('Orientation saved to history:', id);
-    } catch (error) {
-      console.error('Error saving orientation to history:', error);
-    }
-  };
+  }, [guestId]);
 
   const showAllSectorUniversities = (sectorId) => {
     openModal(<OneSectorUniversities sectorId={sectorId} />);
@@ -166,7 +95,6 @@ const Resultat = () => {
             <p>Chargement des résultats…</p>
           </div>
         </div>
-
       </>
     );
   }
@@ -184,6 +112,11 @@ const Resultat = () => {
         <div className="result-left__content">
           <h2>Félicitations !</h2>
           <p>Votre parcours d'orientation est complet</p>
+          {position && (
+            <p style={{ color: '#ffb37a', fontWeight: 'bold', marginTop: '10px' }}>
+              Orientation gratuite #{position}
+            </p>
+          )}
         </div>
       </div>
 
@@ -244,8 +177,8 @@ const Resultat = () => {
         </div>
 
         <div className="result-footer">
-          <button className="btn btn-normal" onClick={() => navigate(-1)}>
-            Retour
+          <button className="btn btn-normal" onClick={() => navigate('/')}>
+            Retour à l'accueil
           </button>
         </div>
       </div>
@@ -253,4 +186,4 @@ const Resultat = () => {
   );
 };
 
-export default Resultat;
+export default GuestResultat;

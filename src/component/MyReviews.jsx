@@ -73,16 +73,17 @@ const MyReviews = ({ onClose }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const userId = localStorage.getItem('orienta_user_id');
+    const token = localStorage.getItem('accessToken');
     
     try {
-      await axios.put(`${API_BASE_URL}api/reviews/${editingReview._id}`, {
-        ...editFormData,
-        userId
+      await axios.put(`${API_BASE_URL}api/reviews/${editingReview._id}`, editFormData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       
       // Refresh reviews
-      fetchUserReviews(userId);
+      fetchUserReviews(editingReview.userId);
       handleCancelEdit();
       toast.success('Avis mis à jour avec succès !');
     } catch (error) {
@@ -112,13 +113,18 @@ const MyReviews = ({ onClose }) => {
       return;
     }
 
-    const userId = localStorage.getItem('orienta_user_id');
+    const token = localStorage.getItem('accessToken');
     
     try {
-      await axios.delete(`${API_BASE_URL}api/reviews/${reviewId}`, { data: { userId } });
+      await axios.delete(`${API_BASE_URL}api/reviews/${reviewId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        data: {} // Send empty data object since userId is now from auth token
+      });
       
       // Refresh reviews
-      fetchUserReviews(userId);
+      fetchUserReviews(editingReview.userId);
       toast.success('Avis supprimé avec succès !');
     } catch (error) {
       console.error('Erreur suppression avis:', error);

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Orientations</title>
+</head>
+<body>
+    <h1>Nettoyage des orientations sans date</h1>
+    <p>Cette page va nettoyer les orientations sans date valide dans le localStorage.</p>
+    <button onclick="fixOrientations()">Nettoyer les orientations</button>
+    <div id="result"></div>
+
+    <script>
+        function fixOrientations() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const stored = localStorage.getItem('orienta_history');
+                
+                if (!stored) {
+                    resultDiv.innerHTML = '<p style="color: green;">Aucune orientation trouvée dans le localStorage.</p>';
+                    return;
+                }
+                
+                const parsed = JSON.parse(stored);
+                console.log('Orientations avant nettoyage:', parsed);
+                
+                // Filter out orientations without valid date
+                const validOrientations = parsed.filter(o => {
+                    const hasValidId = o.id;
+                    const hasValidData = o.data && o.data.sectors && Array.isArray(o.data.sectors) && o.data.sectors.length > 0;
+                    const hasValidDate = o.date && !isNaN(new Date(o.date));
+                    return hasValidId && hasValidData && hasValidDate;
+                });
+                
+                console.log('Orientations valides:', validOrientations);
+                console.log('Nombre d\'orientations supprimées:', parsed.length - validOrientations.length);
+                
+                // Update localStorage
+                localStorage.setItem('orienta_history', JSON.stringify(validOrientations));
+                
+                resultDiv.innerHTML = `
+                    <p style="color: green;">Nettoyage terminé avec succès !</p>
+                    <p>Nombre d'orientations avant: ${parsed.length}</p>
+                    <p>Nombre d'orientations après: ${validOrientations.length}</p>
+                    <p>Nombre d'orientations supprimées: ${parsed.length - validOrientations.length}</p>
+                `;
+                
+                // Reload the page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '/my-orientations';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                resultDiv.innerHTML = `<p style="color: red;">Erreur: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

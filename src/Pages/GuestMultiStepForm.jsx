@@ -7,9 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { CustomInputCheckbox, CustomInputRadio } from '../uikits/form/choices';
 import { CustomInputFile } from '../uikits/form/file';
 import { SvgSpinners6DotsRotate } from '../uikits/Icons';
-import PaymentModal from '../components/PaymentModal';
 import API_BASE_URL from '../config/api';
-import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 
 const config = {
@@ -37,26 +35,26 @@ const FILE_FIELDS = [
   "final_exam_data"
 ];
 
-function OrientationForm() {
-  const TOTAL_STEPS = 5;
+function GuestOrientationForm() {
+  const TOTAL_STEPS = 7;
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const [userData, setUD] = useState();
   const [enums, setEnums] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [hasPaid, setHasPaid] = useState(false);
-  const [canHaveFreeOrientation, setCanHaveFreeOrientation] = useState(false);
+  const [showRankPopup, setShowRankPopup] = useState(false);
+  const [rankInfo, setRankInfo] = useState(null);
   const filesRef = useRef({});
 
   // Fonction pour formater les labels (remplacer les underscores par des espaces)
   const formatEnumLabel = (value) => {
     return value.replace(/_/g, ' ');
   };
-  const { user, refreshAccessToken } = useAuth();
 
   const { register, handleSubmit, reset, resetField, watch, getValues } = useForm({
     defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
       upload_choice: '',
       interest_center: '',
       school_type: "",
@@ -90,35 +88,23 @@ function OrientationForm() {
     fetchEnums();
   }, []);
 
+  // Check rank when moving from step 1 to step 2
   useEffect(() => {
-    // Payment check is now completely manual - no automatic checks
-    // User will be prompted to pay when they try to submit the form
-    setHasPaid(false);
-
-    // Check if user can have free orientation
-    const checkFreeOrientation = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const headers = {
-          'Content-Type': 'application/json'
-        };
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
+    if (step === 2 && !rankInfo) {
+      const checkRank = async () => {
+        try {
+          const res = await axios.get(`${API_BASE_URL}api/free-orientation/check-rank`);
+          if (res.data.rank) {
+            setRankInfo(res.data);
+            setShowRankPopup(true);
+          }
+        } catch (err) {
+          console.error('Erreur lors de la vérification du rang:', err);
         }
-        const response = await fetch(`${API_BASE_URL}api/free-orientation/check`, {
-          headers
-        });
-        const data = await response.json();
-        if (data.canHaveFree) {
-          setCanHaveFreeOrientation(true);
-          setHasPaid(true); // Skip payment for free orientation users
-        }
-      } catch (error) {
-        console.error('Error checking free orientation:', error);
-      }
-    };
-    checkFreeOrientation();
-  }, []);
+      };
+      checkRank();
+    }
+  }, [step, rankInfo]);
 
   useEffect(() => {
     reset(formData);
@@ -129,20 +115,16 @@ function OrientationForm() {
 
   const extractAndSaveFiles = (data) => {
     FILE_FIELDS.forEach(field => {
-      // Check if data has the field, and it's a FileList or array with a File
       const fieldData = data[field];
       if (fieldData) {
-        // Handle both FileList and regular arrays
         const filesArray = Array.isArray(fieldData) ? fieldData : Array.from(fieldData);
         if (filesArray.length > 0 && filesArray[0] instanceof File) {
           const file = filesArray[0];
-          // Cache file information and create a new File object to avoid errors
           const cachedFile = new File([file], file.name, { type: file.type });
           filesRef.current[field] = cachedFile;
           fileCache.current[field] = cachedFile;
         }
       } else if (fileCache.current[field]) {
-        // Use cached file if available
         filesRef.current[field] = fileCache.current[field];
       }
       delete data[field];
@@ -151,21 +133,13 @@ function OrientationForm() {
 
   const onNext = async (data) => {
     extractAndSaveFiles(data);
-
     const updatedData = { ...formData, ...data };
     setFormData(updatedData);
-    localStorage.setItem('orientationFormData', JSON.stringify(updatedData));
-
-    // User data is already stored from registration, no need to create user again
+    localStorage.setItem('guestOrientationFormData', JSON.stringify(updatedData));
     setStep(prev => prev + 1);
   };
 
   const onSubmit = async (data) => {
-    if (!hasPaid) {
-      setShowPaymentModal(true);
-      return;
-    }
-
     extractAndSaveFiles(data);
 
     const finalData = { ...formData, ...data };
@@ -181,7 +155,9 @@ function OrientationForm() {
     setIsSubmitting(true);
 
     const payload = {
-      userId: user.id,
+      first_name: finalData.first_name,
+      last_name: finalData.last_name,
+      email: finalData.email,
       interest_center: finalData.interest_center,
       school_type: finalData.school_type,
       school_favorite_subject: finalData.school_favorite_subject || [],
@@ -216,22 +192,15 @@ function OrientationForm() {
     });
 
     try {
-      const token = localStorage.getItem('accessToken');
-      const orientReq = await axios.post(`${API_BASE_URL}api/orientation`, payloadFormData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const orientReq = await axios.post(`${API_BASE_URL}api/guest-orientation`, payloadFormData);
       
       if (orientReq.data.success === false) {
-        if (orientReq.data.requiresPayment) {
-          setShowPaymentModal(true);
-          return;
-        }
         toast.error(orientReq.data.error || 'Erreur lors de la soumission');
         return;
       }
       
       toast.success('Formulaire soumis avec succès !');
-      navigate('/resultat/' + orientReq.data.orientId);
+      navigate('/guest-result/' + orientReq.data.guestId);
     } catch (err) {
       console.error("Erreur lors de l'envoi du formulaire :", err);
 
@@ -243,14 +212,10 @@ function OrientationForm() {
         errorMessage = "Erreur avec un fichier : Réessayez de sélectionner les fichiers avant de soumettre !";
       } else if (err.response) {
         const backendError = err.response.data?.error;
-        if (backendError === 'Paiement requis') {
-          errorMessage = "Paiement requis. Veuillez effectuer le paiement de 200 FCFA pour générer votre orientation.";
-          setShowPaymentModal(true);
-          return;
+        if (backendError === 'Les 20 orientations gratuites ont été utilisées') {
+          errorMessage = "Les 20 orientations gratuites ont été utilisées. Veuillez vous connecter pour continuer.";
         } else if (backendError === 'Fichiers manquants') {
           errorMessage = "Fichiers manquants. Les bulletins finaux et le relevé de BAC sont requis.";
-        } else if (backendError === 'Erreur lors du traitement des documents') {
-          errorMessage = "Erreur lors du traitement des documents. Vérifiez que vos fichiers sont lisibles.";
         } else {
           errorMessage = backendError || `Erreur serveur : ${err.response.statusText} (${err.response.status})`;
         }
@@ -262,15 +227,6 @@ function OrientationForm() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handlePaymentSuccess = () => {
-    setHasPaid(true);
-    setShowPaymentModal(false);
-    // Automatically submit the form after payment success
-    const currentValues = getValues();
-    const finalData = { ...formData, ...currentValues };
-    onSubmit(finalData);
   };
 
   const handlePrevious = () => {
@@ -290,6 +246,49 @@ function OrientationForm() {
       <p>Envoi du formulaire en cours...</p>
     </div>
   );
+
+  // Rank popup
+  if (showRankPopup && rankInfo) {
+    return (
+      <div className="modal flex" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, background: 'rgba(0, 0, 0, 0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+        <div style={{ background: 'linear-gradient(135deg, rgba(230, 112, 40, 0.95) 0%, rgba(202, 89, 35, 0.95) 100%)', border: '2px solid rgba(255, 179, 122, 0.5)', borderRadius: '20px', maxWidth: '500px', width: '100%', padding: '40px', textAlign: 'center', position: 'relative' }}>
+          <button 
+            onClick={() => setShowRankPopup(false)}
+            style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: 'rgba(255, 255, 255, 0.7)', fontSize: '24px', cursor: 'pointer' }}
+          >
+            ×
+          </button>
+          <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎉</div>
+          <h2 style={{ fontSize: '1.8rem', fontWeight: '700', color: 'white', marginBottom: '16px' }}>
+            Félicitations !
+          </h2>
+          <p style={{ fontSize: '1.2rem', color: 'rgba(255, 255, 255, 0.95)', marginBottom: '24px' }}>
+            Vous êtes le <strong style={{ color: 'white', fontSize: '1.5rem' }}>{rankInfo.rank}{rankInfo.rank === 1 ? 'er' : 'e'}</strong> utilisateur !
+          </p>
+          <p style={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '32px' }}>
+            Il reste <strong style={{ color: 'white' }}>{rankInfo.remaining}</strong> orientations gratuites.
+          </p>
+          <button
+            onClick={() => setShowRankPopup(false)}
+            style={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)',
+              border: 'none',
+              padding: '16px 40px',
+              borderRadius: '50px',
+              color: '#e67028',
+              fontSize: '1.1rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+              width: '100%'
+            }}
+          >
+            Continuer
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="form-container">
@@ -315,9 +314,51 @@ function OrientationForm() {
 
         {step === 1 && (
           <form onSubmit={handleSubmit(onNext)}>
-            <h3>Preference et Documents scolaires</h3>
-            <h3>Quel type d'université souhaitez vous frequentez ?</h3>
-            <select {...register("school_type")} required>
+            <h3>Informations personnelles</h3>
+            <p style={{ marginBottom: '12px' }}>Commençons par vous connaître</p>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: '#fafafa' }}>Prénom *</label>
+              <input 
+                {...register("first_name", { required: 'Ce champ est requis' })}
+                type="text"
+                placeholder="Votre prénom"
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: '#fafafa', fontSize: '0.95rem' }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: '#fafafa' }}>Nom *</label>
+              <input 
+                {...register("last_name", { required: 'Ce champ est requis' })}
+                type="text"
+                placeholder="Votre nom"
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: '#fafafa', fontSize: '0.95rem' }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: '#fafafa' }}>Email *</label>
+              <input 
+                {...register("email", { required: 'Ce champ est requis', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Email invalide' } })}
+                type="email"
+                placeholder="votre@email.com"
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: '#fafafa', fontSize: '0.95rem' }}
+              />
+            </div>
+
+            <div className="button-group">
+              <button type="button" onClick={handlePrevious} disabled>Précédent</button>
+              <button type="submit">Suivant</button>
+            </div>
+          </form>
+        )}
+
+        {step === 2 && (
+          <form onSubmit={handleSubmit(onNext)}>
+            <h3>Préférences et Documents scolaires</h3>
+            <p style={{ marginBottom: '12px' }}>Quel type d'université souhaitez-vous fréquenter ?</p>
+            <select {...register("school_type")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               <option value="public">Public</option>
               <option value="private">Privé</option>
@@ -347,8 +388,6 @@ function OrientationForm() {
             <CustomInputFile register={register} name={"final_exam_data"} label={"Relevé du Bac :"}
               watch={watch} resetField={resetField} require={{ required: 'Ce champ est requis' }} />
 
-            <div style={{ marginTop: '3rem' }}></div>
-
             <div className="button-group">
               <button type="button" onClick={handlePrevious}>Précédent</button>
               <button type="submit">Suivant</button>
@@ -356,7 +395,7 @@ function OrientationForm() {
           </form>
         )}
 
-        {step === 2 && (
+        {step === 3 && (
           <form onSubmit={handleSubmit(onNext)}>
             <h3>Centre d'intérêt</h3>
             <p style={{ marginBottom: '12px' }}>Quel est votre centre d'intérêt ?</p>
@@ -372,8 +411,6 @@ function OrientationForm() {
               options={enums.FavoriteSubjectsEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
             />
 
-            <div style={{ marginTop: '3rem' }}></div>
-
             <div className="button-group">
               <button type="button" onClick={handlePrevious}>Précédent</button>
               <button type="submit">Suivant</button>
@@ -381,7 +418,7 @@ function OrientationForm() {
           </form>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <form onSubmit={handleSubmit(onNext)}>
             <h2 style={{ color: '#ffffff', textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>Compétences et Objectifs professionnels</h2>
 
@@ -400,7 +437,7 @@ function OrientationForm() {
           </form>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <form onSubmit={handleSubmit(onNext)}>
             <h3>Langues & Contraintes</h3>
             <CustomInputRadio register={register} name={"like_external_langage"}
@@ -441,12 +478,12 @@ function OrientationForm() {
           </form>
         )}
 
-        {step === 5 && (
-          <form onSubmit={handleSubmit(onSubmit)}>
+        {step === 6 && (
+          <form onSubmit={handleSubmit(onNext)}>
             <h3>Style de travail & Préférences</h3>
             
-            <p>Quel est ton style de travail préféré ?</p>
-            <select {...register("work_style")} required>
+            <p style={{ marginBottom: '12px' }}>Quel est ton style de travail préféré ?</p>
+            <select {...register("work_style")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               <option value="autonome">Travail autonome et indépendant</option>
               <option value="equipe">Travail en équipe collaboratif</option>
@@ -454,8 +491,8 @@ function OrientationForm() {
               <option value="encadre">Travail encadré avec supervision</option>
             </select>
 
-            <p>Quel environnement de travail te convient le mieux ?</p>
-            <select {...register("work_environment")} required>
+            <p style={{ marginBottom: '12px' }}>Quel environnement de travail te convient le mieux ?</p>
+            <select {...register("work_environment")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               <option value="bureau">En bureau / espace de travail</option>
               <option value="exterieur">En extérieur / terrain</option>
@@ -463,8 +500,8 @@ function OrientationForm() {
               <option value="variable">Environnement variable</option>
             </select>
 
-            <p>Quel niveau de responsabilité recherches-tu ?</p>
-            <select {...register("responsibility_level")} required>
+            <p style={{ marginBottom: '12px' }}>Quel niveau de responsabilité recherches-tu ?</p>
+            <select {...register("responsibility_level")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               <option value="execution">Rôle d'exécution / tâches définies</option>
               <option value="gestion">Rôle de gestion / coordination</option>
@@ -472,8 +509,8 @@ function OrientationForm() {
               <option value="leadership">Rôle de leadership / direction</option>
             </select>
 
-            <p>Quel est ton style d'apprentissage ?</p>
-            <select {...register("learning_style")} required>
+            <p style={{ marginBottom: '12px' }}>Quel est ton style d'apprentissage ?</p>
+            <select {...register("learning_style")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               <option value="theorique">Théorique / académique</option>
               <option value="pratique">Pratique / terrain</option>
@@ -481,8 +518,16 @@ function OrientationForm() {
               <option value="mixte">Mixte (théorie et pratique)</option>
             </select>
 
-            <div style={{ marginTop: '3rem' }}></div>
-
+            <div className="button-group">
+              <button type="button" onClick={handlePrevious}>Précédent</button>
+              <button type="submit">Suivant</button>
+            </div>
+          </form>
+        )}
+        {step === 7 && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <h3>Confirmation</h3>
+            <p>Vous êtes sur le point de soumettre votre orientation gratuite.</p>
             <div className="button-group">
               <button type="button" onClick={handlePrevious}>Précédent</button>
               <button type="submit">Valider</button>
@@ -490,14 +535,8 @@ function OrientationForm() {
           </form>
         )}
       </div>
-
-      <PaymentModal 
-        isOpen={showPaymentModal}
-        onClose={() => setShowPaymentModal(false)}
-        onSuccess={handlePaymentSuccess}
-      />
     </div>
   );
 }
 
-export default OrientationForm;
+export default GuestOrientationForm;

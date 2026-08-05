@@ -6,6 +6,7 @@ import s from "../style/HomeNew.module.css";
 
 export default function MyOrientations() {
   const [orientations, setOrientations] = useState([]);
+  const [isCleared, setIsCleared] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,7 +16,36 @@ export default function MyOrientations() {
   const loadOrientations = () => {
     const stored = localStorage.getItem('orienta_history');
     if (stored) {
-      setOrientations(JSON.parse(stored));
+      try {
+        const parsed = JSON.parse(stored);
+        
+        // Filter out orientations without valid data or valid date
+        const validOrientations = parsed.filter(o => {
+          const hasValidId = o.id;
+          const hasValidData = o.data && o.data.sectors && Array.isArray(o.data.sectors) && o.data.sectors.length > 0;
+          const hasValidDate = o.date && !isNaN(new Date(o.date));
+          return hasValidId && hasValidData && hasValidDate;
+        });
+        
+        // Always update localStorage with cleaned data to prevent invalid entries from persisting
+        if (validOrientations.length !== parsed.length) {
+          localStorage.setItem('orienta_history', JSON.stringify(validOrientations));
+          console.log('✅ Nettoyage automatique:', parsed.length - validOrientations.length, 'orientations invalides supprimées');
+        }
+        
+        // Sort by date (most recent first)
+        const sorted = validOrientations.sort((a, b) => {
+          const dateA = a.date ? new Date(a.date).getTime() : 0;
+          const dateB = b.date ? new Date(b.date).getTime() : 0;
+          return dateB - dateA;
+        });
+        setOrientations(sorted);
+      } catch (error) {
+        console.error("Error parsing orientations:", error);
+        // Clear corrupted data
+        localStorage.removeItem('orienta_history');
+        setOrientations([]);
+      }
     }
   };
 
@@ -28,8 +58,8 @@ export default function MyOrientations() {
   };
 
   const handleView = (orientation) => {
-    // Navigate to result page with stored data
-    navigate('/resultat', { state: { orientationData: orientation } });
+    // Navigate to result page with stored data and ID in URL
+    navigate('/resultat/' + orientation.id, { state: { orientationData: orientation } });
   };
 
   return (
@@ -169,17 +199,21 @@ export default function MyOrientations() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                   <div>
                     <h3 style={{ color: '#fafafa', fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-                      Orientation #{orientations.length - index}
+                      Orientation du {orientation.date && !isNaN(new Date(orientation.date)) ? new Date(orientation.date).toLocaleDateString('fr-FR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      }) : 'Date inconnue'}
                     </h3>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#a0a0a0', fontSize: '0.9rem' }}>
                       <Calendar size={16} />
-                      {new Date(orientation.date).toLocaleDateString('fr-FR', {
+                      {orientation.date && !isNaN(new Date(orientation.date)) ? new Date(orientation.date).toLocaleDateString('fr-FR', {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric',
                         hour: '2-digit',
                         minute: '2-digit'
-                      })}
+                      }) : 'Date non disponible'}
                     </div>
                   </div>
                   <button

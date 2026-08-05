@@ -296,7 +296,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {promoStatus && promoStatus.isPromoActive && (
+      {promoStatus && promoStatus.isPromoActive && !user && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -656,7 +656,6 @@ export default function Home() {
           />
           <div className={s.statsGrid}>
             <StatCard value={stats.students_accompanied} suffix="+" label="Étudiants accompagnés" />
-            <StatCard value={stats.satisfaction_rate} suffix="%" label="Satisfaction" />
             <StatCard value={stats.universities_partners} suffix="+" label="Universités partenaires" />
             <StatCard value={stats.sectors_indexed} suffix="+" label="Filières indexées" />
           </div>
@@ -777,7 +776,7 @@ export default function Home() {
         </div>
       </section>
 
-      {promoStatus && promoStatus.isPromoActive && (
+      {promoStatus && promoStatus.isPromoActive && !user && (
         <section className={s.section} style={{ paddingTop: 40 }}>
           <div className={s.container}>
             <motion.div

@@ -40,7 +40,7 @@
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 40px;
+  padding: 24px;
   width: 100%;
   max-width: 450px;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
@@ -51,7 +51,7 @@
 
 .auth-brand {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 6px;
 }
 
 .auth-brand h2 {
@@ -63,14 +63,14 @@
 
 .auth-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 8px;
 }
 
 .auth-header h1 {
   font-size: 2rem;
   font-weight: 700;
   color: #fafafa;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   background: linear-gradient(135deg, #ffb37a 0%, #e67028 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -85,13 +85,13 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  
 }
 
 .form-group label {
@@ -148,9 +148,9 @@
 
 .otp-input {
   text-align: center;
-  font-size: 1.5rem;
-  letter-spacing: 8px;
-  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: normal;
+  font-weight: 500;
 }
 
 .form-actions {
@@ -164,6 +164,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.3s ease;
+  padding-bottom: 5px;
 }
 
 .forgot-link:hover {
@@ -216,8 +217,8 @@
 
 .auth-footer {
   text-align: center;
-  margin-top: 25px;
-  padding-top: 20px;
+  margin-top: 6px;
+  padding-top: 6px;
   border-top: 1px solid rgba(255, 179, 122, 0.2);
 }
 
@@ -288,8 +289,8 @@
   }
 
   .otp-input {
-    font-size: 1.25rem;
-    letter-spacing: 4px;
+    font-size: 1rem;
+    letter-spacing: normal;
   }
 
   .btn-primary {

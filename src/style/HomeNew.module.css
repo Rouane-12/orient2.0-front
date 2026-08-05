@@ -939,6 +939,7 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .heroGrid {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 
   .grid3 {
@@ -993,11 +994,24 @@
     padding: 10px 14px;
     font-size: 0.8rem;
   }
+
+  .ctaCard {
+    padding: 48px 24px;
+  }
+
+  .ctaTitle {
+    font-size: 1.75rem;
+  }
+
+  .faq {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .heroGrid {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 
   .grid3 {
@@ -1081,6 +1095,90 @@
   .container {
     padding: 0;
   }
+
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+
+  .sectionLead {
+    font-size: 1rem;
+  }
+
+  .glass {
+    padding: 20px;
+  }
+
+  .iconWrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+
+  .cardText {
+    font-size: 0.875rem;
+  }
+
+  .stepDot {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+  }
+
+  .stepTitle {
+    font-size: 1rem;
+  }
+
+  .stepText {
+    font-size: 0.875rem;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+
+  .statLabel {
+    font-size: 0.875rem;
+  }
+
+  .tCard {
+    flex: 0 0 280px;
+    padding: 20px;
+  }
+
+  .tAvatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .faq {
+    max-width: 100%;
+  }
+
+  .faqBtn {
+    font-size: 0.95rem;
+    padding: 16px 0;
+  }
+
+  .faqBody {
+    font-size: 0.9rem;
+  }
+
+  .ctaCard {
+    padding: 40px 20px;
+  }
+
+  .ctaTitle {
+    font-size: 1.5rem;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1102,5 +1200,148 @@
 
   .eyebrow {
     font-size: 0.75rem;
+  }
+
+  .heroCtas {
+    width: 100%;
+  }
+
+  .btnLg {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .section {
+    padding: 48px 12px;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .sectionLead {
+    font-size: 0.9rem;
+  }
+
+  .grid3 {
+    gap: 16px;
+  }
+
+  .glass {
+    padding: 16px;
+  }
+
+  .iconWrap {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
+  }
+
+  .cardTitle {
+    font-size: 0.95rem;
+  }
+
+  .cardText {
+    font-size: 0.85rem;
+  }
+
+  .stepDot {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .stepTitle {
+    font-size: 0.95rem;
+  }
+
+  .stepText {
+    font-size: 0.85rem;
+  }
+
+  .statValue {
+    font-size: 1.75rem;
+  }
+
+  .statLabel {
+    font-size: 0.8rem;
+  }
+
+  .tGrid {
+    padding: 4px 0;
+  }
+
+  .tCard {
+    flex: 0 0 260px;
+    padding: 16px;
+  }
+
+  .tQuote {
+    font-size: 0.875rem;
+  }
+
+  .tAvatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tName {
+    font-size: 0.95rem;
+  }
+
+  .tRole {
+    font-size: 0.8rem;
+  }
+
+  .faq {
+    margin: 32px auto 0;
+  }
+
+  .faqBtn {
+    font-size: 0.9rem;
+    padding: 14px 0;
+  }
+
+  .faqBody {
+    font-size: 0.85rem;
+  }
+
+  .ctaCard {
+    padding: 32px 16px;
+  }
+
+  .ctaTitle {
+    font-size: 1.25rem;
+  }
+
+  .phone {
+    width: 180px;
+    height: 360px;
+  }
+
+  .phoneScreen {
+    padding: 16px;
+  }
+
+  .phoneHeader {
+    margin-bottom: 16px;
+  }
+
+  .recoCard {
+    padding: 12px;
+  }
+
+  .recoName {
+    font-size: 0.875rem;
+  }
+
+  .recoTag {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+
+  .recoMeta {
+    font-size: 0.7rem;
   }
 }

@@ -61,12 +61,17 @@ export default function Welcome() {
         const response = await fetch(`${API_BASE_URL}api/free-orientation/status`);
         const data = await response.json();
         setPromoStatus(data);
+        
+        // Redirect to promo ended page if promotion is inactive
+        if (!data.isPromoActive) {
+          navigate('/promo-ended');
+        }
       } catch (error) {
         console.error('Error fetching promo status:', error);
       }
     };
     fetchPromoStatus();
-  }, []);
+  }, [navigate]);
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -208,6 +213,32 @@ export default function Welcome() {
         </motion.div>
       )}
 
+      {!promoStatus || !promoStatus.isPromoActive && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{
+            background: 'linear-gradient(135deg, #666 0%, #444 100%)',
+            padding: '10px 18px',
+            textAlign: 'center',
+            color: 'white',
+            fontSize: '0.9rem',
+            fontWeight: '500',
+            width: '100%',
+            position: 'absolute',
+            top: '85px',
+            left: '0',
+            right: '0'
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <Lock size={16} />
+            <span>L'offre gratuite est terminée. Connectez-vous pour faire une orientation.</span>
+          </span>
+        </motion.div>
+      )}
+
       <header className={s.hero}>
         <div className={s.container}>
           <div className={s.heroGrid}>
@@ -227,9 +258,15 @@ export default function Welcome() {
                 "Grâce à notre plateforme d'orientation, découvre les filières, métiers et parcours qui te correspondent vraiment. Que tu sois étudiant, lycéen ou en reconversion, on t'accompagne pour faire les bons choix, en toute confiance."
               </p>
               <div className={s.heroCtas}>
-                <MagneticButton primary onClick={() => navigate('/login')}>
-                  Commencer l'orientation <ArrowRight size={16} />
-                </MagneticButton>
+                {promoStatus && promoStatus.isPromoActive ? (
+                  <MagneticButton primary onClick={() => navigate('/guest-step')}>
+                    Commencer l'orientation <ArrowRight size={16} />
+                  </MagneticButton>
+                ) : (
+                  <MagneticButton primary onClick={() => navigate('/login')}>
+                    Se connecter pour commencer <ArrowRight size={16} />
+                  </MagneticButton>
+                )}
               </div>
               <div className={s.heroTrust}>
                 <div className={s.trustItem}>
@@ -293,7 +330,6 @@ export default function Welcome() {
           />
           <div className={s.statsGrid}>
             <StatCard value={stats.students_accompanied} suffix="+" label="Étudiants accompagnés" />
-            <StatCard value={stats.satisfaction_rate} suffix="%" label="Satisfaction" />
             <StatCard value={stats.universities_partners} suffix="+" label="Universités partenaires" />
             <StatCard value={stats.sectors_indexed} suffix="+" label="Filières indexées" />
           </div>
@@ -854,7 +890,9 @@ const universities = [
 ];
 
 const faq = [
-  { q: "Orient+ est-il gratuit ?", a: "Les 20 premiers utilisateurs bénéficient de leur première orientation GRATUITE ! Après cette promotion, chaque orientation coûte 200 FCFA." },
+  { q: "Comment fonctionne l'offre gratuite ?", a: "Les 20 premiers utilisateurs bénéficient d'une orientation GRATUITE sans se connecter ! Tant que cette promotion est active, vous pouvez faire votre orientation gratuitement en mode invité. Une fois les 20 orientations utilisées, la promotion se termine et il faudra se connecter et payer 200 FCFA pour faire une orientation." },
+  { q: "Dois-je me connecter pour l'offre gratuite ?", a: "Non ! Tant que les 20 orientations gratuites ne sont pas terminées, vous pouvez faire votre orientation sans créer de compte ni vous connecter. C'est une offre découverte pour les premiers utilisateurs. Après la promotion, la connexion sera obligatoire." },
+  { q: "Que se passe-t-il après les 20 orientations gratuites ?", a: "Une fois les 20 orientations gratuites utilisées, l'offre se termine. Vous verrez une page expliquant comment fonctionne Orient+ et vous invitant à vous connecter. Après connexion, chaque orientation coûtera 200 FCFA." },
   { q: "Mes données sont-elles protégées ?", a: "Toujours. Nous chiffrons tes informations, ne les revendons jamais et tu peux supprimer ton profil à tout moment." },
   { q: "Est-ce adapté à toutes les séries du BAC ?", a: "Oui, séries scientifiques, littéraires, technologiques et professionnelles — l'IA adapte ses recommandations à chaque profil." },
   { q: "Puis-je l'utiliser sur mobile ?", a: "Absolument. L'expérience est optimisée pour smartphone, tablette et ordinateur, avec un design pensé mobile-first." },

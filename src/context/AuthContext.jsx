@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem('accessToken'));
 
   useEffect(() => {
     checkAuth();
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
+    setToken(accessToken);
     setIsAuthenticated(true);
   };
 
@@ -70,6 +72,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
       setUser(null);
+      setToken(null);
       setIsAuthenticated(false);
       // Don't show toast on automatic logout
     }
@@ -86,12 +89,15 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.post(`${API_BASE_URL}api/auth/refresh-token`, {
         refreshToken
+      }, {
+        timeout: 5000
       });
 
       const { accessToken, refreshToken: newRefreshToken } = response.data;
       
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', newRefreshToken);
+      setToken(accessToken);
       
       return accessToken;
     } catch (error) {
@@ -102,7 +108,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, login, logout, refreshAccessToken }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, login, logout, refreshAccessToken, token }}>
       {children}
     </AuthContext.Provider>
   );
