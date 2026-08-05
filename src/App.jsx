@@ -53,12 +53,6 @@ function AppWrapper() {
 
   const publicRoutes = ["/welcome", "/register", "/login", "/forgot-password", "/payment/callback"];
 
-  // Redirection intelligente : vers dashboard si connecté, sinon vers welcome
-  const RootRedirect = () => {
-    if (loading) return null;
-    return <Navigate to={isAuthenticated ? "/dashboard" : "/welcome"} replace />;
-  };
-
   // Redirection pour welcome si déjà connecté
   const WelcomeRedirect = () => {
     if (loading) return null;
@@ -92,7 +86,7 @@ function AppWrapper() {
       <Toaster position="top-right" richColors />
       <Modal />
       <Routes>
-        <Route path="/" element={<RootRedirect />} />
+        <Route path="/" element={<WelcomeRedirect />} />
         <Route path="/welcome" element={<WelcomeRedirect />} />
         <Route path="/register" element={<RegisterRedirect />} />
         <Route path="/login" element={<LoginRedirect />} />

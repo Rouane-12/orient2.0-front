@@ -64,8 +64,9 @@ export default function Welcome() {
         const data = await response.json();
         setPromoStatus(data);
         
-        // Redirect to promo ended page if promotion is inactive
-        if (!data.isPromoActive) {
+        // Ne rediriger vers promo-ended que si l'utilisateur n'a pas déjà fait une orientation gratuite
+        const hasGuestOrientation = localStorage.getItem('guest_orientation_id');
+        if (!data.isPromoActive && !hasGuestOrientation) {
           navigate('/promo-ended');
         }
       } catch (error) {

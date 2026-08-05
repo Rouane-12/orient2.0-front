@@ -42,6 +42,14 @@ function GuestOrientationForm() {
   const [enums, setEnums] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const filesRef = useRef({});
+  const [deviceId] = useState(() => {
+    let id = localStorage.getItem('guest_device_id');
+    if (!id) {
+      id = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('guest_device_id', id);
+    }
+    return id;
+  });
 
   // Fonction pour formater les labels (remplacer les underscores par des espaces)
   const formatEnumLabel = (value) => {
@@ -135,6 +143,7 @@ function GuestOrientationForm() {
     setIsSubmitting(true);
 
     const payload = {
+      deviceId: deviceId,
       first_name: finalData.first_name,
       last_name: finalData.last_name,
       email: finalData.email,
@@ -176,8 +185,15 @@ function GuestOrientationForm() {
       
       if (orientReq.data.success === false) {
         toast.error(orientReq.data.error || 'Erreur lors de la soumission');
+        if (orientReq.data.alreadyUsed) {
+          // Si déjà utilisé, rediriger vers login
+          setTimeout(() => navigate('/login'), 2000);
+        }
         return;
       }
+      
+      // Stocker l'ID d'orientation gratuite dans localStorage
+      localStorage.setItem('guest_orientation_id', orientReq.data.guestId);
       
       toast.success('Formulaire soumis avec succès !');
       navigate('/guest-result/' + orientReq.data.guestId);
