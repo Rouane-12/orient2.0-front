@@ -164,8 +164,12 @@ function GuestOrientationForm() {
 
     const payloadFormData = new FormData();
 
+    // Ajouter deviceId en premier
+    payloadFormData.append('deviceId', deviceId);
+
     for (const key in payload) {
       if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        if (key === 'deviceId') continue; // Déjà ajouté
         if (Array.isArray(payload[key])) {
           payload[key].forEach(element => payloadFormData.append(key, element));
         } else {

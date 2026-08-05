@@ -17,6 +17,7 @@ export default function Welcome() {
   const [promoStatus, setPromoStatus] = useState(null);
   const [showRankPopup, setShowRankPopup] = useState(false);
   const [rankInfo, setRankInfo] = useState(null);
+  const [hasUsedFreeOrientation, setHasUsedFreeOrientation] = useState(false);
   const pageRef = useRef(null);
   const navigate = useNavigate();
 
@@ -57,6 +58,10 @@ export default function Welcome() {
   }, []);
 
   useEffect(() => {
+    // Vérifier si l'utilisateur a déjà utilisé l'orientation gratuite
+    const hasGuestOrientation = localStorage.getItem('guest_orientation_id');
+    setHasUsedFreeOrientation(!!hasGuestOrientation);
+
     // Fetch promo status
     const fetchPromoStatus = async () => {
       try {
@@ -65,7 +70,6 @@ export default function Welcome() {
         setPromoStatus(data);
         
         // Ne rediriger vers promo-ended que si l'utilisateur n'a pas déjà fait une orientation gratuite
-        const hasGuestOrientation = localStorage.getItem('guest_orientation_id');
         if (!data.isPromoActive && !hasGuestOrientation) {
           navigate('/promo-ended');
         }
@@ -210,7 +214,7 @@ export default function Welcome() {
         )}
       </AnimatePresence>
 
-      {promoStatus && promoStatus.isPromoActive && (
+      {promoStatus && promoStatus.isPromoActive && !hasUsedFreeOrientation && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -282,9 +286,20 @@ export default function Welcome() {
                 "Grâce à notre plateforme d'orientation, découvre les filières, métiers et parcours qui te correspondent vraiment. Que tu sois étudiant, lycéen ou en reconversion, on t'accompagne pour faire les bons choix, en toute confiance."
               </p>
               <div className={s.heroCtas}>
-                {promoStatus && promoStatus.isPromoActive ? (
+                {promoStatus && promoStatus.isPromoActive && !hasUsedFreeOrientation ? (
                   <MagneticButton primary onClick={handleStartOrientation}>
                     Commencer l'orientation <ArrowRight size={16} />
+                  </MagneticButton>
+                ) : hasUsedFreeOrientation ? (
+                  <MagneticButton primary onClick={() => {
+                    const guestId = localStorage.getItem('guest_orientation_id');
+                    if (guestId) {
+                      navigate('/guest-result/' + guestId);
+                    } else {
+                      navigate('/login');
+                    }
+                  }}>
+                    Voir mes résultats <ArrowRight size={16} />
                   </MagneticButton>
                 ) : (
                   <MagneticButton primary onClick={() => navigate('/login')}>
@@ -472,7 +487,7 @@ export default function Welcome() {
         </div>
       </section>
 
-      {promoStatus && promoStatus.isPromoActive && (
+      {promoStatus && promoStatus.isPromoActive && !hasUsedFreeOrientation && (
         <section className={s.section} style={{ paddingTop: 40 }}>
           <div className={s.container}>
             <motion.div
