@@ -41,8 +41,6 @@ function GuestOrientationForm() {
   const [formData, setFormData] = useState({});
   const [enums, setEnums] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showRankPopup, setShowRankPopup] = useState(false);
-  const [rankInfo, setRankInfo] = useState(null);
   const filesRef = useRef({});
 
   // Fonction pour formater les labels (remplacer les underscores par des espaces)
@@ -87,24 +85,6 @@ function GuestOrientationForm() {
     };
     fetchEnums();
   }, []);
-
-  // Check rank when moving from step 1 to step 2
-  useEffect(() => {
-    if (step === 2 && !rankInfo) {
-      const checkRank = async () => {
-        try {
-          const res = await axios.get(`${API_BASE_URL}api/free-orientation/check-rank`);
-          if (res.data.rank) {
-            setRankInfo(res.data);
-            setShowRankPopup(true);
-          }
-        } catch (err) {
-          console.error('Erreur lors de la vérification du rang:', err);
-        }
-      };
-      checkRank();
-    }
-  }, [step, rankInfo]);
 
   useEffect(() => {
     reset(formData);
@@ -246,49 +226,6 @@ function GuestOrientationForm() {
       <p>Envoi du formulaire en cours...</p>
     </div>
   );
-
-  // Rank popup
-  if (showRankPopup && rankInfo) {
-    return (
-      <div className="modal flex" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, background: 'rgba(0, 0, 0, 0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-        <div style={{ background: 'linear-gradient(135deg, rgba(230, 112, 40, 0.95) 0%, rgba(202, 89, 35, 0.95) 100%)', border: '2px solid rgba(255, 179, 122, 0.5)', borderRadius: '20px', maxWidth: '500px', width: '100%', padding: '40px', textAlign: 'center', position: 'relative' }}>
-          <button 
-            onClick={() => setShowRankPopup(false)}
-            style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: 'rgba(255, 255, 255, 0.7)', fontSize: '24px', cursor: 'pointer' }}
-          >
-            ×
-          </button>
-          <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎉</div>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: '700', color: 'white', marginBottom: '16px' }}>
-            Félicitations !
-          </h2>
-          <p style={{ fontSize: '1.2rem', color: 'rgba(255, 255, 255, 0.95)', marginBottom: '24px' }}>
-            Vous êtes le <strong style={{ color: 'white', fontSize: '1.5rem' }}>{rankInfo.rank}{rankInfo.rank === 1 ? 'er' : 'e'}</strong> utilisateur !
-          </p>
-          <p style={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '32px' }}>
-            Il reste <strong style={{ color: 'white' }}>{rankInfo.remaining}</strong> orientations gratuites.
-          </p>
-          <button
-            onClick={() => setShowRankPopup(false)}
-            style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)',
-              border: 'none',
-              padding: '16px 40px',
-              borderRadius: '50px',
-              color: '#e67028',
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
-              width: '100%'
-            }}
-          >
-            Continuer
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="form-container">

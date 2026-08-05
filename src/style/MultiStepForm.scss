@@ -171,7 +171,7 @@
       h3 {
         color: #e67028;
         font-size: 1.75rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.75rem;
         font-weight: 700;
         font-family: 'Fraunces', serif;
       }
@@ -179,14 +179,14 @@
       p {
         color: #ffffff;
         font-weight: 500;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       }
 
       label {
         font-weight: 600;
         color: #ffffff;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.4rem;
         display: block;
         font-size: 0.95rem;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -196,13 +196,13 @@
       select,
       textarea {
         width: 100%;
-        padding: 14px 18px;
+        padding: 12px 16px;
         border: 1px solid #ffffff;
         border-radius: 12px;
         background-color: rgba(0, 0, 0, 0.6);
         font-size: 1rem;
         color: #ffffff;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         transition: all 0.3s ease;
 
         &:focus {
@@ -257,7 +257,7 @@
         display: flex;
         gap: 1rem;
         justify-content: center;
-        margin-top: 6rem;
+        margin-top: 3rem;
         padding-top: 1rem;
        
         button[type="button"] {

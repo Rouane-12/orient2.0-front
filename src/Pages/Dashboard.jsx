@@ -70,7 +70,9 @@ const Dashboard = () => {
 
         <div className="dashboard__user">
           <div className="dashboard__user-info">
-            <User size={20} />
+            <div className="dashboard__user-avatar">
+              {user?.firstname?.[0]?.toUpperCase()}{user?.lastname?.[0]?.toUpperCase()}
+            </div>
             <div>
               <p className="dashboard__user-name">{user?.firstname} {user?.lastname}</p>
               <p className="dashboard__user-email">{user?.email}</p>
@@ -79,9 +81,8 @@ const Dashboard = () => {
           <button 
             className="dashboard__logout"
             onClick={handleLogout}
-            title="Déconnexion"
           >
-            <LogOut size={20} />
+            Déconnexion
           </button>
         </div>
       </aside>

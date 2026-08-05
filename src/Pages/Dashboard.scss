@@ -142,6 +142,20 @@
     flex: 1;
   }
 
+  &__user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e67028 0%, #ca5923 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    border: 2px solid rgba(255, 179, 122, 0.3);
+  }
+
   &__user-name {
     font-size: 0.9rem;
     font-weight: 600;
@@ -159,10 +173,13 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 16px;
     color: rgba(250, 250, 250, 0.7);
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
 
     &:hover {
       background: rgba(230, 112, 40, 0.2);

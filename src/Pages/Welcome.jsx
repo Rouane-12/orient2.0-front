@@ -15,6 +15,8 @@ export default function Welcome() {
   const [stats, setStats] = useState({ students_accompanied: 0, satisfaction_rate: 0, universities_partners: 40, sectors_indexed: 250 });
   const [reviews, setReviews] = useState([]);
   const [promoStatus, setPromoStatus] = useState(null);
+  const [showRankPopup, setShowRankPopup] = useState(false);
+  const [rankInfo, setRankInfo] = useState(null);
   const pageRef = useRef(null);
   const navigate = useNavigate();
 
@@ -72,6 +74,27 @@ export default function Welcome() {
     };
     fetchPromoStatus();
   }, [navigate]);
+
+  const handleStartOrientation = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}api/free-orientation/check-rank`);
+      const data = await res.json();
+      if (data.rank) {
+        setRankInfo(data);
+        setShowRankPopup(true);
+      } else {
+        navigate('/guest-step');
+      }
+    } catch (err) {
+      console.error('Erreur lors de la vérification du rang:', err);
+      navigate('/guest-step');
+    }
+  };
+
+  const handleContinueOrientation = () => {
+    setShowRankPopup(false);
+    navigate('/guest-step');
+  };
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -259,7 +282,7 @@ export default function Welcome() {
               </p>
               <div className={s.heroCtas}>
                 {promoStatus && promoStatus.isPromoActive ? (
-                  <MagneticButton primary onClick={() => navigate('/guest-step')}>
+                  <MagneticButton primary onClick={handleStartOrientation}>
                     Commencer l'orientation <ArrowRight size={16} />
                   </MagneticButton>
                 ) : (
@@ -610,6 +633,47 @@ export default function Welcome() {
           </div>
         </div>
       </section>
+
+      {/* Rank popup */}
+      {showRankPopup && rankInfo && (
+        <div className="modal flex" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, background: 'rgba(0, 0, 0, 0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div style={{ background: 'linear-gradient(135deg, rgba(230, 112, 40, 0.95) 0%, rgba(202, 89, 35, 0.95) 100%)', border: '2px solid rgba(255, 179, 122, 0.5)', borderRadius: '20px', maxWidth: '500px', width: '100%', padding: '40px', textAlign: 'center', position: 'relative' }}>
+            <button 
+              onClick={() => setShowRankPopup(false)}
+              style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: 'rgba(255, 255, 255, 0.7)', fontSize: '24px', cursor: 'pointer' }}
+            >
+              ×
+            </button>
+            <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎉</div>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: '700', color: 'white', marginBottom: '16px' }}>
+              Félicitations !
+            </h2>
+            <p style={{ fontSize: '1.2rem', color: 'rgba(255, 255, 255, 0.95)', marginBottom: '24px' }}>
+              Vous êtes le <strong style={{ color: 'white', fontSize: '1.5rem' }}>{rankInfo.rank}{rankInfo.rank === 1 ? 'er' : 'e'}</strong> utilisateur !
+            </p>
+            <p style={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '32px' }}>
+              Il reste <strong style={{ color: 'white' }}>{rankInfo.remaining}</strong> orientations gratuites.
+            </p>
+            <button
+              onClick={handleContinueOrientation}
+              style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)',
+                border: 'none',
+                padding: '16px 40px',
+                borderRadius: '50px',
+                color: '#e67028',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+                width: '100%'
+              }}
+            >
+              Continuer
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
