@@ -191,7 +191,7 @@ const Resultat = () => {
         <div className="result-header">
           <div>
             <h1>Vos résultats d'orientation</h1>
-            <p style={{ color: '#ffffff', textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)', fontWeight: '500' }}>Nos recommandations personnalisées basées sur votre profil</p>
+            <p style={{ color: '#151515', fontWeight: '500' }}>Nos recommandations personnalisées basées sur votre profil</p>
           </div>
           <button onClick={downloadAllScreenshot} className="btn-download">
             <PhArrowDown />

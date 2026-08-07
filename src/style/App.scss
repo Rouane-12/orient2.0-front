@@ -8,17 +8,19 @@
 :root {
   --first-color: #e67028;
   --second-color: #ca5923;
-  --body-color: #0a0a0a;
-  --text-color: #fafafa;
-  --text-muted: #a0a0a0;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(255, 255, 255, 0.03);
+  --light-orange: #ffb37a;
+  --body-color: #faf8f4;
+  --body-secondary: #f4f0ea;
+  --text-color: #151515;
+  --text-muted: #626262;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --card-bg: #ffffff;
 }
 
 .titre {
   text-align: center;
   font-size: 40px;
-  color: white;
+  color: var(--text-color);
   padding: 50px;
 }
 
@@ -34,7 +36,7 @@ button {
 }
 
 body {
-  background-color: black;
+  background-color: var(--body-color);
 }
 
 
@@ -68,10 +70,12 @@ p {
 
 .btn {
   border: 0;
-  padding: 16px 30px;
+  padding: 16px 32px;
   background-color: transparent;
-  border-radius: 12px;
-  font-size: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 a {
@@ -84,17 +88,31 @@ a {
   white-space: nowrap;
 }
 
-
 .btn-normal {
-  background-color: var(--first-color) !important;
+  background: linear-gradient(135deg, var(--first-color), var(--second-color)) !important;
   color: white;
   white-space: nowrap;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(230, 112, 40, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(230, 112, 40, 0.4);
+  }
 }
 
 .btn-outline {
   border: solid 1px var(--first-color) !important;
   color: var(--first-color) !important;
   white-space: nowrap;
+  border-radius: 50px;
+  background: transparent !important;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(230, 112, 40, 0.1) !important;
+  }
 }
 
 
@@ -126,6 +144,8 @@ a {
   }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 @font-face {
   font-family: PopEB;
   src: url("../../public/fonts/Poppins-ExtraBold.ttf");
@@ -151,14 +171,17 @@ h1,
 h2,
 h3,
 h4,
-h5 {
-  font-family: PopEb;
+h5,
+h6 {
+  font-family: 'Poppins', PopEB, sans-serif;
+  font-weight: 700;
 }
 
 b,
 strong,
 small {
-  font-family: PopB;
+  font-family: 'Poppins', PopB, sans-serif;
+  font-weight: 600;
 }
 
 
@@ -167,13 +190,15 @@ label,
 button,
 li,
 a {
-  font-family: PopR;
+  font-family: 'Poppins', PopR, sans-serif;
+  font-weight: 400;
 }
 
 span,
 input,
 textarea {
-  font-family: PopL;
+  font-family: 'Poppins', PopL, sans-serif;
+  font-weight: 300;
 }
 
 .modal {

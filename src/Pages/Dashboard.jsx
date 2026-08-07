@@ -82,6 +82,7 @@ const Dashboard = () => {
             className="dashboard__logout"
             onClick={handleLogout}
           >
+            <LogOut size={16} />
             Déconnexion
           </button>
         </div>

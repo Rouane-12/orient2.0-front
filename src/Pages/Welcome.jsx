@@ -8,6 +8,7 @@ import {
 import s from "../style/HomeNew.module.css";
 import { useAuth } from "../context/AuthContext";
 import API_BASE_URL from '../config/api';
+import ImageSlideshow from '../components/ImageSlideshow';
 
 export default function Welcome() {
   const [scrolled, setScrolled] = useState(false);
@@ -220,17 +221,18 @@ export default function Welcome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           style={{
-            background: 'linear-gradient(135deg, #e67028 0%, #ca5923 100%)',
-            padding: '10px 18px',
+            background: 'linear-gradient(to right top, #ca5925, #ca5925, #ca5925, #ca5925, #ca5925, #d06534, #d67143, #db7d52, #e59773, #eeb196, #f4ccb9, #f8e6de)',
+            padding: '15px 18px',
             textAlign: 'center',
             color: 'white',
             fontSize: '0.9rem',
             fontWeight: '500',
             width: '100%',
             position: 'absolute',
-            top: '85px',
+            top: '70px',
             left: '0',
-            right: '0'
+            right: '0',
+            zIndex: 200
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
@@ -267,7 +269,8 @@ export default function Welcome() {
         </motion.div>
       )}
 
-      <header className={s.hero}>
+      <header className={s.hero} style={{ position: 'relative', overflow: 'hidden' }}>
+        <ImageSlideshow />
         <div className={s.container}>
           <div className={s.heroGrid}>
             <motion.div
@@ -323,7 +326,14 @@ export default function Welcome() {
               </div>
             </motion.div>
 
-            <PhoneMockup />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+              style={{ height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <PhoneMockup />
+            </motion.div>
           </div>
         </div>
       </header>
@@ -496,8 +506,8 @@ export default function Welcome() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               style={{
-                background: 'linear-gradient(135deg, rgba(230, 112, 40, 0.1) 0%, rgba(202, 89, 35, 0.05) 100%)',
-                border: '2px solid rgba(255, 179, 122, 0.3)',
+                background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
+                border: '2px solid rgba(230, 112, 40, 0.5)',
                 borderRadius: '20px',
                 padding: '40px',
                 textAlign: 'center'
