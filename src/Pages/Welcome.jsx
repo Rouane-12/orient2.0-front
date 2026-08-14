@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useTransform, useScroll, useInView, animate, AnimatePresence } from "framer-motion";
+import axios from 'axios';
 import {
   Sparkles, Compass, GraduationCap, Brain, Rocket, ShieldCheck,
-  ArrowRight, Play, ChevronDown, Star, Bell, TrendingUp, MapPin, Menu, X, Trophy,
+  ArrowRight, Play, ChevronDown, Star, Bell, TrendingUp, MapPin, Menu, X, Trophy, Mail, Phone,
 } from "lucide-react";
 import s from "../style/HomeNew.module.css";
 import { useAuth } from "../context/AuthContext";
+import { Button } from '../uikits/Button';
+import { Input } from '../uikits/Input';
 import API_BASE_URL from '../config/api';
 import ImageSlideshow from '../components/ImageSlideshow';
+import { toast } from 'sonner';
 
 export default function Welcome() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,6 +23,8 @@ export default function Welcome() {
   const [showRankPopup, setShowRankPopup] = useState(false);
   const [rankInfo, setRankInfo] = useState(null);
   const [hasUsedFreeOrientation, setHasUsedFreeOrientation] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [contactLoading, setContactLoading] = useState(false);
   const pageRef = useRef(null);
   const navigate = useNavigate();
 
@@ -102,6 +108,26 @@ export default function Welcome() {
     navigate('/guest-step');
   };
 
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setContactLoading(true);
+
+    try {
+      await axios.post(`${API_BASE_URL}api/contact`, contactForm);
+      toast.success('Message envoyé avec succès !');
+      setContactForm({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error('Erreur lors de l\'envoi du message. Veuillez réessayer.');
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
+  const handleContactChange = (e) => {
+    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
+  };
+
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const smx = useSpring(mx, { stiffness: 40, damping: 20, mass: 0.6 });
@@ -141,8 +167,7 @@ export default function Welcome() {
             <a href="#fonctionnement">Fonctionnement</a>
             <a href="#universites">Universités</a>
             <a href="#temoignages">Témoignages</a>
-            <a onClick={() => navigate('/login')}>Mes Orientations</a>
-            <a onClick={() => navigate('/login')}>Commencer</a>
+            <a href="#contact">Contact</a>
             <button 
               className={s.navBtn}
               onClick={() => navigate('/login')}
@@ -187,6 +212,7 @@ export default function Welcome() {
                 <a href="#fonctionnement" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Fonctionnement</a>
                 <a href="#universites" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Universités</a>
                 <a href="#temoignages" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Témoignages</a>
+                <a href="#contact" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Contact</a>
                 <a onClick={(e) => { e.preventDefault(); setMenuOpen(false); navigate('/login'); }}>Mes Orientations</a>
                 <a onClick={(e) => { e.preventDefault(); setMenuOpen(false); navigate('/login'); }}>Commencer</a>
                 <button 
@@ -638,6 +664,156 @@ export default function Welcome() {
           <SectionHead eyebrow="FAQ" title="Les questions qu'on nous pose." />
           <div className={s.faq}>
             {faq.map((q) => <FaqItem key={q.q} q={q.q} a={q.a} />)}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className={s.section} style={{ paddingTop: 40 }}>
+        <div className={s.container}>
+          <SectionHead 
+            eyebrow="Contact" 
+            title="Besoin d'aide ? Contactez-nous."
+            lead="Une question ? Un problème ? Notre équipe est là pour vous répondre."
+          />
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: '40px',
+            marginTop: '40px'
+          }}>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              padding: '30px',
+              borderRadius: '20px',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#151515', marginBottom: '20px' }}>
+                Nos coordonnées
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Mail size={24} color="white" />
+                  </div>
+                  <div>
+                    <div style={{ color: '#626262', fontSize: '0.875rem', marginBottom: '4px' }}>
+                      Email
+                    </div>
+                    <div style={{ color: '#151515', fontSize: '1rem', fontWeight: '500' }}>
+                      djossouvirouane6@gmail.com
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #ffb37a 0%, #e67028 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Phone size={24} color="white" />
+                  </div>
+                  <div>
+                    <div style={{ color: '#151515', fontSize: '0.875rem', marginBottom: '4px' }}>
+                      Téléphone
+                    </div>
+                    <div style={{ color: '#151515', fontSize: '1rem', fontWeight: '500' }}>
+                      014646449300
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{
+              background: '#ffffff',
+              padding: '30px',
+              borderRadius: '20px',
+              border: '1px solid rgba(0, 0, 0, 0.1)'
+            }}>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#151515', marginBottom: '20px' }}>
+                Envoyez-nous un message
+              </h3>
+              <form onSubmit={handleContactSubmit}>
+                <Input
+                  label="Nom"
+                  type="text"
+                  name="name"
+                  value={contactForm.name}
+                  onChange={handleContactChange}
+                  required
+                  placeholder="Votre nom"
+                />
+                <Input
+                  label="Email"
+                  type="email"
+                  name="email"
+                  value={contactForm.email}
+                  onChange={handleContactChange}
+                  required
+                  placeholder="votre@email.com"
+                />
+                <Input
+                  label="Sujet"
+                  type="text"
+                  name="subject"
+                  value={contactForm.subject}
+                  onChange={handleContactChange}
+                  required
+                  placeholder="Sujet de votre message"
+                />
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <label style={{ 
+                    fontWeight: '600', 
+                    color: '#151515', 
+                    marginBottom: '0.2rem', 
+                    display: 'block', 
+                    fontSize: '0.95rem' 
+                  }}>
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    value={contactForm.message}
+                    onChange={handleContactChange}
+                    required
+                    placeholder="Votre message..."
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      border: '1px solid rgba(0, 0, 0, 0.08)',
+                      borderRadius: '16px',
+                      backgroundColor: '#ffffff',
+                      color: '#151515',
+                      fontSize: '1rem',
+                      minHeight: '120px',
+                      resize: 'vertical',
+                      outline: 'none',
+                      transition: 'all 0.3s ease'
+                    }}
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  loading={contactLoading}
+                  style={{ width: '100%' }}
+                >
+                  {contactLoading ? 'Envoi en cours...' : 'Envoyer le message'}
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </section>

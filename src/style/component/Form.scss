@@ -65,6 +65,7 @@
             padding: 10px 15px;
             color: #ffffff;
             border: none;
+            text-align: center;
             
             button {
                 background: none;
@@ -112,6 +113,14 @@
                 background-color: var(--first-color);
                 color: white;
                 border-color: transparent;
+
+                svg {
+                    color: white;
+                }
+
+                p {
+                    color: white;
+                }
             }
         }
     }

@@ -16,6 +16,7 @@
     }
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.5.1",
     "@ramonak/react-progress-bar": "^5.4.0",
     "@react-three/drei": "^9.108.3",
     "@react-three/fiber": "^8.16.8",

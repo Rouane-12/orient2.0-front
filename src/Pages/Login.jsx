@@ -3,8 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Button } from '../uikits/Button';
+import { Input } from '../uikits/Input';
 import './Auth.scss';
 import API_BASE_URL from '../config/api';
 
@@ -82,55 +83,39 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleLogin} className="auth-form">
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="votre@email.com"
-            />
-          </div>
+          <Input
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            placeholder="votre@email.com"
+          />
 
-          <div className="form-group">
-            <label>Mot de passe</label>
-            <div className="password-wrapper">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Votre mot de passe"
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-          </div>
+          <Input
+            label="Mot de passe"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            placeholder="Votre mot de passe"
+          />
 
           <div className="form-actions">
             <Link to="/forgot-password" className="forgot-link">
               Mot de passe oublié ?
             </Link>
           </div>
-         
 
-          <motion.button
+          <Button
             type="submit"
-            className="btn-primary"
-            disabled={loading}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            variant="primary"
+            loading={loading}
           >
             {loading ? 'Connexion...' : 'Se connecter'}
-          </motion.button>
+          </Button>
         </form>
 
         <div className="auth-footer">

@@ -295,6 +295,14 @@
       font-weight: 800;
       box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     }
+
+    &--auth {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-weight: 600;
+      font-size: 18px;
+      padding: 14px 24px;
+    }
   }
 
   &__footer {
@@ -332,6 +340,28 @@
 
     .navHamburger {
       display: flex;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+    height: 72px;
+
+    .logo {
+      img {
+        width: 24px;
+      }
+    }
+
+    .navHamburger {
+      width: 44px;
+      height: 44px;
+
+      svg {
+        font-size: 24px;
+      }
     }
   }
 }

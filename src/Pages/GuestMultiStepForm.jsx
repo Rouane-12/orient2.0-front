@@ -9,34 +9,56 @@ import { CustomInputFile } from '../uikits/form/file';
 import { SvgSpinners6DotsRotate } from '../uikits/Icons';
 import API_BASE_URL from '../config/api';
 import { toast } from 'sonner';
+import { getFingerprint } from '../utils/fingerprint';
 
 const config = {
-  seconde: [
-    { label: "Bulletins Seconde", fields: ["second_year_report_data_1", "second_year_report_data_2"] },
-    { label: "Bulletins Première", fields: ["first_year_report_data_1", "first_year_report_data_2"] },
-    { label: "Bulletins Terminale", fields: ["final_year_report_data_1", "final_year_report_data_2"] },
-  ],
-  premiere: [
-    { label: "Bulletins Première", fields: ["first_year_report_data_1", "first_year_report_data_2"] },
-    { label: "Bulletins Terminale", fields: ["final_year_report_data_1", "final_year_report_data_2"] },
-  ],
-  terminale: [
-    { label: "Bulletins Terminale", fields: ["final_year_report_data_1", "final_year_report_data_2"] },
-  ]
+  seconde: {
+    private: [
+      { label: "Bulletins Seconde (Trimestres)", fields: ["second_year_report_data_1", "second_year_report_data_2", "second_year_report_data_3"] },
+      { label: "Bulletins Première (Trimestres)", fields: ["first_year_report_data_1", "first_year_report_data_2", "first_year_report_data_3"] },
+      { label: "Bulletins Terminale (Trimestres)", fields: ["final_year_report_data_1", "final_year_report_data_2", "final_year_report_data_3"] },
+    ],
+    public: [
+      { label: "Bulletins Seconde (Semestres)", fields: ["second_year_report_data_1", "second_year_report_data_2"] },
+      { label: "Bulletins Première (Semestres)", fields: ["first_year_report_data_1", "first_year_report_data_2"] },
+      { label: "Bulletins Terminale (Semestres)", fields: ["final_year_report_data_1", "final_year_report_data_2"] },
+    ]
+  },
+  premiere: {
+    private: [
+      { label: "Bulletins Première (Trimestres)", fields: ["first_year_report_data_1", "first_year_report_data_2", "first_year_report_data_3"] },
+      { label: "Bulletins Terminale (Trimestres)", fields: ["final_year_report_data_1", "final_year_report_data_2", "final_year_report_data_3"] },
+    ],
+    public: [
+      { label: "Bulletins Première (Semestres)", fields: ["first_year_report_data_1", "first_year_report_data_2"] },
+      { label: "Bulletins Terminale (Semestres)", fields: ["final_year_report_data_1", "final_year_report_data_2"] },
+    ]
+  },
+  terminale: {
+    private: [
+      { label: "Bulletins Terminale (Trimestres)", fields: ["final_year_report_data_1", "final_year_report_data_2", "final_year_report_data_3"] },
+    ],
+    public: [
+      { label: "Bulletins Terminale (Semestres)", fields: ["final_year_report_data_1", "final_year_report_data_2"] },
+    ]
+  }
 };
 
 const FILE_FIELDS = [
   "second_year_report_data_1",
   "second_year_report_data_2",
+  "second_year_report_data_3",
   "first_year_report_data_1",
   "first_year_report_data_2",
+  "first_year_report_data_3",
   "final_year_report_data_1",
   "final_year_report_data_2",
+  "final_year_report_data_3",
   "final_exam_data"
 ];
 
 function GuestOrientationForm() {
-  const TOTAL_STEPS = 7;
+  const TOTAL_STEPS = 6;
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
   const [enums, setEnums] = useState(null);
@@ -70,15 +92,12 @@ function GuestOrientationForm() {
       personality_profile: "",
       like_external_langage: "",
       external_langages: [],
-      constraints: "",
-      work_style: "",
-      work_environment: "",
-      responsibility_level: "",
-      learning_style: "",
+      constraints: ""
     },
   });
 
   const selected = watch("upload_choice");
+  const schoolType = watch("school_type");
   const likeLang = watch("like_external_langage");
   const navigate = useNavigate();
 
@@ -132,7 +151,21 @@ function GuestOrientationForm() {
 
     const finalData = { ...formData, ...data };
 
-    const requiredFiles = ["final_year_report_data_1", "final_year_report_data_2", "final_exam_data"];
+    // Déterminer les fichiers requis dynamiquement selon la configuration
+    const uploadChoice = finalData.upload_choice;
+    const schoolType = finalData.school_type;
+    let requiredFiles = [];
+
+    if (uploadChoice && config[uploadChoice]) {
+      const typeConfig = config[uploadChoice][schoolType === 'both' ? 'private' : schoolType] || config[uploadChoice]['private'];
+      typeConfig.forEach(section => {
+        requiredFiles.push(...section.fields);
+      });
+    }
+
+    // Ajouter toujours le relevé du BAC
+    requiredFiles.push("final_exam_data");
+
     const missingFiles = requiredFiles.filter(field => !filesRef.current[field]);
 
     if (missingFiles.length > 0) {
@@ -141,6 +174,14 @@ function GuestOrientationForm() {
     }
 
     setIsSubmitting(true);
+
+    // Get device fingerprint
+    let fingerprint = '';
+    try {
+      fingerprint = await getFingerprint();
+    } catch (error) {
+      console.error('Error getting fingerprint:', error);
+    }
 
     const payload = {
       deviceId: deviceId,
@@ -155,11 +196,7 @@ function GuestOrientationForm() {
       personality_profile: finalData.personality_profile,
       like_external_langage: finalData.like_external_langage === 'true',
       external_langages: finalData.like_external_langage === 'true' ? finalData.external_langages || [] : [],
-      constraints: finalData.constraints,
-      work_style: finalData.work_style,
-      work_environment: finalData.work_environment,
-      responsibility_level: finalData.responsibility_level,
-      learning_style: finalData.learning_style
+      constraints: finalData.constraints
     };
 
     const payloadFormData = new FormData();
@@ -185,7 +222,11 @@ function GuestOrientationForm() {
     });
 
     try {
-      const orientReq = await axios.post(`${API_BASE_URL}api/guest-orientation`, payloadFormData);
+      const orientReq = await axios.post(`${API_BASE_URL}api/guest-orientation`, payloadFormData, {
+        headers: {
+          'X-Device-Fingerprint': fingerprint
+        }
+      });
       
       if (orientReq.data.success === false) {
         toast.error(orientReq.data.error || 'Erreur lors de la soumission');
@@ -274,33 +315,33 @@ function GuestOrientationForm() {
             <h3>Informations personnelles</h3>
             <p style={{ marginBottom: '12px' }}>Commençons par vous connaître</p>
             
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', color: '#fafafa' }}>Prénom *</label>
-              <input 
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', color: '#151515' }}>Prénom *</label>
+              <input
                 {...register("first_name", { required: 'Ce champ est requis' })}
                 type="text"
                 placeholder="Votre prénom"
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: '#fafafa', fontSize: '0.95rem' }}
+                style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ffffff', color: '#151515', fontSize: '0.95rem' }}
               />
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', color: '#fafafa' }}>Nom *</label>
-              <input 
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', color: '#151515' }}>Nom *</label>
+              <input
                 {...register("last_name", { required: 'Ce champ est requis' })}
                 type="text"
                 placeholder="Votre nom"
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: '#fafafa', fontSize: '0.95rem' }}
+                style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ffffff', color: '#151515', fontSize: '0.95rem' }}
               />
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', color: '#fafafa' }}>Email *</label>
-              <input 
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', color: '#151515' }}>Email *</label>
+              <input
                 {...register("email", { required: 'Ce champ est requis', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Email invalide' } })}
                 type="email"
                 placeholder="votre@email.com"
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: '#fafafa', fontSize: '0.95rem' }}
+                style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ffffff', color: '#151515', fontSize: '0.95rem' }}
               />
             </div>
 
@@ -331,16 +372,21 @@ function GuestOrientationForm() {
               ]}
             />
 
-            {selected && config[selected].map((section, index) => (
-              <div key={'section' + index}>
-                <p>{section.label} :</p>
-                {section.fields.map((field, idx) => (
-                  <CustomInputFile key={'input file' + idx + field} register={register} name={field}
-                    label={`Bulletin ${idx + 1}`}
-                    watch={watch} resetField={resetField} require={{ required: 'Ce champ est requis' }} />
-                ))}
-              </div>
-            ))}
+            {selected && schoolType && config[selected] && (() => {
+              const typeToUse = schoolType === 'both' ? 'private' : schoolType;
+              const sections = config[selected][typeToUse];
+              console.log('Debug - selected:', selected, 'schoolType:', schoolType, 'typeToUse:', typeToUse, 'sections:', sections);
+              return sections?.map((section, index) => (
+                <div key={'section' + index}>
+                  <p>{section.label} :</p>
+                  {section.fields.map((field, idx) => (
+                    <CustomInputFile key={'input file' + idx + field} register={register} name={field}
+                      label={`Bulletin ${idx + 1}`}
+                      watch={watch} resetField={resetField} require={{ required: 'Ce champ est requis' }} />
+                  ))}
+                </div>
+              ));
+            })()}
 
             <CustomInputFile register={register} name={"final_exam_data"} label={"Relevé du Bac :"}
               watch={watch} resetField={resetField} require={{ required: 'Ce champ est requis' }} />
@@ -355,7 +401,7 @@ function GuestOrientationForm() {
         {step === 3 && (
           <form onSubmit={handleSubmit(onNext)}>
             <h3>Centre d'intérêt</h3>
-            <p style={{ marginBottom: '12px' }}>Quel est votre centre d'intérêt ?</p>
+            <p style={{ marginBottom: '12px' }}>Quel est votre centre d'intérêt principal ?</p>
             <select {...register("interest_center")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               {enums.InterestCenterEnum.map((item, idx) => (
@@ -364,7 +410,7 @@ function GuestOrientationForm() {
             </select>
 
             <CustomInputCheckbox register={register} name={"school_favorite_subject"}
-              label={'Matières préférées :'}
+              label={'Matières préférées (sélectionnez toutes celles qui vous intéressent) :'}
               options={enums.FavoriteSubjectsEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
             />
 
@@ -378,13 +424,14 @@ function GuestOrientationForm() {
         {step === 4 && (
           <form onSubmit={handleSubmit(onNext)}>
             <h2 style={{ color: '#ffffff', textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>Compétences et Objectifs professionnels</h2>
+            <br />
 
             <CustomInputCheckbox register={register} name={"skills"}
-              label={'Compétences :'}
+              label={'Compétences (sélectionnez toutes celles qui vous décrivent) :'}
               options={enums.SkillsEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
             />
             <CustomInputCheckbox register={register} name={"career_goals"}
-              label={'Objectifs professionnels :'}
+              label={'Objectifs professionnels (sélectionnez vos aspirations) :'}
               options={enums.CareerGoalsEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
             />
             <div className="button-group">
@@ -407,12 +454,12 @@ function GuestOrientationForm() {
 
             {likeLang === "true" && (
               <CustomInputCheckbox register={register} name={"external_langages"}
-                label={'Langues :'}
+                label={'Langues (sélectionnez celles que vous parlez ou souhaitez apprendre) :'}
                 options={enums.LangEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
               />
             )}
 
-            <p style={{ marginBottom: '12px' }}>Contraintes personnelles :</p>
+            <p style={{ marginBottom: '12px' }}>Contraintes personnelles (sélectionnez toutes celles qui s'appliquent) :</p>
             <select {...register("constraints")} required style={{ marginBottom: '16px' }}>
               <option value="">Sélectionne une option</option>
               {enums.ConstraintsEnum.map((constraint, idx) => (
@@ -436,52 +483,6 @@ function GuestOrientationForm() {
         )}
 
         {step === 6 && (
-          <form onSubmit={handleSubmit(onNext)}>
-            <h3>Style de travail & Préférences</h3>
-            
-            <p style={{ marginBottom: '12px' }}>Quel est ton style de travail préféré ?</p>
-            <select {...register("work_style")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              <option value="autonome">Travail autonome et indépendant</option>
-              <option value="equipe">Travail en équipe collaboratif</option>
-              <option value="mixte">Mixte (autonome et équipe)</option>
-              <option value="encadre">Travail encadré avec supervision</option>
-            </select>
-
-            <p style={{ marginBottom: '12px' }}>Quel environnement de travail te convient le mieux ?</p>
-            <select {...register("work_environment")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              <option value="bureau">En bureau / espace de travail</option>
-              <option value="exterieur">En extérieur / terrain</option>
-              <option value="distance">Télétravail / distance</option>
-              <option value="variable">Environnement variable</option>
-            </select>
-
-            <p style={{ marginBottom: '12px' }}>Quel niveau de responsabilité recherches-tu ?</p>
-            <select {...register("responsibility_level")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              <option value="execution">Rôle d'exécution / tâches définies</option>
-              <option value="gestion">Rôle de gestion / coordination</option>
-              <option value="decision">Rôle de décision / stratégie</option>
-              <option value="leadership">Rôle de leadership / direction</option>
-            </select>
-
-            <p style={{ marginBottom: '12px' }}>Quel est ton style d'apprentissage ?</p>
-            <select {...register("learning_style")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              <option value="theorique">Théorique / académique</option>
-              <option value="pratique">Pratique / terrain</option>
-              <option value="visuel">Visuel / démonstrations</option>
-              <option value="mixte">Mixte (théorie et pratique)</option>
-            </select>
-
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious}>Précédent</button>
-              <button type="submit">Suivant</button>
-            </div>
-          </form>
-        )}
-        {step === 7 && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <h3>Confirmation</h3>
             <p>Vous êtes sur le point de soumettre votre orientation gratuite.</p>

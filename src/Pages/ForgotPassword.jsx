@@ -3,7 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Eye, EyeOff } from 'lucide-react';
+import { Button } from '../uikits/Button';
+import { Input } from '../uikits/Input';
 import './Auth.scss';
 import API_BASE_URL from '../config/api';
 
@@ -165,106 +166,76 @@ const ForgotPassword = () => {
 
         {step === 1 ? (
           <form onSubmit={handleSendOTP} className="auth-form">
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="votre@email.com"
-              />
-            </div>
+            <Input
+              label="Email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="votre@email.com"
+            />
 
-            <motion.button
+            <Button
               type="submit"
-              className="btn-primary"
-              disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              variant="primary"
+              loading={loading}
             >
               {loading ? 'Envoi en cours...' : 'Envoyer le code'}
-            </motion.button>
+            </Button>
           </form>
         ) : (
           <form onSubmit={handleResetPassword} className="auth-form">
-            <div className="form-group">
-              <label>Code OTP</label>
-              <input
-                type="text"
-                name="otp"
-                value={formData.otp}
-                onChange={handleChange}
-                required
-                placeholder="Entrez le code à 6 chiffres"
-                maxLength={6}
-                className="otp-input"
-              />
-            </div>
+            <Input
+              label="Code OTP"
+              type="text"
+              name="otp"
+              value={formData.otp}
+              onChange={handleChange}
+              required
+              placeholder="Entrez le code à 6 chiffres"
+              maxLength={6}
+              className="otp-input"
+            />
 
-            <div className="form-group">
-              <label>Nouveau mot de passe</label>
-              <div className="password-wrapper">
-                <input
-                  type={showNewPassword ? 'text' : 'password'}
-                  name="newPassword"
-                  value={formData.newPassword}
-                  onChange={handleChange}
-                  required
-                  placeholder="Minimum 6 caractères"
-                  minLength={6}
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowNewPassword(!showNewPassword)}
-                >
-                  {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
+            <Input
+              label="Nouveau mot de passe"
+              type="password"
+              name="newPassword"
+              value={formData.newPassword}
+              onChange={handleChange}
+              required
+              placeholder="Minimum 6 caractères"
+              minLength={6}
+            />
 
-            <div className="form-group">
-              <label>Confirmer le mot de passe</label>
-              <div className="password-wrapper">
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                  placeholder="Répétez le mot de passe"
-                  minLength={6}
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
+            <Input
+              label="Confirmer le mot de passe"
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              placeholder="Répétez le mot de passe"
+              minLength={6}
+            />
 
-            <motion.button
+            <Button
               type="submit"
-              className="btn-primary"
-              disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              variant="primary"
+              loading={loading}
             >
               {loading ? 'Réinitialisation...' : 'Réinitialiser'}
-            </motion.button>
+            </Button>
 
-            <button
+            <Button
               type="button"
-              className="btn-link"
+              variant="ghost"
               onClick={handleResendOTP}
               disabled={loading}
             >
               Renvoyer le code
-            </button>
+            </Button>
           </form>
         )}
 

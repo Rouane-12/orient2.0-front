@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useAuth } from '../context/AuthContext';
 import { useKKiaPay } from 'kkiapay-react';
+import { Button } from '../uikits/Button';
 import './PaymentModal.scss';
 import API_BASE_URL from '../config/api';
 
@@ -14,6 +15,50 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
   const [sandbox, setSandbox] = useState(true);
   const { refreshAccessToken } = useAuth();
   const { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } = useKKiaPay();
+  const modalRef = useRef(null);
+
+  // Block body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    };
+  }, [isOpen]);
+
+  // Prevent scroll propagation
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (modalRef.current && modalRef.current.contains(e.target)) {
+        e.stopPropagation();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    }
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel, { capture: true });
+    };
+  }, [isOpen, modalRef]);
 
   // Handle Kkiapay widget events
   useEffect(() => {
@@ -117,6 +162,14 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
         return;
       }
 
+      // Check if payment is required but public key is missing
+      if (response.data.requiresPayment && !response.data.publicKey) {
+        console.error('Clé publique manquante dans la réponse backend');
+        toast.error('Erreur de configuration du paiement - clé publique manquante');
+        setLoading(false);
+        return;
+      }
+
       // Get public key from backend
       if (!response.data.publicKey) {
         console.error('Clé publique manquante dans la réponse backend');
@@ -128,11 +181,11 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
       // Don't generate transaction ID - let Kkiapay handle it
       setPublicKey(response.data.publicKey);
       setSandbox(response.data.sandbox);
-      
+
       console.log('Opening Kkiapay widget');
       console.log('Public key:', response.data.publicKey);
       console.log('Sandbox:', response.data.sandbox);
-      
+
       // Open Kkiapay widget in-page - let Kkiapay generate the transaction ID
       openKkiapayWidget({
         amount: 200,
@@ -140,7 +193,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
         sandbox: response.data.sandbox,
         currency: 'XOF',
       });
-      
+
       toast.info('Widget de paiement ouvert. Effectuez le paiement.');
       setLoading(false);
     } catch (error) {
@@ -179,6 +232,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
         >
           <motion.div
             className="payment-modal"
+            ref={modalRef}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -187,7 +241,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
           >
             <div className="payment-modal-header">
               <h2>Paiement requis</h2>
-              <button className="close-btn" onClick={onClose}>✕</button>
+              <Button variant="ghost" className="close-btn" onClick={onClose}>✕</Button>
             </div>
 
             <div className="payment-modal-content">
@@ -222,15 +276,15 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
                 </div>
               </div>
 
-              <motion.button
-                className="payment-btn"
+              <Button
+                variant="primary"
                 onClick={handlePayment}
                 disabled={loading || verifying}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                loading={loading || verifying}
+                fullWidth
               >
                 {loading || verifying ? 'Traitement en cours...' : 'Payer 200 FCFA'}
-              </motion.button>
+              </Button>
 
               <p className="payment-note">
                 Paiement sécurisé via Kkiapay

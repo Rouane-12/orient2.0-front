@@ -39,6 +39,11 @@ function Navbar() {
     { href: "#cta", label: "Commencer", isPrimary: true }
   ];
 
+  const authItems = [
+    { href: "/login", label: "Connexion" },
+    { href: "/register", label: "Inscription" }
+  ];
+
   return (
     <>
       <motion.div
@@ -136,6 +141,35 @@ function Navbar() {
                   {item.label}
                 </motion.a>
               ))}
+              {!isLoggedIn && authItems.map((item, i) => (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  onClick={toggleMenu}
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 + (navItems.length + i) * 0.08, type: "spring", stiffness: 150 }}
+                  whileHover={{ x: 8 }}
+                  className="navMobile__link navMobile__link--auth"
+                >
+                  {item.label}
+                </motion.a>
+              ))}
+              {isLoggedIn && (
+                <motion.button
+                  onClick={() => {
+                    handleLogout();
+                    toggleMenu();
+                  }}
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 + navItems.length * 0.08, type: "spring", stiffness: 150 }}
+                  whileHover={{ x: 8 }}
+                  className="navMobile__link navMobile__link--auth"
+                >
+                  Déconnexion
+                </motion.button>
+              )}
             </div>
             <div className="navMobile__footer">
               <div className="navMobile__blob" />

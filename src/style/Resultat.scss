@@ -370,6 +370,7 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.625rem;
 
     svg {
@@ -399,6 +400,7 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
   border-radius: $radius-xl;
   border: 1px solid rgba(0, 0, 0, 0.08);
   position: relative;
+  max-height: 100%;
 
   @media (max-width: 768px) {
     padding: 1.5rem;
@@ -430,6 +432,7 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     transition: all 0.3s ease;
     z-index: 10;
@@ -559,6 +562,7 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
       font-weight: 600;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(230, 112, 44, 0.3);
+      text-align: center;
 
       &:hover {
         transform: translateY(-2px);
@@ -690,7 +694,10 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
 
 @media (max-width: 768px) {
   .result {
-    padding: 60px 1rem 2rem;
+    padding: 60px 0 2rem;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
 
     .result-left {
       flex-direction: column;
@@ -702,9 +709,18 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
       }
     }
 
+    .result-right {
+      width: 95%;
+      margin: 0 auto;
+      padding: 60px 0 2rem;
+    }
+
     .result-header {
-      padding: 1.5rem;
+      width: 95%;
+      margin: 0 auto;
+      padding: 1rem;
       text-align: center;
+      box-sizing: border-box;
 
       h1 {
         font-size: 1.75rem;
@@ -720,7 +736,10 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
     }
 
     .sector-card {
-      padding: 1.25rem;
+      width: 95%;
+      margin: 0 auto;
+      padding: 1rem;
+      box-sizing: border-box;
 
       &__header {
         h3 {
@@ -762,6 +781,12 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
       }
     }
   }
+
+  .sectorUniversies {
+    width: 95%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
 }
 
 @media (max-width: 480px) {
@@ -790,6 +815,8 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
     }
 
     .result-header {
+      width: 95%;
+      margin: 0 auto;
       padding: 1rem;
 
       h1 {
@@ -802,6 +829,8 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
     }
 
     .sector-card {
+      width: 95%;
+      margin: 0 auto;
       padding: 1rem;
 
       &__header {
@@ -845,6 +874,11 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
       }
     }
   }
+
+  .sectorUniversies {
+    width: 95%;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 640px) {
@@ -861,12 +895,18 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
     }
 
     .result-header {
+      width: 95%;
+      margin: 0 auto;
+      padding: 1.5rem;
+
       h1 {
         font-size: 1.75rem;
       }
     }
 
     .sector-card {
+      width: 95%;
+      margin: 0 auto;
       padding: 1.5rem;
 
       &__header {
@@ -875,5 +915,10 @@ $font-body: 'Inter', 'Segoe UI', sans-serif;
         }
       }
     }
+  }
+
+  .sectorUniversies {
+    width: 95%;
+    margin: 0 auto;
   }
 }

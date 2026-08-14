@@ -8,6 +8,7 @@ import OneSectorUniversities from "../component/result/universities";
 import Roadmap from "../component/result/roadmap";
 import html2canvas from "html2canvas";
 import { toast } from 'sonner';
+import { Button } from '../uikits/Button';
 import API_BASE_URL from '../config/api';
 
 const Resultat = () => {
@@ -191,12 +192,11 @@ const Resultat = () => {
         <div className="result-header">
           <div>
             <h1>Vos résultats d'orientation</h1>
-            <p style={{ color: '#151515', fontWeight: '500' }}>Nos recommandations personnalisées basées sur votre profil</p>
+            <p style={{ color: '#000000', fontWeight: '500' }}>Nos recommandations personnalisées basées sur votre profil</p>
           </div>
-          <button onClick={downloadAllScreenshot} className="btn-download">
-            <PhArrowDown />
+          <Button onClick={downloadAllScreenshot} variant="primary" icon={<PhArrowDown />}>
             Télécharger
-          </button>
+          </Button>
         </div>
 
         <div className="rr-sectors">
@@ -224,29 +224,29 @@ const Resultat = () => {
               )}
 
               <div className="sector-card__actions">
-                <button
+                <Button
                   onClick={() => showAllSectorUniversities(item._id)}
-                  className="btn btn-primary"
+                  variant="primary"
                 >
                   Voir les universités
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() => downloadSectorScreenshot(item, i)}
-                  className="btn btn-secondary"
+                  variant="secondary"
+                  icon={<PhArrowDown />}
                 >
-                  <PhArrowDown />
                   Capture
-                </button>
+                </Button>
               </div>
             </section>
           ))}
         </div>
 
         <div className="result-footer">
-          <button className="btn btn-normal" onClick={() => navigate(-1)}>
+          <Button variant="ghost" onClick={() => navigate(-1)}>
             Retour
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -160,6 +160,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  text-align: center;
 }
 
 .payment-btn:hover:not(:disabled) {
