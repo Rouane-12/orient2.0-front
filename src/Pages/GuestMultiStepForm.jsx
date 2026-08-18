@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import '../style/MultiStepForm.scss';
+import '../style/component/Form.scss';
+import './Dashboard/DashboardSteps.scss';
 import ProgressBar from '../component/ProgressBar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -141,6 +143,78 @@ function GuestOrientationForm() {
   const onNext = async (data) => {
     extractAndSaveFiles(data);
     const updatedData = { ...formData, ...data };
+
+    // Validation stricte pour chaque step
+    if (step === 2) {
+      // Step 2: Vérifier que les fichiers sont uploadés
+      const uploadChoice = updatedData.upload_choice;
+      const schoolType = updatedData.school_type;
+
+      // Vérifier que le type d'université est sélectionné
+      if (!schoolType) {
+        toast.error("Veuillez sélectionner le type d'université (public, privé ou peu importe) pour continuer.");
+        return;
+      }
+
+      // Vérifier que le choix de bulletins est sélectionné
+      if (!uploadChoice) {
+        toast.error("Veuillez sélectionner quels bulletins vous souhaitez renseigner (Seconde à Terminale, Première à Terminale, ou Terminale uniquement) pour continuer.");
+        return;
+      }
+
+      let requiredFiles = [];
+
+      if (uploadChoice && config[uploadChoice]) {
+        const typeConfig = config[uploadChoice][schoolType === 'both' ? 'private' : schoolType] || config[uploadChoice]['private'];
+        typeConfig.forEach(section => {
+          requiredFiles.push(...section.fields);
+        });
+      }
+      requiredFiles.push("final_exam_data");
+
+      const missingFiles = requiredFiles.filter(field => !filesRef.current[field]);
+      if (missingFiles.length > 0) {
+        toast.error("Veuillez télécharger tous les bulletins scolaires requis. Une analyse complète nécessite vos bulletins et votre relevé du Bac.");
+        return;
+      }
+    }
+
+    if (step === 3) {
+      // Step 3: Vérifier centre d'intérêt et matières préférées
+      if (!updatedData.interest_center) {
+        toast.error("Veuillez sélectionner un centre d'intérêt pour continuer.");
+        return;
+      }
+      if (!updatedData.school_favorite_subject || updatedData.school_favorite_subject.length === 0) {
+        toast.error("Veuillez sélectionner au moins une matière préférée pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 4) {
+      // Step 4: Vérifier compétences et objectifs professionnels
+      if (!updatedData.skills || updatedData.skills.length === 0) {
+        toast.error("Veuillez sélectionner au moins une compétence pour continuer.");
+        return;
+      }
+      if (!updatedData.career_goals || updatedData.career_goals.length === 0) {
+        toast.error("Veuillez sélectionner au moins un objectif professionnel pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 5) {
+      // Step 5: Vérifier contraintes et personnalité
+      if (!updatedData.constraints) {
+        toast.error("Veuillez sélectionner vos contraintes personnelles pour continuer.");
+        return;
+      }
+      if (!updatedData.personality_profile) {
+        toast.error("Veuillez sélectionner votre type de personnalité pour continuer.");
+        return;
+      }
+    }
+
     setFormData(updatedData);
     localStorage.setItem('guestOrientationFormData', JSON.stringify(updatedData));
     setStep(prev => prev + 1);
@@ -311,57 +385,58 @@ function GuestOrientationForm() {
         </div>
 
         {step === 1 && (
-          <form onSubmit={handleSubmit(onNext)}>
+          <form onSubmit={handleSubmit(onNext)} className="step-content">
             <h3>Informations personnelles</h3>
-            <p style={{ marginBottom: '12px' }}>Commençons par vous connaître</p>
+            <p>Commençons par vous connaître</p>
             
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '6px', color: '#151515' }}>Prénom *</label>
+            <div className="form-group">
+              <label>Prénom *</label>
               <input
                 {...register("first_name", { required: 'Ce champ est requis' })}
                 type="text"
                 placeholder="Votre prénom"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ffffff', color: '#151515', fontSize: '0.95rem' }}
               />
             </div>
 
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '6px', color: '#151515' }}>Nom *</label>
+            <div className="form-group">
+              <label>Nom *</label>
               <input
                 {...register("last_name", { required: 'Ce champ est requis' })}
                 type="text"
                 placeholder="Votre nom"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ffffff', color: '#151515', fontSize: '0.95rem' }}
               />
             </div>
 
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '6px', color: '#151515' }}>Email *</label>
+            <div className="form-group">
+              <label>Email *</label>
               <input
                 {...register("email", { required: 'Ce champ est requis', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Email invalide' } })}
                 type="email"
                 placeholder="votre@email.com"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ffffff', color: '#151515', fontSize: '0.95rem' }}
               />
             </div>
 
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious} disabled>Précédent</button>
-              <button type="submit">Suivant</button>
+            <div className="dashboard-steps__footer">
+              <button type="button" className="btn-secondary" onClick={handlePrevious} disabled>Précédent</button>
+              <button type="submit" className="btn-primary">Suivant</button>
             </div>
           </form>
         )}
 
         {step === 2 && (
-          <form onSubmit={handleSubmit(onNext)}>
+          <form onSubmit={handleSubmit(onNext)} className="step-content">
             <h3>Préférences et Documents scolaires</h3>
-            <p style={{ marginBottom: '12px' }}>Quel type d'université souhaitez-vous fréquenter ?</p>
-            <select {...register("school_type")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              <option value="public">Public</option>
-              <option value="private">Privé</option>
-              <option value="both">Peu importe</option>
-            </select>
+            <p>Quel type d'université souhaitez-vous fréquenter ?</p>
+            
+            <div className="form-group">
+              <label>Type d'université *</label>
+              <select {...register("school_type")} required>
+                <option value="">Sélectionne une option</option>
+                <option value="public">Public</option>
+                <option value="private">Privé</option>
+                <option value="both">Peu importe</option>
+              </select>
+            </div>
 
             <CustomInputRadio register={register} name={"upload_choice"}
               label={'Souhaitez-vous renseigner :'}
@@ -375,9 +450,8 @@ function GuestOrientationForm() {
             {selected && schoolType && config[selected] && (() => {
               const typeToUse = schoolType === 'both' ? 'private' : schoolType;
               const sections = config[selected][typeToUse];
-              console.log('Debug - selected:', selected, 'schoolType:', schoolType, 'typeToUse:', typeToUse, 'sections:', sections);
               return sections?.map((section, index) => (
-                <div key={'section' + index}>
+                <div key={'section' + index} className="form-section">
                   <p>{section.label} :</p>
                   {section.fields.map((field, idx) => (
                     <CustomInputFile key={'input file' + idx + field} register={register} name={field}
@@ -388,43 +462,63 @@ function GuestOrientationForm() {
               ));
             })()}
 
-            <CustomInputFile register={register} name={"final_exam_data"} label={"Relevé du Bac :"}
-              watch={watch} resetField={resetField} require={{ required: 'Ce champ est requis' }} />
+            <div className="form-section">
+              <CustomInputFile register={register} name={"final_exam_data"} label={"Relevé du Bac :"}
+                watch={watch} resetField={resetField} require={{ required: 'Ce champ est requis' }} />
+            </div>
 
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious}>Précédent</button>
-              <button type="submit">Suivant</button>
+            <div className="dashboard-steps__footer">
+              <button type="button" className="btn-secondary" onClick={handlePrevious}>Précédent</button>
+              <button type="submit" className="btn-primary">Suivant</button>
             </div>
           </form>
         )}
 
         {step === 3 && (
-          <form onSubmit={handleSubmit(onNext)}>
+          <form onSubmit={handleSubmit(onNext)} className="step-content">
             <h3>Centre d'intérêt</h3>
-            <p style={{ marginBottom: '12px' }}>Quel est votre centre d'intérêt principal ?</p>
-            <select {...register("interest_center")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              {enums.InterestCenterEnum.map((item, idx) => (
-                <option key={idx} value={item}>{formatEnumLabel(item)}</option>
-              ))}
-            </select>
+            <p>Quel est votre centre d'intérêt principal ?</p>
+            
+            <div className="form-group">
+              <label>Centre d'intérêt principal *</label>
+              <select {...register("interest_center")} required>
+                <option value="">Sélectionne une option</option>
+                {enums.InterestCenterEnum.map((item, idx) => (
+                  <option key={idx} value={item}>{formatEnumLabel(item)}</option>
+                ))}
+                <option value="droit_et_justice">Droit et Justice</option>
+                <option value="sciences_sociales">Sciences Sociales et Humaines</option>
+                <option value="sante_et_medecine">Santé et Médecine</option>
+                <option value="agriculture_et_environnement">Agriculture et Environnement</option>
+                <option value="industrie_et_technologie">Industrie et Technologie</option>
+                <option value="transport_et_logistique">Transport et Logistique</option>
+                <option value="education_et_formation">Éducation et Formation</option>
+                <option value="arts_et_culture">Arts et Culture</option>
+                <option value="commerce_et_gestion">Commerce et Gestion</option>
+                <option value="tourisme_et_hotellerie">Tourisme et Hôtellerie</option>
+                <option value="energies_renouvelables">Énergies Renouvelables</option>
+                <option value="construction_et_btp">Construction et BTP</option>
+                <option value="artisanat">Artisanat</option>
+                <option value="qhse">Qualité, Hygiène, Sécurité et Environnement</option>
+                <option value="digital_et_tic">Numérique et TIC</option>
+              </select>
+            </div>
 
             <CustomInputCheckbox register={register} name={"school_favorite_subject"}
               label={'Matières préférées (sélectionnez toutes celles qui vous intéressent) :'}
               options={enums.FavoriteSubjectsEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
             />
 
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious}>Précédent</button>
-              <button type="submit">Suivant</button>
+            <div className="dashboard-steps__footer">
+              <button type="button" className="btn-secondary" onClick={handlePrevious}>Précédent</button>
+              <button type="submit" className="btn-primary">Suivant</button>
             </div>
           </form>
         )}
 
         {step === 4 && (
-          <form onSubmit={handleSubmit(onNext)}>
-            <h2 style={{ color: '#ffffff', textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>Compétences et Objectifs professionnels</h2>
-            <br />
+          <form onSubmit={handleSubmit(onNext)} className="step-content">
+            <h3>Compétences et Objectifs professionnels</h3>
 
             <CustomInputCheckbox register={register} name={"skills"}
               label={'Compétences (sélectionnez toutes celles qui vous décrivent) :'}
@@ -434,16 +528,17 @@ function GuestOrientationForm() {
               label={'Objectifs professionnels (sélectionnez vos aspirations) :'}
               options={enums.CareerGoalsEnum.map(subject => ({ value: subject, label: formatEnumLabel(subject) }))}
             />
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious}>Précédent</button>
-              <button type="submit">Suivant</button>
+            <div className="dashboard-steps__footer">
+              <button type="button" className="btn-secondary" onClick={handlePrevious}>Précédent</button>
+              <button type="submit" className="btn-primary">Suivant</button>
             </div>
           </form>
         )}
 
         {step === 5 && (
-          <form onSubmit={handleSubmit(onNext)}>
+          <form onSubmit={handleSubmit(onNext)} className="step-content">
             <h3>Langues & Contraintes</h3>
+            
             <CustomInputRadio register={register} name={"like_external_langage"}
               label={"Aimes-tu apprendre d'autres langues ?"}
               options={[
@@ -459,36 +554,40 @@ function GuestOrientationForm() {
               />
             )}
 
-            <p style={{ marginBottom: '12px' }}>Contraintes personnelles (sélectionnez toutes celles qui s'appliquent) :</p>
-            <select {...register("constraints")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              {enums.ConstraintsEnum.map((constraint, idx) => (
-                <option key={idx} value={constraint}>{formatEnumLabel(constraint)}</option>
-              ))}
-            </select>
+            <div className="form-group">
+              <label>Contraintes personnelles *</label>
+              <select {...register("constraints")} required>
+                <option value="">Sélectionne une option</option>
+                {enums.ConstraintsEnum.map((constraint, idx) => (
+                  <option key={idx} value={constraint}>{formatEnumLabel(constraint)}</option>
+                ))}
+              </select>
+            </div>
               
-            <p style={{ marginBottom: '12px' }}>Quel est votre type de personnalité ?</p>
-            <select {...register("personality_profile")} required style={{ marginBottom: '16px' }}>
-              <option value="">Sélectionne une option</option>
-              {enums.PersonalityProfileEnum.map((item, idx) => (
-                <option key={idx} value={item}>{formatEnumLabel(item)}</option>
-              ))}
-            </select>
+            <div className="form-group">
+              <label>Type de personnalité *</label>
+              <select {...register("personality_profile")} required>
+                <option value="">Sélectionne une option</option>
+                {enums.PersonalityProfileEnum.map((item, idx) => (
+                  <option key={idx} value={item}>{formatEnumLabel(item)}</option>
+                ))}
+              </select>
+            </div>
 
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious}>Précédent</button>
-              <button type="submit">Suivant</button>
+            <div className="dashboard-steps__footer">
+              <button type="button" className="btn-secondary" onClick={handlePrevious}>Précédent</button>
+              <button type="submit" className="btn-primary">Suivant</button>
             </div>
           </form>
         )}
 
         {step === 6 && (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="step-content">
             <h3>Confirmation</h3>
             <p>Vous êtes sur le point de soumettre votre orientation gratuite.</p>
-            <div className="button-group">
-              <button type="button" onClick={handlePrevious}>Précédent</button>
-              <button type="submit">Valider</button>
+            <div className="dashboard-steps__footer">
+              <button type="button" className="btn-secondary" onClick={handlePrevious}>Précédent</button>
+              <button type="submit" className="btn-primary">Valider</button>
             </div>
           </form>
         )}

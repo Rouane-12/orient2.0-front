@@ -142,6 +142,154 @@ const DashboardSteps = () => {
   const onNext = async (data) => {
     extractAndSaveFiles(data);
     const updatedData = { ...formData, ...data };
+
+    // Validation stricte pour chaque step
+    if (step === 2 && orientationMode === 'bulletins') {
+      // Step 2 (bulletins): Vérifier que les fichiers sont uploadés
+      const uploadChoice = updatedData.upload_choice;
+      const schoolType = updatedData.school_type;
+
+      // Vérifier que le type d'université est sélectionné
+      if (!schoolType) {
+        toast.error("Veuillez sélectionner le type d'université (public, privé ou peu importe) pour continuer.");
+        return;
+      }
+
+      // Vérifier que le choix de bulletins est sélectionné
+      if (!uploadChoice) {
+        toast.error("Veuillez sélectionner quels bulletins vous souhaitez renseigner (Seconde à Terminale, Première à Terminale, ou Terminale uniquement) pour continuer.");
+        return;
+      }
+
+      let requiredFiles = [];
+
+      if (uploadChoice && config[uploadChoice]) {
+        const typeConfig = config[uploadChoice][schoolType === 'both' ? 'private' : schoolType] || config[uploadChoice]['private'];
+        typeConfig.forEach(section => {
+          requiredFiles.push(...section.fields);
+        });
+      }
+      requiredFiles.push("final_exam_data");
+
+      const missingFiles = requiredFiles.filter(field => !filesRef.current[field]);
+      if (missingFiles.length > 0) {
+        toast.error("Veuillez télécharger tous les bulletins scolaires requis. Une analyse complète nécessite vos bulletins et votre relevé du Bac.");
+        return;
+      }
+    }
+
+    if (step === 2 && orientationMode === 'preferences') {
+      // Step 2 (preferences): Vérifier centre d'intérêt et matières préférées
+      if (!updatedData.interest_center) {
+        toast.error("Veuillez sélectionner un centre d'intérêt pour continuer.");
+        return;
+      }
+      if (!updatedData.school_favorite_subject || updatedData.school_favorite_subject.length === 0) {
+        toast.error("Veuillez sélectionner au moins une matière préférée pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 3 && orientationMode === 'bulletins') {
+      // Step 3 (bulletins): Vérifier centre d'intérêt et matières préférées
+      if (!updatedData.interest_center) {
+        toast.error("Veuillez sélectionner un centre d'intérêt pour continuer.");
+        return;
+      }
+      if (!updatedData.school_favorite_subject || updatedData.school_favorite_subject.length === 0) {
+        toast.error("Veuillez sélectionner au moins une matière préférée pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 3 && orientationMode === 'preferences') {
+      // Step 3 (preferences): Vérifier compétences et objectifs professionnels
+      if (!updatedData.skills || updatedData.skills.length === 0) {
+        toast.error("Veuillez sélectionner au moins une compétence pour continuer.");
+        return;
+      }
+      if (!updatedData.career_goals || updatedData.career_goals.length === 0) {
+        toast.error("Veuillez sélectionner au moins un objectif professionnel pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 4 && orientationMode === 'bulletins') {
+      // Step 4 (bulletins): Vérifier compétences et objectifs professionnels
+      if (!updatedData.skills || updatedData.skills.length === 0) {
+        toast.error("Veuillez sélectionner au moins une compétence pour continuer.");
+        return;
+      }
+      if (!updatedData.career_goals || updatedData.career_goals.length === 0) {
+        toast.error("Veuillez sélectionner au moins un objectif professionnel pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 4 && orientationMode === 'preferences') {
+      // Step 4 (preferences): Vérifier contraintes et personnalité
+      if (!updatedData.constraints) {
+        toast.error("Veuillez sélectionner vos contraintes personnelles pour continuer.");
+        return;
+      }
+      if (!updatedData.personality_profile) {
+        toast.error("Veuillez sélectionner votre type de personnalité pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 5 && orientationMode === 'bulletins') {
+      // Step 5 (bulletins): Vérifier contraintes et personnalité
+      if (!updatedData.constraints) {
+        toast.error("Veuillez sélectionner vos contraintes personnelles pour continuer.");
+        return;
+      }
+      if (!updatedData.personality_profile) {
+        toast.error("Veuillez sélectionner votre type de personnalité pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 5 && orientationMode === 'preferences') {
+      // Step 5 (preferences): Vérifier style de travail
+      if (!updatedData.work_style) {
+        toast.error("Veuillez sélectionner votre style de travail pour continuer.");
+        return;
+      }
+      if (!updatedData.work_environment) {
+        toast.error("Veuillez sélectionner votre environnement de travail pour continuer.");
+        return;
+      }
+      if (!updatedData.responsibility_level) {
+        toast.error("Veuillez sélectionner votre niveau de responsabilité pour continuer.");
+        return;
+      }
+      if (!updatedData.learning_style) {
+        toast.error("Veuillez sélectionner votre style d'apprentissage pour continuer.");
+        return;
+      }
+    }
+
+    if (step === 6 && orientationMode === 'bulletins') {
+      // Step 6 (bulletins): Vérifier style de travail
+      if (!updatedData.work_style) {
+        toast.error("Veuillez sélectionner votre style de travail pour continuer.");
+        return;
+      }
+      if (!updatedData.work_environment) {
+        toast.error("Veuillez sélectionner votre environnement de travail pour continuer.");
+        return;
+      }
+      if (!updatedData.responsibility_level) {
+        toast.error("Veuillez sélectionner votre niveau de responsabilité pour continuer.");
+        return;
+      }
+      if (!updatedData.learning_style) {
+        toast.error("Veuillez sélectionner votre style d'apprentissage pour continuer.");
+        return;
+      }
+    }
+
     setFormData(updatedData);
     setStep(prev => prev + 1);
   };
