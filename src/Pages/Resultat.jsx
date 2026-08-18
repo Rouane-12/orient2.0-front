@@ -154,8 +154,8 @@ const Resultat = () => {
     openModal(<OneSectorUniversities sectorId={sectorId} />);
   };
 
-  const showRoadmap = (sectorId) => {
-    openModal(<Roadmap sectorId={sectorId} />);
+  const showRoadmap = (sectorId, sectorName) => {
+    openModal(<Roadmap sectorId={sectorId} sectorName={sectorName} userProfile={data.profile} />);
   };
 
   if (loading) {
@@ -229,6 +229,13 @@ const Resultat = () => {
                   variant="primary"
                 >
                   Voir les universités
+                </Button>
+
+                <Button
+                  onClick={() => showRoadmap(item._id, item.name)}
+                  variant="secondary"
+                >
+                  Roadmap
                 </Button>
 
                 <Button
