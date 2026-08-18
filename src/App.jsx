@@ -13,7 +13,7 @@ import "./style/loading.scss";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SmoothScroll from "./components/SmoothScroll";
-
+  
 import Welcome from "./Pages/Welcome";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
